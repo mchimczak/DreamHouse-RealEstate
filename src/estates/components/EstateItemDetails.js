@@ -2,7 +2,6 @@ import React, {useState, useContext, useEffect} from 'react';
 import styled from 'styled-components';
 
 import { EstatesContext } from '../context/EstatesContext';
-// import EditStateForm from './EditEstateForm';
 import Modal from '../../shared/components/Modal/Modal';
 import Form from './Form/Form';
 
@@ -57,6 +56,10 @@ flex-wrap: wrap;
 const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;
 `
+const FieldTitle = styled.span`
+font-weight: ${({theme}) => theme.font.bold};
+text-transform: capitalize;
+`
 const FormWrapper = styled.div`
 display: grid;
 z-index: 999;
@@ -77,20 +80,13 @@ align-items: center;
 
 const EstateItemDetails = (props) => {
     const {removeEstate, editEstate} = useContext(EstatesContext);
-    const [onSubmitInfo, setOnSubmitInfo] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    const ESTATE_INIT_INFO = {
-        title: props.title,
-        description: props.description,
-        city: props.city,
-        address: props.address,
-        area: props.area,
-        price: props.price,
-        rooms: props.rooms,
-        year: props.year,
-    };
+    const { id, file, ...estateInfo} = props;
+    const {creator, createdAt, ...editableInfo} = estateInfo;
+    const ESTATE_INIT_INFO = editableInfo;
+
     const removeEstateItem = () => {
         removeEstate(props);
     };
@@ -99,51 +95,25 @@ const EstateItemDetails = (props) => {
         editEstate(id, updates);
         toggleModal();
     };
-    const provideSubmitInfo = () => {
-        const info = 'Edit accepted';
-        setOnSubmitInfo(info);
-    }
-    useEffect(() => {
-        let submitInfo = setTimeout(() => setOnSubmitInfo(false), 3000);
-
-        return () => { clearTimeout(submitInfo) };
-    },[!!onSubmitInfo]);
 
     return ( 
         <div>
-            {onSubmitInfo && <p>{onSubmitInfo}</p>}
             <StyledCard>
                 <StyledContentWrapper>
                     <CardHeader
                         title={(props.title).toUpperCase()}
                     />
                     <CardContent>
-                    <CardContentInfoWrapper>
-                        <Typography variant="h6">
-                            <b>City:</b> {props.city}
-                        </Typography>
-                        <Typography variant="h6">
-                            <b>Address:</b> {props.address}
-                        </Typography>
-                        <Typography variant="h6">
-                            <b>Area:</b>{props.area}
-                        </Typography>
-                        <Typography variant="h6">
-                            <b>Rooms:</b>{props.rooms}
-                        </Typography>
-                        <Typography variant="h6">
-                            <b>Year:</b>{props.year}
-                        </Typography>
-                        <Typography variant="h6">
-                            <b>Price:</b>{props.price}$
-                        </Typography>
-                        <Typography variant="h6">
-                            <b>Description:</b>{props.description}
-                        </Typography>
-                        <Typography variant="h6">
-                            <b>Created at:</b>{props.createdAt}
-                        </Typography>
-                    </CardContentInfoWrapper>
+                        <CardContentInfoWrapper>
+                            { Object.entries(estateInfo).map(([title, value]) => (
+                                    <div key={title}>
+                                        <Typography variant="h6">
+                                            <FieldTitle>{title}:</FieldTitle> {value}
+                                        </Typography>
+                                    </div>
+                                )) 
+                            }
+                        </CardContentInfoWrapper>
                     </CardContent>
                     <StyledCardActions>
                         <IconButton aria-label="add to fav">
@@ -173,14 +143,10 @@ const EstateItemDetails = (props) => {
                 </StyledMediaWrapper>
             </StyledCard>
             { isOpen && 
-                <Modal 
-                    isOpen={isOpen} 
-                    toggleModal={toggleModal}
-                >
+                <Modal isOpen={isOpen} toggleModal={toggleModal} >
                 <FormWrapper>
                     <Form 
                         submitAction={editEstateItem}
-                        submitInfo={provideSubmitInfo}
                         initState={ESTATE_INIT_INFO}
                     />
                 </FormWrapper>
@@ -191,5 +157,3 @@ const EstateItemDetails = (props) => {
 };
  
 export default EstateItemDetails;
-
-{/* <EditStateForm {...props} editEstate={editEstateItem}/> */}

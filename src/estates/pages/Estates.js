@@ -4,13 +4,11 @@ import EstatesList from '../components/EstatesList';
 import {EstatesContext} from '../context/EstatesContext';
 
 const Estates = () => {
-
     const {estatesData} = useContext(EstatesContext);
 
     return ( 
         <>
             <h3>Estates</h3>
-
             { estatesData.length === 0 ? (
                 <p>There are no estates</p>
                 ) : (

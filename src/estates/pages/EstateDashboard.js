@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Redirect } from 'react-router-dom';
 
 import { EstatesContext } from '../context/EstatesContext';
 import EstateItemDetails from '../components/EstateItemDetails';
@@ -8,26 +8,19 @@ const EstateDashboard = () => {
     
     const estateId = useParams().estateId;
     const {estatesData} = useContext(EstatesContext);
-    const currentEstate = (
-        estatesData.find( estate => estate.id === estateId)
-    );
-    // console.log(
-    //     estatesData.find( estate => estate.id === estateId)
-    // );
+    const currentEstate = estatesData.find( estate => estate.id === estateId);
 
     if(!currentEstate) {
-        return <p>Something went wrong</p>
+        return <Redirect to="/estates" />
     }
 
     const { id } = currentEstate;
 
     return ( 
         <>
-            <EstateItemDetails key={id}
-                    {...currentEstate}
-            />
+            <EstateItemDetails key={id} {...currentEstate} />
         </>
      );
-}
+};
  
 export default EstateDashboard;

@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
-// import uuid from 'uuid';
-// import * as moment from 'moment';
 import * as yup from 'yup';
 
 import { withFormik, Field } from "formik";
@@ -52,23 +50,22 @@ const MyForm = props => {
     return (
         <StyledForm onSubmit={handleSubmit}>
             {
-                Object.keys(initState).map(el => {
-                    return (
-                        <StyledFieldWrapper key={el}>
-                            <StyledLabel htmlFor={el}>
-                                {(touched[el] && errors[el]) ? errors[el] : el}
-                            </StyledLabel>
-                            <StyledField
-                                type="text"
-                                name={el}
-                                border={touched[el] && errors[el] && '1px solid #f18080'}
-                                background={touched[el] && errors[el] && '#ffacac'}
-                                onChange={handleChange}
-                                autoComplete="off"
-                            />
-                        </StyledFieldWrapper>
-                    );
-            })}
+                Object.keys(initState).map(el => (
+                    <StyledFieldWrapper key={el}>
+                        <StyledLabel htmlFor={el}>
+                            {(touched[el] && errors[el]) ? errors[el] : el}
+                        </StyledLabel>
+                        <StyledField
+                            type="text"
+                            name={el}
+                            border={touched[el] && errors[el] && '1px solid #f18080'}
+                            background={touched[el] && errors[el] && '#ffacac'}
+                            onChange={handleChange}
+                            autoComplete="off"
+                        />
+                    </StyledFieldWrapper>
+                ))
+            }
             <StyledButton type="submit" disabled={isSubmitting} isValid={Object.keys(errors).length === 0}>Submit</StyledButton>
         </StyledForm>
     );
@@ -94,7 +91,6 @@ const MyEnhancedForm = withFormik({
     handleSubmit: (values, bag) => {
         bag.props.submitAction(values)
         bag.resetForm();
-        bag.props.submitInfo();
     },
     displayName: "BasicForm"
 })(MyForm);
@@ -103,7 +99,6 @@ const MyEnhancedForm = withFormik({
 
 MyEnhancedForm.propTypes = {
     submitAction: PropTypes.any.isRequired,
-    submitInfo: PropTypes.any.isRequired,
     initState: PropTypes.objectOf(PropTypes.string).isRequired,
 }
 
