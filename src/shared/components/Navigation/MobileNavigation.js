@@ -14,7 +14,7 @@ background-color: ${({theme}) => theme.colors.darkgrey};
 top: 0;
 right: 0;
 width: 200px;
-height: 100vh;
+height: 100%;
 padding: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
 z-index: 100;
 transition: .5s ease-in-out;

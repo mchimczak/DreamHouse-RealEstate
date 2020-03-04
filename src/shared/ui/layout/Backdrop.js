@@ -9,7 +9,7 @@ left: 0;
 right: 0;
 bottom: 0;
 width: 100vw;
-height: 100vh;
+height: 100%;
 background-color: #00000091;
 z-index: 50;
 `

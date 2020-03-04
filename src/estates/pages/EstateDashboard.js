@@ -5,26 +5,28 @@ import { EstatesContext } from '../context/EstatesContext';
 import EstateItemDetails from '../components/EstateItemDetails';
 
 const EstateDashboard = () => {
-
+    
     const estateId = useParams().estateId;
-    const estatesListData = useContext(EstatesContext);
+    const {estatesData} = useContext(EstatesContext);
     const currentEstate = (
-        estatesListData.filter( estate => estate.id === estateId)
+        estatesData.find( estate => estate.id === estateId)
     );
-    const { id, title, description, image, address, location, creator } = currentEstate[0];
+    // console.log(
+    //     estatesData.find( estate => estate.id === estateId)
+    // );
+
+    if(!currentEstate) {
+        return <p>Something went wrong</p>
+    }
+
+    const { id } = currentEstate;
 
     return ( 
-        <div>
-            <EstateItemDetails key={id} 
-                    id={id}
-                    title={title}
-                    description={description}
-                    image={image}
-                    address={address}
-                    location={location}
-                    creator={creator}
-                />
-        </div>
+        <>
+            <EstateItemDetails key={id}
+                    {...currentEstate}
+            />
+        </>
      );
 }
  

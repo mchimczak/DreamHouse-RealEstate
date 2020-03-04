@@ -5,12 +5,18 @@ import {EstatesContext} from '../context/EstatesContext';
 
 const Estates = () => {
 
-    const estatesListData = useContext(EstatesContext);
+    const {estatesData} = useContext(EstatesContext);
 
     return ( 
         <>
             <h3>Estates</h3>
-            <EstatesList items={estatesListData} />
+
+            { estatesData.length === 0 ? (
+                <p>There are no estates</p>
+                ) : (
+                <EstatesList items={estatesData} />
+                ) 
+            }
         </>
      );
 }

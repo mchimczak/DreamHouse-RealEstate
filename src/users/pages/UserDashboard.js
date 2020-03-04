@@ -7,7 +7,7 @@ import { EstatesContext } from '../../estates/context/EstatesContext';
 const UserDashboard = () => {
 
     const userId = useParams().userId;
-    const estatesData = useContext(EstatesContext);
+    const {estatesData} = useContext(EstatesContext);
     const userEstates = estatesData.filter( estate => estate.creator === userId);
 
     return ( 

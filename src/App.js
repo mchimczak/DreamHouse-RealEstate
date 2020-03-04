@@ -10,11 +10,13 @@ import UserDashboard from './users/pages/UserDashboard';
 import Layout from './shared/ui/layout/Layout';
 import EstateDashboard from './estates/pages/EstateDashboard';
 
-import { EstatesContext, EstatesListData } from './estates/context/EstatesContext';
+import { EstatesContextProvider } from './estates/context/EstatesContext';
+import AddEstate from './estates/pages/AddEstate';
 
 function App() {
   return (
     <Layout>
+    <EstatesContextProvider>
       <BrowserRouter>
         <MainNavigation />
         <Main>
@@ -24,31 +26,31 @@ function App() {
             </Route> 
 
             <Route path="/users" exact>
-              <Users />
+                <Users />
             </Route>
 
             <Route path="/users/:userId" exact>
-              <EstatesContext.Provider value={EstatesListData}>
                 <UserDashboard />
-              </EstatesContext.Provider>
             </Route>
 
             <Route path="/estates" exact>
-              <EstatesContext.Provider value={EstatesListData}>
                   <Estates />
-              </EstatesContext.Provider>
             </Route>
 
-            <Route path="/estates/:estateId">
-              <EstatesContext.Provider value={EstatesListData}>
-                <EstateDashboard />
-              </EstatesContext.Provider>
+            <Route path="/estates/new" exact>
+                <AddEstate />
             </Route>
+
+            <Route path="/estates/:estateId" exact>
+                <EstateDashboard />
+            </Route>
+
 
             <Redirect to="/"/>
           </Switch>
         </Main>
       </BrowserRouter>
+      </EstatesContextProvider>
     </Layout>
   )
 };

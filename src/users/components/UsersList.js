@@ -26,21 +26,9 @@ const UsersList = ({users}) => {
     userItem = users.map( user => (
         <UserCard
             key={user.id}
-            id={user.id} 
-            name={user.name}
-            image={user.image} 
-            estates={user.estates}
+            {...user}
         />
         ))
-    // userItem = users.map( user => (
-    //     <UserItem 
-    //         key={user.id}
-    //         id={user.id} 
-    //         name={user.name}
-    //         image={user.image} 
-    //         estates={user.estates}
-    //     />
-    //     ))
 
     return ( 
         <>
