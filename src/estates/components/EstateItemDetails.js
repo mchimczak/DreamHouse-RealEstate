@@ -1,9 +1,10 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import styled from 'styled-components';
 
 import { EstatesContext } from '../context/EstatesContext';
-import EditStateForm from './EditEstateForm';
+// import EditStateForm from './EditEstateForm';
 import Modal from '../../shared/components/Modal/Modal';
+import Form from './Form/Form';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -56,36 +57,65 @@ flex-wrap: wrap;
 const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;
 `
-// const ActionsWrapper = styled.div`
-// display: flex;
-// flex-direction: row;
-// width: 100%;
-// margin-top: 1rem;
-// `
+const FormWrapper = styled.div`
+display: grid;
+z-index: 999;
+width: 90%;
+max-width: 900px;
+padding: 3rem 2rem;
+margin-top: 150px;
+border-radius: 3px;
+background-color: ${({theme}) => theme.colors.white};
+align-items: center;
+
+& > form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+`
 
 const EstateItemDetails = (props) => {
     const {removeEstate, editEstate} = useContext(EstatesContext);
+    const [onSubmitInfo, setOnSubmitInfo] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    const title = (props.title).toUpperCase();
-    // console.log(props);
-
+    const ESTATE_INIT_INFO = {
+        title: props.title,
+        description: props.description,
+        city: props.city,
+        address: props.address,
+        area: props.area,
+        price: props.price,
+        rooms: props.rooms,
+        year: props.year,
+    };
     const removeEstateItem = () => {
         removeEstate(props);
     };
-    const editEstateItem = (id ,updates) => {
-        // console.log(updates);
+    const editEstateItem = (updates) => {
+        const id = props.id;
         editEstate(id, updates);
-        setIsOpen(false);
+        toggleModal();
     };
+    const provideSubmitInfo = () => {
+        const info = 'Edit accepted';
+        setOnSubmitInfo(info);
+    }
+    useEffect(() => {
+        let submitInfo = setTimeout(() => setOnSubmitInfo(false), 3000);
+
+        return () => { clearTimeout(submitInfo) };
+    },[!!onSubmitInfo]);
 
     return ( 
         <div>
+            {onSubmitInfo && <p>{onSubmitInfo}</p>}
             <StyledCard>
                 <StyledContentWrapper>
                     <CardHeader
-                        title={title}
+                        title={(props.title).toUpperCase()}
                     />
                     <CardContent>
                     <CardContentInfoWrapper>
@@ -147,11 +177,19 @@ const EstateItemDetails = (props) => {
                     isOpen={isOpen} 
                     toggleModal={toggleModal}
                 >
-                    <EditStateForm {...props} editEstate={editEstateItem}/>
+                <FormWrapper>
+                    <Form 
+                        submitAction={editEstateItem}
+                        submitInfo={provideSubmitInfo}
+                        initState={ESTATE_INIT_INFO}
+                    />
+                </FormWrapper>
                 </Modal>
             }
         </div>
      );
-}
+};
  
 export default EstateItemDetails;
+
+{/* <EditStateForm {...props} editEstate={editEstateItem}/> */}

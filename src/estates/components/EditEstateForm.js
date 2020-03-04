@@ -56,7 +56,6 @@ ${({theme}) => theme.media.tablet} {
 }
 `
 
-
 const MyForm = props => {
     const { touched, errors, handleChange, handleSubmit, isSubmitting } = props;
     return (
