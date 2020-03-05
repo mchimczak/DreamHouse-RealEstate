@@ -51,17 +51,6 @@ const AddEstate = () => {
         setIsRedirect(true);
     };
 
-    const INIT_FORM_STATE = {
-        title: '',
-        description: '',
-        city: '',
-        address: '',
-        area: '',
-        price: '',
-        rooms: '',
-        year: '',
-    };
-
     return (
         <> 
             {isRedirect ? <Redirect to="/estates" /> : null}
@@ -77,7 +66,6 @@ const AddEstate = () => {
                     <h3>Create new advertisement and wait for a call, it's that simple.</h3>
                     <Form 
                         submitAction={createEstate}
-                        initState={INIT_FORM_STATE}
                     />
                 </StyledCardContent>
             </StyledCard>
@@ -86,8 +74,3 @@ const AddEstate = () => {
 }
  
 export default AddEstate;
-                {/* <FormikForm 
-                    createEstate={createEstate} 
-                    setOnSubmitInfo={setOnSubmitInfo}
-                    addEstate={addEstate}
-                />  */}

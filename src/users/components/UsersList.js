@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 // import UserItem from './UserItem';
@@ -41,3 +42,7 @@ const UsersList = ({users}) => {
 }
  
 export default UsersList;
+
+UsersList.propTypes  = {
+    users: PropTypes.array
+}

@@ -12,6 +12,7 @@ import EstateDashboard from './estates/pages/EstateDashboard';
 
 import { EstatesContextProvider } from './estates/context/EstatesContext';
 import AddEstate from './estates/pages/AddEstate';
+import SignUpPage from './auth/pages/SignupPage';
 
 function App() {
   return (
@@ -21,32 +22,37 @@ function App() {
         <MainNavigation />
         <Main>
           <Switch>
+
             <Route exact path="/">
               <HomePage />
             </Route> 
 
             <Route path="/users" exact>
-                <Users />
+              <Users />
             </Route>
 
             <Route path="/users/:userId" exact>
-                <UserDashboard />
+              <UserDashboard />
             </Route>
 
             <Route path="/estates" exact>
-                  <Estates />
+              <Estates />
             </Route>
 
             <Route path="/estates/new" exact>
-                <AddEstate />
+              <AddEstate />
             </Route>
 
             <Route path="/estates/:estateId" exact>
-                <EstateDashboard />
+              <EstateDashboard />
             </Route>
 
+            <Route path="/signup">
+              <SignUpPage />
+            </Route>
 
             <Redirect to="/"/>
+
           </Switch>
         </Main>
       </BrowserRouter>

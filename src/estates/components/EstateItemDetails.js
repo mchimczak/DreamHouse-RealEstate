@@ -90,9 +90,9 @@ const EstateItemDetails = (props) => {
     const removeEstateItem = () => {
         removeEstate(props);
     };
-    const editEstateItem = (updates) => {
+    const editEstateItem = async (updates) => {
         const id = props.id;
-        editEstate(id, updates);
+        await editEstate(id, updates);
         toggleModal();
     };
 
