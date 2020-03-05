@@ -19,7 +19,7 @@ ${({theme}) => theme.media.desktop} {
 `
 
 const UsersList = ({users}) => {
-
+console.log(users);
     let userItem; 
     if(users.length === 0) {
         return userItem = <p>There are no users</p>;

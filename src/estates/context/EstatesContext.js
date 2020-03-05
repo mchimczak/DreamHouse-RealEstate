@@ -85,7 +85,7 @@ export const EstatesListData = [
         year: '2005',
         file: [],
         createdAt: '2000-11-21',
-        creator: 'u1'
+        owner: 'u1'
     },
     {
         id: '57362',
@@ -99,7 +99,7 @@ export const EstatesListData = [
         year: '2009',
         file: [],
         createdAt: '2000-11-21',
-        creator: 'u1'
+        owner: 'u1'
     },
     {
         id: '2',
@@ -113,7 +113,7 @@ export const EstatesListData = [
         year: '2015',
         file: [],
         createdAt: '2000-11-21',
-        creator: 'u2'
+        owner: 'u2'
     }
 ];
 

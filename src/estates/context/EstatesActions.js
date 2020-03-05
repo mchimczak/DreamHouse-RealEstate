@@ -23,8 +23,6 @@ export const reducer = (state, action) => {
         case 'EDIT_ESTATE':
             return state.map(estate => {
                 if(estate.id === action.id) {
-                    console.log(action.updates);
-                    console.log(estate);
                     return {
                         ...estate,
                         ...action.updates

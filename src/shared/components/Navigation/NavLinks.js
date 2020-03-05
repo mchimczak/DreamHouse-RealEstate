@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { NavLink } from 'react-router-dom';
-
 import styled from 'styled-components';
+
+import {UserContext} from '../../../auth/context/UserContext';
+import UserAvatar from './UserAvatar';
 
 
 const List = styled.ul`
@@ -19,6 +21,10 @@ text-decoration: none;
 `
 
 const MainNavigationLinks = () => {
+
+    const {userData} = useContext(UserContext);
+    const {id} = userData;
+
     return ( 
         <List>
             <li>
@@ -28,19 +34,22 @@ const MainNavigationLinks = () => {
                 <StyledNavLink to="/estates">Estates</StyledNavLink>
             </li>
             <li>
-                <StyledNavLink to="/u1/estates">My Estates</StyledNavLink>
-            </li>
-            <li>
                 <StyledNavLink to="/estates/new">Add new estate</StyledNavLink>
             </li>
             <li>
                 <StyledNavLink to="/users">Users</StyledNavLink>
             </li>
             <li>
+                <StyledNavLink to={`/profile/${id}`}>My Profile</StyledNavLink>
+            </li>
+            <li>
                 <StyledNavLink to="/login">Log in</StyledNavLink>
             </li>
             <li>
                 <StyledNavLink to="/signup">Sign up</StyledNavLink>
+            </li>
+            <li>
+                <UserAvatar />
             </li>
         </List>
      );

@@ -1,9 +1,10 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
 
 import { EstatesContext } from '../context/EstatesContext';
 import Modal from '../../shared/components/Modal/Modal';
-import Form from './Form/Form';
+import Form from '../../shared/components/Form/Form';
+import estateValidationSchema from './Form/EstateValidationSchema';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -84,7 +85,7 @@ const EstateItemDetails = (props) => {
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
     const { id, file, ...estateInfo} = props;
-    const {creator, createdAt, ...editableInfo} = estateInfo;
+    const {owner, createdAt, ...editableInfo} = estateInfo;
     const ESTATE_INIT_INFO = editableInfo;
 
     const removeEstateItem = () => {
@@ -148,6 +149,7 @@ const EstateItemDetails = (props) => {
                     <Form 
                         submitAction={editEstateItem}
                         initState={ESTATE_INIT_INFO}
+                        validationSchema={estateValidationSchema}
                     />
                 </FormWrapper>
                 </Modal>

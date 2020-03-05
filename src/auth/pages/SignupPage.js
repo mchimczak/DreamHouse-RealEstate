@@ -1,30 +1,30 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React, {useContext} from 'react';
+import { Redirect } from 'react-router-dom';
+// import PropTypes from 'prop-types';
 
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
-import Form from '../../estates/components/Form/Form';
+import { UserContext } from '../context/UserContext';
+import Form from '../../shared/components/Form/Form';
+import userValidationSchema from '../components/Form/userValidationSchema';
+import initUserState from '../components/Form/initUserState';
 
 const SignUpPage = () => {
-    
-    const [newUser, setNewUser] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        password: '',
-        avatar: '',
-    });
 
-    const createNewUser = (user) => {
-        console.log(user);
+    const { register, isLoggedIn, userData } = useContext(UserContext);
+
+    const createNewUser = async (user) => {
+        await register(user);
     }
 
     return ( 
         <div>
+            {isLoggedIn && userData && <Redirect to={`/profile/${userData.id}`} />}
             Sign up page
             <Form 
                 submitAction={createNewUser}
-                initState={newUser}
+                initState={initUserState}
+                validationSchema={userValidationSchema}
             />
         </div>
      );

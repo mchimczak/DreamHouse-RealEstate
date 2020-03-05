@@ -10,53 +10,63 @@ import UserDashboard from './users/pages/UserDashboard';
 import Layout from './shared/ui/layout/Layout';
 import EstateDashboard from './estates/pages/EstateDashboard';
 
+import { UserContextProvider } from './auth/context/UserContext';
 import { EstatesContextProvider } from './estates/context/EstatesContext';
 import AddEstate from './estates/pages/AddEstate';
 import SignUpPage from './auth/pages/SignupPage';
+import PrivateRoute from './routes/privateRoutes/PrivateRoute';
+import UserProfilePage from './users/pages/UserProfilePage';
 
 function App() {
   return (
     <Layout>
-    <EstatesContextProvider>
-      <BrowserRouter>
-        <MainNavigation />
-        <Main>
-          <Switch>
+      <UserContextProvider>
+      <EstatesContextProvider>
+        <BrowserRouter>
+          <MainNavigation />
+          <Main>
+            <Switch>
 
-            <Route exact path="/">
-              <HomePage />
-            </Route> 
+              <Route exact path="/">
+                <HomePage />
+              </Route> 
 
-            <Route path="/users" exact>
-              <Users />
-            </Route>
+              <Route path="/users" exact>
+                <Users />
+              </Route>
 
-            <Route path="/users/:userId" exact>
-              <UserDashboard />
-            </Route>
+              <Route path="/users/:userId" exact>
+                <UserDashboard />
+              </Route>
 
-            <Route path="/estates" exact>
-              <Estates />
-            </Route>
+              <Route path="/estates" exact>
+                <Estates />
+              </Route>
 
-            <Route path="/estates/new" exact>
-              <AddEstate />
-            </Route>
+              <Route path="/estates/new" exact>
+                <AddEstate />
+              </Route>
 
-            <Route path="/estates/:estateId" exact>
-              <EstateDashboard />
-            </Route>
+              <Route path="/estates/:estateId" exact>
+                <EstateDashboard />
+              </Route>
 
-            <Route path="/signup">
-              <SignUpPage />
-            </Route>
+              <Route path="/signup">
+                <SignUpPage />
+              </Route>
 
-            <Redirect to="/"/>
+              <PrivateRoute
+                path="/profile/:userId"
+                component={UserProfilePage} 
+              />
 
-          </Switch>
-        </Main>
-      </BrowserRouter>
+              <Redirect to="/"/>
+
+            </Switch>
+          </Main>
+        </BrowserRouter>
       </EstatesContextProvider>
+      </UserContextProvider>
     </Layout>
   )
 };

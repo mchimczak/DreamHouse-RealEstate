@@ -17,8 +17,7 @@ const StyledCard = styled(Card)`
 font-size: 200%;
 `
 
-const UserCard = ({ id, name, image, estates }) => {
-
+const UserCard = ({ id, name, createdAt, email, estates }) => {
     const initials = [...name[0]];
 
     return (
@@ -27,7 +26,7 @@ const UserCard = ({ id, name, image, estates }) => {
                 color="primary"
                 avatar={ <Avatar aria-label="user">{initials}</Avatar> }
                 title={name}
-                subheader="Joined 06.05.2029"
+                subheader={`Joined: ${createdAt}`}
             />
             <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -51,9 +50,11 @@ export default UserCard;
 UserCard.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
-    estates: PropTypes.number
+    estates: PropTypes.string,
+    createdAt: PropTypes.string
 }
 
-// UserCard.defaultProps = {
-
-// }
+UserCard.defaultProps = {
+    estates: '0',
+    createdAt: 'We dont know'
+}

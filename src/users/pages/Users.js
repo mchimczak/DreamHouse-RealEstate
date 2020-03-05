@@ -1,16 +1,15 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import UsersList from '../components/UsersList';
+
+import {UserContext} from '../../auth/context/UserContext';
 
 const Users = () => {
 
-    const [users] = useState([
-        { id: 'u1', name: 'Jackie', image: 'jackieimg', estates: 5},
-        { id: 'u2', name: 'Andy', image: 'andyimg', estates: 7}
-    ])
+    const {usersList} = useContext(UserContext);
 
     return ( 
         <>
-            <UsersList users={users}/>
+            <UsersList users={usersList}/>
         </>
      );
 }

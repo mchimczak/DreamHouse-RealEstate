@@ -1,16 +1,18 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import uuid from 'uuid';
 import * as moment from 'moment';
 
-import Form from '../components/Form/Form';
+import Form from '../../shared/components/Form/Form';
+import estateValidationSchema from '../components/Form/EstateValidationSchema';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
 import { EstatesContext } from '../context/EstatesContext';
+import { UserContext } from '../../auth/context/UserContext';
 
 const StyledCard = styled(Card)`
 position: relative;
@@ -39,12 +41,21 @@ ${({theme}) => theme.media.tablet} {
 
 const AddEstate = () => {
     const { addEstate } = useContext(EstatesContext);
+    const { userData } = useContext(UserContext);
     const [isRedirect, setIsRedirect] = useState(false);
+
+    const getOwner = () => {
+        if(userData.id) {
+            const owner = userData.id;
+            return owner;
+        } else return 'unknown'
+    }
 
     const createEstate = async (values) => {
         const timeStamp = new Date();
         await addEstate({
             id: uuid(),
+            owner: getOwner(),
             createdAt: moment(timeStamp).format('YYYY-MM-DD'),
             ...values
         });
@@ -66,6 +77,7 @@ const AddEstate = () => {
                     <h3>Create new advertisement and wait for a call, it's that simple.</h3>
                     <Form 
                         submitAction={createEstate}
+                        validationSchema={estateValidationSchema}
                     />
                 </StyledCardContent>
             </StyledCard>

@@ -5,15 +5,18 @@ import EstatesList from '../../estates/components/EstatesList';
 import { EstatesContext } from '../../estates/context/EstatesContext';
 
 const UserDashboard = () => {
-
     const userId = useParams().userId;
     const {estatesData} = useContext(EstatesContext);
-    const userEstates = estatesData.filter( estate => estate.creator === userId);
+    const userEstates = estatesData.filter( estate => estate.owner === userId);
 
     return ( 
         <div>
             <p>USER DASHBOARD page</p>
-            <EstatesList items={userEstates}/>
+            {
+                userEstates.length !== 0 ? 
+                <EstatesList items={userEstates}/> 
+                : <p>This user has no estates</p>
+            }
         </div>
      );
 }

@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
 html {
     font-family: Roboto;
     font-size: 62.5%;
+    background-color: ${theme.colors.lightgrey};
 }
 body {
     margin: 0;

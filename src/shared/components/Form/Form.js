@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styled from 'styled-components';
-import * as yup from 'yup';
 
 import { withFormik, Field } from "formik";
 
@@ -46,7 +45,7 @@ border: none;
 
 const MyForm = props => {
     const { initState, dirty, touched, errors, handleChange, handleSubmit, isSubmitting } = props;
-console.log(errors);
+
     return (
         <StyledForm onSubmit={handleSubmit}>
             {
@@ -77,16 +76,17 @@ const MyEnhancedForm = withFormik({
     mapPropsToValues: (props) => ({
         ...props.initState
     }),
-    validationSchema: yup.object().shape({
-        title: yup.string().min(5, `This filed should contain at least 5 characters`).trim().required('Title is required'),
-        description: yup.string().min(10, 'This filed should contain at least 10 characters').trim(),
-        city: yup.string().min(3, 'This filed should contain at least 3 characters').trim().required('City name is required'),
-        address: yup.string().min(5, 'This filed should contain at least 5 characters').trim().required('Address is required'),
-        area: yup.string().matches(/^[1-9]\d{0,4}$/, "Pick a value between 1 - 9999").trim(),
-        price: yup.string().matches(/(^[1-9])\d{3,}$/, "Price must be greater than 999").trim().required('Price is required'),
-        rooms: yup.string().matches(/^[1-9]$/, "Please select a number in the range of 1-9").trim(),
-        year: yup.string().matches(/^(19[4-9]\d|20[0-1]\d|2020)$/, "Provide a value between 1940-2020").trim(),
-    }) ,
+    validationSchema: (props) => props.validationSchema,
+    // validationSchema: yup.object().shape({
+    //     title: yup.string().min(5, `This filed should contain at least 5 characters`).trim().required('Title is required'),
+    //     description: yup.string().min(10, 'This filed should contain at least 10 characters').trim(),
+    //     city: yup.string().min(3, 'This filed should contain at least 3 characters').trim().required('City name is required'),
+    //     address: yup.string().min(5, 'This filed should contain at least 5 characters').trim().required('Address is required'),
+    //     area: yup.string().matches(/^[1-9]\d{0,4}$/, "Pick a value between 1 - 9999").trim(),
+    //     price: yup.string().matches(/(^[1-9])\d{3,}$/, "Price must be greater than 999").trim().required('Price is required'),
+    //     rooms: yup.string().matches(/^[1-9]$/, "Please select a number in the range of 1-9").trim(),
+    //     year: yup.string().matches(/^(19[4-9]\d|20[0-1]\d|2020)$/, "Provide a value between 1940-2020").trim(),
+    // }) ,
 
     handleSubmit: (values, bag) => {
         bag.props.submitAction(values)
@@ -99,6 +99,7 @@ const MyEnhancedForm = withFormik({
 
 MyEnhancedForm.propTypes = {
     submitAction: PropTypes.func.isRequired,
+    validationSchema: PropTypes.any.isRequired,
     initState: PropTypes.objectOf(PropTypes.string),
 }
 
