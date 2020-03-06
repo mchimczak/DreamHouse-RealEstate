@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+import { EstatesContext } from '../../estates/context/EstatesContext';
 
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
@@ -17,8 +19,12 @@ const StyledCard = styled(Card)`
 font-size: 200%;
 `
 
-const UserCard = ({ id, name, createdAt, email, estates }) => {
+const UserCard = ({ id, name, createdAt }) => {
+    const {estatesData} = useContext(EstatesContext);
     const initials = [...name[0]];
+
+    let estates = 0;
+    estatesData.map( el => el.owner === id ? estates++ : null );
 
     return (
         <StyledCard>
@@ -30,7 +36,7 @@ const UserCard = ({ id, name, createdAt, email, estates }) => {
             />
             <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-                Currently selling {estates.toString()} {estates === 1 ? 'Estate' : 'Estates'}
+                Currently selling {estates} {estates === 1 ? 'Estate' : 'Estates'}
             </Typography>
             </CardContent>
             <CardActions>
@@ -50,11 +56,10 @@ export default UserCard;
 UserCard.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
-    estates: PropTypes.string,
     createdAt: PropTypes.string
 }
 
 UserCard.defaultProps = {
-    estates: '0',
+    estates: 0,
     createdAt: 'We dont know'
 }

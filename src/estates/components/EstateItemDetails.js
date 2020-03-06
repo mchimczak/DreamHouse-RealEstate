@@ -6,6 +6,8 @@ import Modal from '../../shared/components/Modal/Modal';
 import Form from '../../shared/components/Form/Form';
 import estateValidationSchema from './Form/EstateValidationSchema';
 
+import House from '../../img/house.jpg'
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -128,17 +130,17 @@ const EstateItemDetails = (props) => {
                 </StyledContentWrapper>
                 <StyledMediaWrapper>
                     <StyledMediaMain 
-                        image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
+                        image={House}
                     />
                     <StyledMediaAsideWrapper>
                         <StyledMediaAsideItem 
-                        image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
+                        image={House}
                         />
                         <StyledMediaAsideItem 
-                        image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
+                        image={House}
                         />
                         <StyledMediaAsideItem 
-                        image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
+                        image={House}
                         />
                     </StyledMediaAsideWrapper>
                 </StyledMediaWrapper>

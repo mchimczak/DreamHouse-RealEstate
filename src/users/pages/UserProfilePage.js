@@ -1,18 +1,15 @@
 import React, {useContext} from 'react';
 import {UserContext} from '../../auth/context/UserContext';
 import UserDashboard from './UserDashboard';
+import UserDetails from '../components/UserDetails';
 
 const UserProfilePage = () => {
     const {userData} = useContext(UserContext);
-    const userObj = Object.entries(userData).map( field => {
-        return (
-            <p key={field}>{field}</p>
-        )
-    })
+
     return ( 
-        <div>
+        <div className="test">
             UserProfilePage
-            {userObj && userObj}
+            <UserDetails user={userData}/>
             <UserDashboard />
         </div>
      );

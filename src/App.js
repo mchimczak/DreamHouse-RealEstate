@@ -3,19 +3,23 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import Main from './shared/ui/layout/Main';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
+import Layout from './shared/ui/layout/Layout';
+
+import { UserContextProvider } from './auth/context/UserContext';
+import { EstatesContextProvider } from './estates/context/EstatesContext';
+
+//Pages
+import PrivateRoute from './routes/privateRoutes/PrivateRoute';
 import HomePage from './homePage/pages/HomePage';
 import Users from './users/pages/Users';
 import Estates from './estates/pages/Estates';
 import UserDashboard from './users/pages/UserDashboard';
-import Layout from './shared/ui/layout/Layout';
 import EstateDashboard from './estates/pages/EstateDashboard';
-
-import { UserContextProvider } from './auth/context/UserContext';
-import { EstatesContextProvider } from './estates/context/EstatesContext';
 import AddEstate from './estates/pages/AddEstate';
 import SignUpPage from './auth/pages/SignupPage';
-import PrivateRoute from './routes/privateRoutes/PrivateRoute';
 import UserProfilePage from './users/pages/UserProfilePage';
+import LoginPage from './auth/pages/LoginPage';
+import InfoStatus from './shared/components/InfoStatus/InfoStatus';
 
 function App() {
   return (
@@ -25,6 +29,7 @@ function App() {
         <BrowserRouter>
           <MainNavigation />
           <Main>
+            <InfoStatus />
             <Switch>
 
               <Route exact path="/">
@@ -53,6 +58,10 @@ function App() {
 
               <Route path="/signup">
                 <SignUpPage />
+              </Route>
+
+              <Route path="/login">
+                <LoginPage />
               </Route>
 
               <PrivateRoute

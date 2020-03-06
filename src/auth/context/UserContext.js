@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import uuid from 'uuid';
 import moment from 'moment';
 
@@ -6,14 +6,15 @@ export const UserContext = React.createContext();
 
 export const UserContextProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [status, setStatus] = useState(false);
     const [userData, setUserData] = useState({});
     const [usersList, setUsersList] = useState([
-        { id: 'u1', name: 'Jackie', email: 'jackie@img.com', phone: '333444555', estates: '5'},
-        { id: 'u2', name: 'Andy', email: 'andyimg@email.com', phone: '333444555', estates: '7'}
+        { id: 'u1', name: 'Jackie', email: 'jackie@img.com', password: 'aaabbbc', phone: '333444555', estates: '5'},
+        { id: 'u2', name: 'Andy', email: 'andyimg@email.com', password: 'aaabbbc', phone: '333444555', estates: '7'}
     ]);
 
 
-    console.log(usersList);
+    // console.log(usersList);
 
     const register = async (user) => {
         const timeStamp = new Date();
@@ -28,15 +29,25 @@ export const UserContextProvider = (props) => {
             ...prevList
         ]));
         setIsLoggedIn(true);
+        setStatus(`Thank you for joining in ${user.name}`);
     };
 
-    const login = async () => {
-        await setIsLoggedIn(true);
-        console.log(isLoggedIn);
+    const login = async (val) => {
+        const user = usersList.find( el => {
+            return el.email === val.email && el.password === val.password
+        });
+        if(user) {
+            await setUserData(user);
+            setIsLoggedIn(true);
+            setStatus(`Welcom back ${user.name}`)
+        } else {
+            setStatus('Cannot log in, please check your email and password');
+        }
     };
-    const logout = async () => {
-        await setIsLoggedIn(false);
-        console.log(isLoggedIn);
+    const logout = async (id) => {
+        await setUserData(id === userData.id ? {} : userData)
+        setIsLoggedIn(false);
+        setStatus(`See you next time ${userData.name}`);
     };
 
 
@@ -44,6 +55,8 @@ export const UserContextProvider = (props) => {
         isLoggedIn,
         userData,
         usersList,
+        status,
+        setStatus,
         login,
         logout,
         register

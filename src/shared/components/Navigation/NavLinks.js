@@ -19,10 +19,13 @@ const StyledNavLink = styled(NavLink)`
 color: inherit;
 text-decoration: none;
 `
+const Logout = styled.span`
+cursor: pointer;
+`
 
 const MainNavigationLinks = () => {
 
-    const {userData} = useContext(UserContext);
+    const {userData, isLoggedIn, logout} = useContext(UserContext);
     const {id} = userData;
 
     return ( 
@@ -34,23 +37,41 @@ const MainNavigationLinks = () => {
                 <StyledNavLink to="/estates">Estates</StyledNavLink>
             </li>
             <li>
-                <StyledNavLink to="/estates/new">Add new estate</StyledNavLink>
-            </li>
-            <li>
                 <StyledNavLink to="/users">Users</StyledNavLink>
             </li>
-            <li>
-                <StyledNavLink to={`/profile/${id}`}>My Profile</StyledNavLink>
-            </li>
-            <li>
-                <StyledNavLink to="/login">Log in</StyledNavLink>
-            </li>
-            <li>
-                <StyledNavLink to="/signup">Sign up</StyledNavLink>
-            </li>
-            <li>
-                <UserAvatar />
-            </li>
+            {
+                id && isLoggedIn
+                ? (
+                    <>
+                        <li>
+                            <StyledNavLink to="/estates/new">Add new estate</StyledNavLink>
+                        </li>
+                        <li>
+                            <StyledNavLink to={`/profile/${id}`}>My Profile</StyledNavLink>
+                        </li>
+                        <li>
+                            <Logout onClick={() => logout(id)}>Logout</Logout>
+                        </li>
+                        {/* <li>
+                            <StyledNavLink to={`/logout/${id}`}>Logout</StyledNavLink>
+                        </li> */}
+                        <li>
+                            <UserAvatar />
+                        </li>
+                    </>
+                ) 
+                : (
+                    <>
+                        <li>
+                            <StyledNavLink to="/login">Log in</StyledNavLink>
+                        </li>
+                        <li>
+                            <StyledNavLink to="/signup">Sign up</StyledNavLink>
+                        </li>
+                    </>
+                )
+            }
+
         </List>
      );
 }
