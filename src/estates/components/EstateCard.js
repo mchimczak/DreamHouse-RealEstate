@@ -92,19 +92,7 @@ const EstateCard = (props) => {
                         <b>Address:</b> {props.address}
                     </Typography>
                     <Typography variant="h6">
-                        <b>Area:</b>{props.area}
-                    </Typography>
-                    <Typography variant="h6">
-                        <b>Rooms:</b>{props.rooms}
-                    </Typography>
-                    <Typography variant="h6">
-                        <b>Year:</b>{props.year}
-                    </Typography>
-                    <Typography variant="h6">
                         <b>Price:</b>{props.price}$
-                    </Typography>
-                    <Typography variant="h6">
-                        <b>Created at:</b>{props.createdAt}
                     </Typography>
                 </CardContentInfoWrapper>
             </CardContent>

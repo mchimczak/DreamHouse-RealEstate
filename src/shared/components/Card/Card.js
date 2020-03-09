@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import Card from '@material-ui/core/Card';
 
 const StyledCard = styled(Card)`
-width: 100%;
+width: ${({small}) => small ? '300px' : '100%'};
 max-width: 600px;
 padding: ${({theme}) => theme.size.xlarge} ${({theme}) => theme.size.large};
 margin: ${({theme}) => theme.size.xlarge} auto;
+z-index: ${({modal}) => modal ? '999' : null};
 
 `
 const StyledHeader = styled.h4`

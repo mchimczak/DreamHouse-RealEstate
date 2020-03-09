@@ -20,6 +20,7 @@ import Typography from '@material-ui/core/Typography';
 import { IconButton } from '@material-ui/core';
 
 import MyCard from '../../shared/components/Card/Card';
+import ModalBox from '../../shared/components/Modal/ModalBox';
 
 
 // const StyledCard = styled(Card)`
@@ -86,8 +87,10 @@ align-items: center;
 
 const EstateItemDetails = (props) => {
     const {removeEstate, editEstate} = useContext(EstatesContext);
-    const {isLoggedIn, userData} = useContext(UserContext)
+    const {isLoggedIn, userData} = useContext(UserContext);
+
     const [isOpen, setIsOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
     const { id, file, ...estateInfo} = props;
@@ -95,8 +98,13 @@ const EstateItemDetails = (props) => {
     const ESTATE_INIT_INFO = editableInfo;
 
     const removeEstateItem = () => {
-        removeEstate(props);
+        setIsDeleting(true);
+        toggleModal();
+        // removeEstate(props);
     };
+    const confirmDelete = () => {
+        removeEstate(props)
+    }
     const editEstateItem = async (updates) => {
         const id = props.id;
         await editEstate(id, updates);
@@ -161,13 +169,19 @@ const EstateItemDetails = (props) => {
             </MyCard>
             { isOpen && 
                 <Modal isOpen={isOpen} toggleModal={toggleModal} >
-                <FormWrapper>
-                    <Form 
-                        submitAction={editEstateItem}
-                        initState={ESTATE_INIT_INFO}
-                        validationSchema={estateValidationSchema}
-                    />
-                </FormWrapper>
+                     { isDeleting 
+                        ?   <ModalBox size='small' title='Delete post?'>
+                                <Button variant="contained" color='secondary' onClick={confirmDelete}>Yes</Button>
+                                <Button variant="contained" color='primary' onClick={toggleModal}>No</Button>
+                            </ModalBox>
+                        :   <FormWrapper>
+                                <Form 
+                                    submitAction={editEstateItem}
+                                    initState={ESTATE_INIT_INFO}
+                                    validationSchema={estateValidationSchema}
+                                />
+                            </FormWrapper>
+                     }
                 </Modal>
             }
         </div>
