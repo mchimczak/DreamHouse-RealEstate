@@ -5,19 +5,20 @@ import { UserContext } from '../context/UserContext';
 import Form from '../../shared/components/Form/Form';
 import loginInitState from '../components/Form/login/loginInitState';
 import loginValidationSchema from '../components/Form/login/loginValidationSchema';
+import Card from '../../shared/components/Card/Card'
 
 const LoginPage = () => {
     const { login, isLoggedIn, userData } = useContext(UserContext);
 
     return (
-        <div>
+        <Card title={'Login'}>
             {isLoggedIn && userData.id ? <Redirect to='/' /> : null}
             <Form
                 submitAction={login}
                 initState={loginInitState}
                 validationSchema={loginValidationSchema} 
             /> 
-        </div>
+        </Card>
     )
 };
 

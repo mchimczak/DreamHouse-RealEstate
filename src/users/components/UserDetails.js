@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Modal from '../../shared/components/Modal/Modal';
@@ -13,11 +14,20 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+const CardWrapper = styled.div`
+grid-row: 1;
+${({theme}) => theme.media.tablet} {
+    grid-column: 2;
+}
+`
+
 const StyledCard = styled(Card)`
-position: relative;
+position: sticky;
+top: 50px;
 width: 100%;
+max-width: 400px;
 height: auto;
-margin: 3rem auto;
+margin: 2rem auto;
 display: flex;
 flex-direction: column-reverse;
 `
@@ -63,11 +73,11 @@ const UserDetails = ({user}) => {
     const {id, createdAt, estates, ...editableUserInfo} = user;
 
     return ( 
-        <div>
+        <CardWrapper>
             <StyledCard>
                 <StyledContentWrapper>
                     <CardHeader
-                        title='Profile'
+                        title='Your profile'
                     />
                     <CardContent>
                         <CardContentInfoWrapper>
@@ -99,8 +109,12 @@ const UserDetails = ({user}) => {
                     </FormWrapper>
                 </Modal>
             }
-        </div>
+        </CardWrapper>
      );
 }
  
 export default UserDetails;
+
+UserDetails.propTypes = {
+    user: PropTypes.object.isRequired
+}

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const BackdropWrapper = styled.div`
 display: ${({isOpen}) => isOpen ? 'block' : 'none'};
-position: absolute;
+position: fixed;
 top: 0;
 left: 0;
 right: 0;

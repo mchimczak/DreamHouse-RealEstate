@@ -49,13 +49,21 @@ const AddEstate = () => {
             const owner = userData.id;
             return owner;
         } else return 'unknown'
-    }
+    };
+    const getPhone = () => {
+        if(userData.phone) {
+            const phone = userData.phone;
+            return phone
+        } else return undefined
+    };
 
     const createEstate = async (values) => {
         const timeStamp = new Date();
         await addEstate({
             id: uuid(),
             owner: getOwner(),
+            email: userData.email,
+            phone: getPhone(),
             createdAt: moment(timeStamp).format('YYYY-MM-DD'),
             ...values
         });

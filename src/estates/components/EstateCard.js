@@ -1,24 +1,21 @@
-import React from 'react';
+import React, {useContext, useCallback} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import House from '../../img/house.jpg'
 
-import Card from '@material-ui/core/Card';
+import { UserContext } from '../../auth/context/UserContext';
+
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
 import { IconButton } from '@material-ui/core';
 
-const StyledCard = styled(Card)`
-position: relative;
-width: 100%;
-margin: 0 auto;
-`
+import MyCard from '../../shared/components/Card/Card'
+
 const StyledMediaWrapper = styled.div`
 display: grid;
 grid-template: auto / 3fr 1fr;
@@ -40,31 +37,35 @@ gap: .5rem;
 const StyledMediaAsideItem = styled(CardMedia)`
 `
 const CardContentInfoWrapper = styled.div`
-display: flex;
-flex-direction: column;
-flex-wrap: wrap;
-${({theme}) => theme.media.tablet} {
-    flex-direction: row;
+display: grid;
+gap: 1rem;
+justify-content: space-between;
+grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+align-items: baseline;
 
-    & > h6 {
-        margin-right: 1rem;
-    }
-}
-${({theme}) => theme.media.desktop} {
-    & > h6 {
-        margin-right: 3rem;
-    }
+& > h6 {
+    display: grid;
+    font-size: 12px;
 }
 `
 
 const EstateCard = (props) => {
+    const {isLoggedIn, userData} = useContext(UserContext);
+
     const title = (props.title).toUpperCase();
 
+    const isUsers = useCallback((login, user) => {
+        if(!!login === false) {
+            return true
+        } else if (login && user.id !== props.owner){
+            return true
+        } else {
+            return false
+        }
+    },[props.owner]);
+
     return ( 
-        <StyledCard>
-            <CardHeader
-                title={title}
-            />
+        <MyCard title={title}>
             <StyledMediaWrapper>
                 <StyledMediaMain 
                     image={House}
@@ -108,16 +109,22 @@ const EstateCard = (props) => {
                 </CardContentInfoWrapper>
             </CardContent>
             <CardActions>
-                <IconButton aria-label="add to fav">
-                    <span>3</span><FavoriteIcon />
-                </IconButton>
-                <Button variant="contained" color='secondary'>Tel</Button>
+                { 
+                    isUsers(isLoggedIn, userData) &&
+                         <>
+                            <IconButton aria-label="add to fav">
+                                <span>3</span><FavoriteIcon />
+                            </IconButton>
+                            <Button variant="contained" color='secondary'>E-MAIL</Button>
+                            <Button variant="contained" color='secondary'>TEL</Button>
+                        </>
+                 }
                 <Button size="small" color="primary" component={Link} to={`/estates/${props.id}`}>
-                        View details
-                    </Button>
+                    View details
+                </Button>
             </CardActions>
-        </StyledCard>
+        </MyCard>
      );
 }
  
-export default EstateCard;
+export default React.memo(EstateCard);

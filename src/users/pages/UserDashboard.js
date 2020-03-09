@@ -11,7 +11,6 @@ const UserDashboard = () => {
 
     return ( 
         <div>
-            <p>USER DASHBOARD page</p>
             {
                 userEstates.length !== 0 ? 
                 <EstatesList items={userEstates}/> 

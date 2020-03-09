@@ -2,13 +2,14 @@ import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
 
 import { EstatesContext } from '../context/EstatesContext';
+import { UserContext } from '../../auth/context/UserContext';
 import Modal from '../../shared/components/Modal/Modal';
 import Form from '../../shared/components/Form/Form';
 import estateValidationSchema from './Form/EstateValidationSchema';
 
 import House from '../../img/house.jpg'
 
-import Card from '@material-ui/core/Card';
+// import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -18,15 +19,17 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
 import { IconButton } from '@material-ui/core';
 
+import MyCard from '../../shared/components/Card/Card';
 
-const StyledCard = styled(Card)`
-position: relative;
-width: 90%;
-height: 80%;
-margin: 3rem auto;
-display: flex;
-flex-direction: column-reverse;
-`
+
+// const StyledCard = styled(Card)`
+// position: relative;
+// width: 90%;
+// height: 80%;
+// margin: 3rem auto;
+// display: flex;
+// flex-direction: column-reverse;
+// `
 const StyledContentWrapper = styled(CardMedia)`
 display: flex;
 flex-direction: column;
@@ -52,9 +55,9 @@ gap: .5rem;
 const StyledMediaAsideItem = styled(CardMedia)`
 `
 const CardContentInfoWrapper = styled.div`
-display: flex;
-flex-direction: column;
-flex-wrap: wrap;
+display: grid;
+grid-template-columns: auto auto;
+gap: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
 `
 const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;
@@ -83,6 +86,7 @@ align-items: center;
 
 const EstateItemDetails = (props) => {
     const {removeEstate, editEstate} = useContext(EstatesContext);
+    const {isLoggedIn, userData} = useContext(UserContext)
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
@@ -101,7 +105,23 @@ const EstateItemDetails = (props) => {
 
     return ( 
         <div>
-            <StyledCard>
+            <MyCard>
+            <StyledMediaWrapper>
+                    <StyledMediaMain 
+                        image={House}
+                    />
+                    <StyledMediaAsideWrapper>
+                        <StyledMediaAsideItem 
+                        image={House}
+                        />
+                        <StyledMediaAsideItem 
+                        image={House}
+                        />
+                        <StyledMediaAsideItem 
+                        image={House}
+                        />
+                    </StyledMediaAsideWrapper>
+                </StyledMediaWrapper>
                 <StyledContentWrapper>
                     <CardHeader
                         title={(props.title).toUpperCase()}
@@ -119,32 +139,26 @@ const EstateItemDetails = (props) => {
                         </CardContentInfoWrapper>
                     </CardContent>
                     <StyledCardActions>
-                        <IconButton aria-label="add to fav">
-                            <span>3</span><FavoriteIcon />
-                        </IconButton>
-                        <Button variant="contained" color='primary'>Tel</Button>
-                        <Button  variant="contained" color='secondary' onClick={toggleModal}
-                        >EDIT</Button>
-                        <Button  variant="contained" color='secondary' onClick={removeEstateItem}>DELETE</Button>
+                        {
+                            isLoggedIn === false &&
+                            <>
+                                <IconButton aria-label="add to fav">
+                                    <span>3</span><FavoriteIcon />
+                                </IconButton>
+                                <Button variant="contained" color='primary'>Tel</Button>
+                            </>
+                        }
+                        { isLoggedIn && userData.id === owner &&
+                            <>
+                                <Button  variant="contained" color='secondary' onClick={toggleModal}
+                                >EDIT</Button>
+                                <Button  variant="contained" color='secondary' onClick={removeEstateItem}
+                                >DELETE</Button>
+                            </>
+                        }
                     </StyledCardActions>
                 </StyledContentWrapper>
-                <StyledMediaWrapper>
-                    <StyledMediaMain 
-                        image={House}
-                    />
-                    <StyledMediaAsideWrapper>
-                        <StyledMediaAsideItem 
-                        image={House}
-                        />
-                        <StyledMediaAsideItem 
-                        image={House}
-                        />
-                        <StyledMediaAsideItem 
-                        image={House}
-                        />
-                    </StyledMediaAsideWrapper>
-                </StyledMediaWrapper>
-            </StyledCard>
+            </MyCard>
             { isOpen && 
                 <Modal isOpen={isOpen} toggleModal={toggleModal} >
                 <FormWrapper>

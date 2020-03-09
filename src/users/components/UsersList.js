@@ -7,15 +7,8 @@ import UserCard from './UserCard';
 
 const UserListWrapper = styled.div`
 display: grid;
-grid-template: auto / auto;
+grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 gap: 2rem;
-
-${({theme}) => theme.media.tablet} {
-    grid-template: auto / 1fr 1fr;
-}
-${({theme}) => theme.media.desktop} {
-    grid-template: auto / 1fr 1fr 1fr;
-}
 `
 
 const UsersList = ({users}) => {

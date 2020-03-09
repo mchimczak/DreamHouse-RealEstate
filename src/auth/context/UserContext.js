@@ -39,7 +39,7 @@ export const UserContextProvider = (props) => {
         if(user) {
             await setUserData(user);
             setIsLoggedIn(true);
-            setStatus(`Welcom back ${user.name}`)
+            setStatus(`Welcome back ${user.name}`)
         } else {
             setStatus('Cannot log in, please check your email and password');
         }
