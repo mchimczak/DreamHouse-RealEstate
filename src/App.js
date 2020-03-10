@@ -48,9 +48,10 @@ function App() {
                 <Estates />
               </Route>
 
-              <Route path="/estates/new" exact>
-                <AddEstate />
-              </Route>
+              <PrivateRoute 
+              path="/estates/new"
+              component={AddEstate} 
+              exact />
 
               <Route path="/estates/:estateId" exact>
                 <EstateDashboard />

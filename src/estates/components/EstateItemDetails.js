@@ -15,9 +15,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
-import { IconButton } from '@material-ui/core';
+// import { IconButton } from '@material-ui/core';
 
 import MyCard from '../../shared/components/Card/Card';
 import ModalBox from '../../shared/components/Modal/ModalBox';
@@ -93,14 +93,13 @@ const EstateItemDetails = (props) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    const { id, file, ...estateInfo} = props;
-    const {owner, createdAt, ...editableInfo} = estateInfo;
-    const ESTATE_INIT_INFO = editableInfo;
+    const { id, file, email, phone, owner, createdAt, ...estateInfo} = props;
+    const {title, ...displayedInfo} = estateInfo;
+    const ESTATE_INIT_INFO = estateInfo;
 
     const removeEstateItem = () => {
         setIsDeleting(true);
         toggleModal();
-        // removeEstate(props);
     };
     const confirmDelete = () => {
         removeEstate(props)
@@ -136,33 +135,37 @@ const EstateItemDetails = (props) => {
                     />
                     <CardContent>
                         <CardContentInfoWrapper>
-                            { Object.entries(estateInfo).map(([title, value]) => (
+                            { Object.entries(displayedInfo).map(([title, value]) => {
+                                let val = [...value].length === 0 ? 'No info provided' : value;
+                                return (
                                     <div key={title}>
                                         <Typography variant="h6">
-                                            <FieldTitle>{title}:</FieldTitle> {value}
+                                            <FieldTitle>{title}:</FieldTitle> {val}
                                         </Typography>
                                     </div>
-                                )) 
+                                )
+                                }) 
                             }
                         </CardContentInfoWrapper>
                     </CardContent>
                     <StyledCardActions>
-                        {
-                            isLoggedIn === false &&
-                            <>
-                                <IconButton aria-label="add to fav">
-                                    <span>3</span><FavoriteIcon />
-                                </IconButton>
-                                <Button variant="contained" color='primary'>Tel</Button>
-                            </>
-                        }
-                        { isLoggedIn && userData.id === owner &&
-                            <>
-                                <Button  variant="contained" color='secondary' onClick={toggleModal}
-                                >EDIT</Button>
-                                <Button  variant="contained" color='secondary' onClick={removeEstateItem}
-                                >DELETE</Button>
-                            </>
+                        { (!isLoggedIn || (isLoggedIn && userData.id !== owner))
+                            ? ( <>
+                                    <Button variant="contained" color='primary'>
+                                        <a href={`mailto:${email}`}>Email</a>
+                                    </Button>
+                                    { phone &&
+                                        <Button variant="contained" color='primary'>
+                                            <a href={`tel:${phone}`}>Tel</a>
+                                        </Button>
+                                    }
+                                </> )
+                            : ( <>
+                                    <Button  variant="contained" color='secondary' onClick={toggleModal}
+                                    >EDIT</Button>
+                                    <Button  variant="contained" color='secondary' onClick={removeEstateItem}
+                                    >DELETE</Button>
+                                </> )
                         }
                     </StyledCardActions>
                 </StyledContentWrapper>

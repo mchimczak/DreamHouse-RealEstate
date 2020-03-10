@@ -44,6 +44,7 @@ export const UserContextProvider = (props) => {
             setStatus('Cannot log in, please check your email and password');
         }
     };
+
     const logout = async (id) => {
         await setUserData(id === userData.id ? {} : userData)
         setIsLoggedIn(false);
@@ -51,6 +52,10 @@ export const UserContextProvider = (props) => {
     };
 
     const updateUser = async (id, updates) => {
+        await setUserData(prevState => ({
+            ...prevState,
+            ...updates
+        }))
         const updatedUserList = usersList.map( user => {
             if(user.id === id) {
                 return {
@@ -62,7 +67,7 @@ export const UserContextProvider = (props) => {
             }
         });
         await setUsersList(updatedUserList);
-        setStatus('Your profile information was updated successfully.')
+        setStatus('Your profile was updated successfully.')
     };
 
 

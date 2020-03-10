@@ -18,6 +18,7 @@ list-style: none;
 const StyledNavLink = styled(NavLink)`
 color: inherit;
 text-decoration: none;
+font-weight: ${({theme}) => theme.font.thin};
 `
 const Logout = styled.span`
 cursor: pointer;
@@ -52,9 +53,6 @@ const MainNavigationLinks = () => {
                         <li>
                             <Logout onClick={() => logout(id)}>Logout</Logout>
                         </li>
-                        {/* <li>
-                            <StyledNavLink to={`/logout/${id}`}>Logout</StyledNavLink>
-                        </li> */}
                         <li>
                             <UserAvatar />
                         </li>

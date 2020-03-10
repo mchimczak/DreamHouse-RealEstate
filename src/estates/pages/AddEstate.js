@@ -45,16 +45,10 @@ const AddEstate = () => {
     const [isRedirect, setIsRedirect] = useState(false);
 
     const getOwner = () => {
-        if(userData.id) {
-            const owner = userData.id;
-            return owner;
-        } else return 'unknown'
+       return userData.id ? userData.id : '';
     };
     const getPhone = () => {
-        if(userData.phone) {
-            const phone = userData.phone;
-            return phone
-        } else return undefined
+        return userData.phone ? userData.phone : ''
     };
 
     const createEstate = async (values) => {
