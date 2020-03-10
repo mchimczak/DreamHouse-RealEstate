@@ -50,11 +50,27 @@ export const UserContextProvider = (props) => {
         setStatus(`See you next time ${userData.name}`);
     };
 
+    const updateUser = async (id, updates) => {
+        const updatedUserList = usersList.map( user => {
+            if(user.id === id) {
+                return {
+                    ...user,
+                    ...updates
+                }
+            } else {
+                return user
+            }
+        });
+        await setUsersList(updatedUserList);
+        setStatus('Your profile information was updated successfully.')
+    };
+
 
     const value = {
         isLoggedIn,
         userData,
         usersList,
+        updateUser,
         status,
         setStatus,
         login,

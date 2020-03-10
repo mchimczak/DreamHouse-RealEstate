@@ -65,12 +65,17 @@ align-items: center;
 }
 `
 
-const UserDetails = ({user}) => {
+const UserDetails = ({user, updateUser}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
     const {id, createdAt, estates, ...editableUserInfo} = user;
+
+    const startUpdateUser = async (updates) => {
+        await updateUser(id, updates);
+        setIsOpen(false);
+    };
 
     return ( 
         <CardWrapper>
@@ -102,7 +107,7 @@ const UserDetails = ({user}) => {
                 <Modal isOpen={isOpen} toggleModal={toggleModal} >
                     <FormWrapper>
                         <Form 
-                            submitAction={() => console.log('elo')}
+                            submitAction={startUpdateUser}
                             initState={editableUserInfo}
                             validationSchema={userProfileValidationSchema}
                         />
