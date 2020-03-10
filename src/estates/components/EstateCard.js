@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import House from '../../img/house.jpg'
 
 import { UserContext } from '../../auth/context/UserContext';
+import  { EstatesContext } from '../../estates/context/EstatesContext';
 
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -38,19 +39,39 @@ const StyledMediaAsideItem = styled(CardMedia)`
 `
 const CardContentInfoWrapper = styled.div`
 display: grid;
-gap: 1rem;
+gap: .5rem;
 justify-content: space-between;
-grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+grid-template-columns: auto;
 align-items: baseline;
 
 & > h6 {
     display: grid;
+    grid-template-columns: 70px auto;
+    gap: 1rem;
     font-size: 12px;
 }
 `
 
 const EstateCard = (props) => {
-    const {isLoggedIn, userData} = useContext(UserContext);
+    const {isLoggedIn, userData, setStatus} = useContext(UserContext);
+    const {estatesLikes, addLike} = useContext(EstatesContext);
+    // console.log(estatesLikes);
+    const currentEstate = estatesLikes.find( estate => {
+        return estate.estateId === props.id
+    });
+    const likesNumber = currentEstate.likes.length;
+
+    const likeEstate = () => {
+        if(isLoggedIn && userData.id) {
+            const estateId = props.id;
+            const userId = userData.id;
+
+            currentEstate.likes.includes(userId) 
+            ?  setStatus('You have already liked that')
+            :  addLike(estateId, userId);
+
+        } else setStatus('You have to be logged in to like this estate');
+    };
 
     const title = (props.title).toUpperCase();
 
@@ -100,8 +121,8 @@ const EstateCard = (props) => {
                 { 
                     isUsers(isLoggedIn, userData) &&
                          <>
-                            <IconButton aria-label="add to fav">
-                                <span>3</span><FavoriteIcon />
+                            <IconButton aria-label="add to fav" onClick={likeEstate}>
+                                <span>{likesNumber}</span><FavoriteIcon />
                             </IconButton>
                             <Button variant="contained" color='secondary'>E-MAIL</Button>
                             <Button variant="contained" color='secondary'>TEL</Button>

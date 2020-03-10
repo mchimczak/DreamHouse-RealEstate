@@ -1,4 +1,4 @@
-import React, { useReducer, useMemo} from 'react';
+import React, { useReducer, useMemo, useState} from 'react';
 
 import { reducer, addEstate, removeEstate, editEstate } from './EstatesActions';
 
@@ -7,23 +7,56 @@ export const EstatesContext = React.createContext();
 export const EstatesContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(reducer, EstatesListData);
+    const [estatesLikes, setEstatesLikes]= useState(UserLikes);
 
     const startAddEstate = (newEstate) => {
+        setEstatesLikes(prevState => ([
+            ...prevState,
+                {
+                    estateId: newEstate.id,
+                    likes: []
+                }
+        ]));
+
         return dispatch(addEstate(newEstate));
     };
-    const startRemoveEstate = (estate) => {
+
+    const startRemoveEstate = async (estate) => {
+        const updateList = estatesLikes.filter( el => {
+            return el.estateId !== estate.id
+        })
+        setEstatesLikes(updateList);
         return dispatch(removeEstate(estate));
     };
+
     const startEditEstate = (id, updates) => {
         return dispatch(editEstate(id, updates))
-    }
+    };
+
+
+    const addLike = (estateId, userId) => {
+        const updatedList = estatesLikes.map(estate => {
+            if (estate.estateId === estateId) {
+            return {
+                ...estate,
+                likes: [...estate.likes, userId]
+            };
+            } else return {...estate};
+        });
+
+        return setEstatesLikes(updatedList);
+    };
+
+
 
     const value = useMemo(() => ({
         estatesData: state,
         addEstate: startAddEstate,
         removeEstate: startRemoveEstate,
-        editEstate: startEditEstate
-    }), [state]);
+        editEstate: startEditEstate,
+        addLike: addLike,
+        estatesLikes: estatesLikes
+    }), [state, estatesLikes]);
 
     return (
         <EstatesContext.Provider value={value} >
@@ -33,7 +66,20 @@ export const EstatesContextProvider = (props) => {
 
 };
 
-
+const UserLikes = [
+    {
+        estateId: "1",
+        likes: ["2", "1"]
+    },
+    {
+        estateId: "57362",
+        likes: ["zyx"]
+    },
+    {
+        estateId: '2',
+        likes: []
+    }
+];
 
 export const EstatesListData = [
     {
