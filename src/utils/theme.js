@@ -11,7 +11,8 @@ export const theme = {
         small: '1rem',
         medium: '1.6rem',
         large: '2.4rem',
-        xlarge: '3.2rem'
+        xlarge: '3.2rem',
+        xxlarge: '6.2rem'
     },
     media: {
         phone: '@media(min-width: 300px)',

@@ -11,8 +11,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+
+import Button from '../../shared/components/Button/Button'
 
 const CardWrapper = styled.div`
 grid-row: 1;
@@ -97,7 +99,7 @@ const UserDetails = ({user, updateUser}) => {
                         </CardContentInfoWrapper>
                     </CardContent>
                     <StyledCardActions>
-                        <Button  variant="contained" color='secondary' onClick={toggleModal}>
+                        <Button small="yes" onClick={toggleModal}>
                             EDIT PROFILE
                         </Button>
                     </StyledCardActions>

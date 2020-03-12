@@ -7,16 +7,15 @@ import { EstatesContext } from '../../estates/context/EstatesContext';
 
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
-import { IconButton } from '@material-ui/core';
 
-const StyledCard = styled(Card)`
-font-size: 200%;
+import Button from '../../shared/components/Button/Button';
+
+const CardActionsWrapper = styled.div`
+display: grid;
+padding: 1rem;
 `
 
 const UserCard = ({ id, name, createdAt }) => {
@@ -27,7 +26,7 @@ const UserCard = ({ id, name, createdAt }) => {
     estatesData.map( el => el.owner === id ? estates++ : null );
 
     return (
-        <StyledCard>
+        <Card>
             <CardHeader
                 color="primary"
                 avatar={ <Avatar aria-label="user">{initials}</Avatar> }
@@ -39,15 +38,12 @@ const UserCard = ({ id, name, createdAt }) => {
                 Currently selling {estates} {estates === 1 ? 'Estate' : 'Estates'}
             </Typography>
             </CardContent>
-            <CardActions>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <Button size="small" color="primary" component={Link} to={`/users/${id}`}>
+            <CardActionsWrapper>
+                <Button primary="true" small="true" as={Link} to={`/users/${id}`}>
                     View Users estates
                 </Button>
-            </CardActions>
-        </StyledCard>
+            </CardActionsWrapper>
+        </Card>
     )
 };
  

@@ -21,6 +21,11 @@ body {
     font-size: ${theme.size.medium};
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
 `
 
 

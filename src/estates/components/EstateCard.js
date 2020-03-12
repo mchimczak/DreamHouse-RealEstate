@@ -7,15 +7,14 @@ import House from '../../img/house.jpg'
 import { UserContext } from '../../auth/context/UserContext';
 import  { EstatesContext } from '../../estates/context/EstatesContext';
 
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
 import { IconButton } from '@material-ui/core';
 
-import MyCard from '../../shared/components/Card/Card'
+import MyCard from '../../shared/components/Card/Card';
+import Btn from '../../shared/components/Button/Button';
 
 const StyledMediaWrapper = styled.div`
 display: grid;
@@ -50,6 +49,21 @@ align-items: baseline;
     gap: 1rem;
     font-size: 12px;
 }
+`
+const CardActionsWrapper = styled.div`
+display: grid;
+// grid-template-rows: repeat(2, 1fr);
+gap: 3px;
+`
+const CardActionsBlock = styled.div`
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+gap: .5rem;
+align-items: center;
+justify-content: center;
+`
+const Number = styled.span`
+margin-right: 1rem;
 `
 
 const EstateCard = (props) => {
@@ -117,21 +131,23 @@ const EstateCard = (props) => {
                     </Typography>
                 </CardContentInfoWrapper>
             </CardContent>
-            <CardActions>
-                { 
-                    isUsers(isLoggedIn, userData) &&
-                         <>
-                            <IconButton aria-label="add to fav" onClick={likeEstate}>
-                                <span>{likesNumber}</span><FavoriteIcon />
-                            </IconButton>
-                            <Button variant="contained" color='secondary'>E-MAIL</Button>
-                            <Button variant="contained" color='secondary'>TEL</Button>
-                        </>
-                 }
-                <Button size="small" color="primary" component={Link} to={`/estates/${props.id}`}>
+            <CardActionsWrapper>
+                <Btn primary="true" small="true" as={Link} to={`/estates/${props.id}`}>
                     View details
-                </Button>
-            </CardActions>
+                </Btn>
+                <CardActionsBlock>
+                    { 
+                        isUsers(isLoggedIn, userData) &&
+                            <>
+                                <Btn small="true" aria-label="add to fav" onClick={likeEstate}>
+                                    <Number>{likesNumber}</Number><FavoriteIcon />
+                                </Btn>
+                                <Btn small="true">E-MAIL</Btn>
+                                <Btn small="true">TEL</Btn>
+                            </>
+                    }
+                </CardActionsBlock>
+            </CardActionsWrapper>
         </MyCard>
      );
 }

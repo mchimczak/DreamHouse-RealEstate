@@ -9,18 +9,16 @@ import estateValidationSchema from './Form/EstateValidationSchema';
 
 import House from '../../img/house.jpg'
 
-// import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
-// import FavoriteIcon from '@material-ui/icons/Favorite';
+// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import { IconButton } from '@material-ui/core';
 
 import MyCard from '../../shared/components/Card/Card';
 import ModalBox from '../../shared/components/Modal/ModalBox';
+import Button from '../../shared/components/Button/Button';
 
 
 // const StyledCard = styled(Card)`
@@ -151,19 +149,19 @@ const EstateItemDetails = (props) => {
                     <StyledCardActions>
                         { (!isLoggedIn || (isLoggedIn && userData.id !== owner))
                             ? ( <>
-                                    <Button variant="contained" color='primary'>
+                                    <Button primary="yes">
                                         <a href={`mailto:${email}`}>Email</a>
                                     </Button>
                                     { phone &&
-                                        <Button variant="contained" color='primary'>
+                                        <Button primary="yes">
                                             <a href={`tel:${phone}`}>Tel</a>
                                         </Button>
                                     }
                                 </> )
                             : ( <>
-                                    <Button  variant="contained" color='secondary' onClick={toggleModal}
+                                    <Button onClick={toggleModal}
                                     >EDIT</Button>
-                                    <Button  variant="contained" color='secondary' onClick={removeEstateItem}
+                                    <Button primary="yest" onClick={removeEstateItem}
                                     >DELETE</Button>
                                 </> )
                         }
@@ -174,8 +172,8 @@ const EstateItemDetails = (props) => {
                 <Modal isOpen={isOpen} toggleModal={toggleModal} >
                      { isDeleting 
                         ?   <ModalBox size='small' title='Delete post?'>
-                                <Button variant="contained" color='secondary' onClick={confirmDelete}>Yes</Button>
-                                <Button variant="contained" color='primary' onClick={toggleModal}>No</Button>
+                                <Button primary="yest" onClick={confirmDelete}>Yes</Button>
+                                <Button onClick={toggleModal}>No</Button>
                             </ModalBox>
                         :   <FormWrapper>
                                 <Form 

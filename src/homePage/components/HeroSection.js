@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Section from '../../shared/components/Section/Section'
 import Hero from '../../img/hero.jpg';
 
 const HeroWrapper = styled.div`
@@ -21,7 +22,7 @@ background-image: url(${Hero});
 background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
-filter: brightness(0.6);
+filter: brightness(0.4);
 z-index: 30;
 `
 const ContentWrapper = styled.div`
@@ -33,7 +34,7 @@ row-gap: 2rem;
 width: 100%;
 text-align: center;
 padding: ${({theme}) => theme.size.large} ${({theme}) => theme.size.xlarge};
-z-index: 100;
+z-index: 45;
 `
 const Content = styled.p`
 margin: 0 auto;
@@ -53,23 +54,25 @@ bottom: -15px;
 width: 30px;
 height: 30px;
 transform: rotate(45deg);
-background-color: ${({theme}) => theme.colors.white};
-z-index: 100;
+background-color: ${({theme}) => theme.colors.lightgrey};
+z-index: 45;
 
 `
 
 const HeroSection = () => ( 
-    <HeroWrapper>
-        <HeroImg/>
-        <ContentWrapper>
-            <ContentHeader>
-                Welcome to DreamHouse
-            </ContentHeader>
-            <ContentBody>The biggest real estate agency in Poland.</ContentBody>
-            <ContentBody>- Buying and selling your property has never been easier before -</ContentBody>
-        </ContentWrapper>
-        <Rect/>
-    </HeroWrapper>
+    <Section>
+        <HeroWrapper>
+            <HeroImg/>
+            <ContentWrapper>
+                <ContentHeader>
+                    Welcome to DreamHouse
+                </ContentHeader>
+                <ContentBody>The biggest real estate agency in Poland.</ContentBody>
+                <ContentBody>- Buying and selling your property has never been easier before -</ContentBody>
+            </ContentWrapper>
+            <Rect/>
+        </HeroWrapper>
+    </Section>
 );
  
 export default HeroSection;

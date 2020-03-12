@@ -15,6 +15,9 @@ ${({theme}) => theme.media.desktop} {
 `
 const Title = styled.h1`
 display: inline-block;
+padding: 1rem 1rem 0 0;
+border-top: 2px solid ${({theme}) => theme.colors.white};
+border-right: 2px solid ${({theme}) => theme.colors.orange};
 `
 const StyledLink = styled(Link)`
 color: ${({theme}) => theme.colors.white};
