@@ -7,7 +7,6 @@ const userValidationSchema = yup.object().shape({
     email: yup.string().email().trim().required('Email is required'),
     phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').trim(),
     password: yup.string().min(6, 'This filed should contain at least 6 characters').trim().required('Password is required'),
-    avatar: yup.string().trim()
 });
 
 export default userValidationSchema;

@@ -48,7 +48,7 @@ const BestEstates = () => {
     }).slice(0, 3);
 
     estatesData.map( estate => {
-        mostLikedEstates.forEach( (obj, index) => {
+        return mostLikedEstates.forEach( (obj, index) => {
             if(estate.id === obj.estateId) {
                 return bestThreeEstates.splice(index, 0, estate)
             }

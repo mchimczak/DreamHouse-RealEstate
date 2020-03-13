@@ -3,9 +3,13 @@ import styled from 'styled-components';
 
 import { EstatesContext } from '../context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
+
 import Modal from '../../shared/components/Modal/Modal';
 import Form from '../../shared/components/Form/Form';
 import estateValidationSchema from './Form/EstateValidationSchema';
+import MyCard from '../../shared/components/Card/Card';
+import ModalBox from '../../shared/components/Modal/ModalBox';
+import Button from '../../shared/components/Button/Button';
 
 import House from '../../img/house.jpg'
 
@@ -13,22 +17,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
-// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import MyCard from '../../shared/components/Card/Card';
-import ModalBox from '../../shared/components/Modal/ModalBox';
-import Button from '../../shared/components/Button/Button';
 
-
-// const StyledCard = styled(Card)`
-// position: relative;
-// width: 90%;
-// height: 80%;
-// margin: 3rem auto;
-// display: flex;
-// flex-direction: column-reverse;
-// `
 const StyledContentWrapper = styled(CardMedia)`
 display: flex;
 flex-direction: column;
@@ -149,20 +140,20 @@ const EstateItemDetails = (props) => {
                     <StyledCardActions>
                         { (!isLoggedIn || (isLoggedIn && userData.id !== owner))
                             ? ( <>
-                                    <Button primary="yes">
+                                    <Button primary="yes" small="true" cap="true">
                                         <a href={`mailto:${email}`}>Email</a>
                                     </Button>
                                     { phone &&
-                                        <Button primary="yes">
+                                        <Button primary="yes" small="true" cap="true">
                                             <a href={`tel:${phone}`}>Tel</a>
                                         </Button>
                                     }
                                 </> )
                             : ( <>
-                                    <Button onClick={toggleModal}
-                                    >EDIT</Button>
-                                    <Button primary="yest" onClick={removeEstateItem}
-                                    >DELETE</Button>
+                                    <Button onClick={toggleModal} small="true" cap="true"
+                                    >edit</Button>
+                                    <Button onClick={removeEstateItem} primary="yes"small="true" cap="true"
+                                    >delete</Button>
                                 </> )
                         }
                     </StyledCardActions>

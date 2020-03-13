@@ -14,7 +14,14 @@ background-color: ${props => props.primary ? props.theme.colors.orange : props.t
 color: ${({theme}) => theme.colors.white};
 text-transform: ${({upc}) => upc ? 'uppercase' : 'none'};
 text-decoration: none;
+transition: .1s ease-in-out;
+cursor: pointer;
 border: none;
+font-size: ${props => props.small ? '1rem' : '1.6rem'};
+
+:hover {
+    box-shadow: inset 0px 1px 9px #7d7d7d94;
+}
 `
 
 const Btn = (props) => {

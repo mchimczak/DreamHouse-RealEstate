@@ -20,6 +20,7 @@ import UserProfilePage from './users/pages/UserProfilePage';
 import LoginPage from './auth/pages/LoginPage';
 import InfoStatus from './shared/components/InfoStatus/InfoStatus';
 import Footer from './shared/components/Footer/Footer';
+import ScrollTop from './routes/ScrollTop';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <UserContextProvider>
       <EstatesContextProvider>
         <BrowserRouter>
+        <ScrollTop>
           <MainNavigation />
           <Main>
             <InfoStatus />
@@ -75,6 +77,7 @@ function App() {
             </Switch>
           </Main>
           <Footer />
+          </ScrollTop>
         </BrowserRouter>
       </EstatesContextProvider>
       </UserContextProvider>

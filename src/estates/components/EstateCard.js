@@ -2,19 +2,19 @@ import React, {useContext, useCallback} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import House from '../../img/house.jpg'
-
 import { UserContext } from '../../auth/context/UserContext';
 import  { EstatesContext } from '../../estates/context/EstatesContext';
+
+import House from '../../img/house.jpg'
+import MyCard from '../../shared/components/Card/Card';
+import Btn from '../../shared/components/Button/Button';
+
 
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
-import { IconButton } from '@material-ui/core';
 
-import MyCard from '../../shared/components/Card/Card';
-import Btn from '../../shared/components/Button/Button';
 
 const StyledMediaWrapper = styled.div`
 display: grid;
@@ -132,7 +132,7 @@ const EstateCard = (props) => {
                 </CardContentInfoWrapper>
             </CardContent>
             <CardActionsWrapper>
-                <Btn primary="true" small="true" as={Link} to={`/estates/${props.id}`}>
+                <Btn primary="true" upc="true" small="true" as={Link} to={`/estates/${props.id}`}>
                     View details
                 </Btn>
                 <CardActionsBlock>
@@ -142,8 +142,8 @@ const EstateCard = (props) => {
                                 <Btn small="true" aria-label="add to fav" onClick={likeEstate}>
                                     <Number>{likesNumber}</Number><FavoriteIcon />
                                 </Btn>
-                                <Btn small="true">E-MAIL</Btn>
-                                <Btn small="true">TEL</Btn>
+                                <Btn small="true" upc="true">e-mail</Btn>
+                                <Btn small="true" upc="true">tel</Btn>
                             </>
                     }
                 </CardActionsBlock>

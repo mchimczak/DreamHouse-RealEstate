@@ -5,20 +5,23 @@ import { UserContext } from '../context/UserContext';
 import Form from '../../shared/components/Form/Form';
 import loginInitState from '../components/Form/login/loginInitState';
 import loginValidationSchema from '../components/Form/login/loginValidationSchema';
-import Card from '../../shared/components/Card/Card'
+import Card from '../../shared/components/Card/Card';
+import Center from '../../shared/ui/position/Center'
 
 const LoginPage = () => {
     const { login, isLoggedIn, userData } = useContext(UserContext);
 
     return (
-        <Card title={'Login'}>
-            {isLoggedIn && userData.id ? <Redirect to='/' /> : null}
-            <Form
-                submitAction={login}
-                initState={loginInitState}
-                validationSchema={loginValidationSchema} 
-            /> 
-        </Card>
+        <Center>
+            <Card title={'Login'}>
+                {isLoggedIn && userData.id ? <Redirect to='/' /> : null}
+                <Form
+                    submitAction={login}
+                    initState={loginInitState}
+                    validationSchema={loginValidationSchema} 
+                /> 
+            </Card>
+        </Center>
     )
 };
 

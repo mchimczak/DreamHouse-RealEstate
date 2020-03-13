@@ -11,16 +11,24 @@ width: 100vw;
 background-color: ${({theme}) => theme.colors.black};
 color: ${({theme}) => theme.colors.white};
 padding: ${({theme}) => theme.size.large} ${({theme}) => theme.size.medium};
-
-& > p {
-    margin: 0;
-}
+`
+const FooterContentWrapper = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+padding: 0 2rem;
+`
+const FooterContentParagraph = styled.p`
+margin: 0;
 `
 
 const Footer = () => {
     return ( 
         <FooterWrapper>
-            <p>DreamHouse <sup><small>2020</small></sup> </p>
+            <FooterContentWrapper>
+                <FooterContentParagraph>DreamHouse <sup><small>2020</small></sup> </FooterContentParagraph>
+                <FooterContentParagraph>Chimczak</FooterContentParagraph>
+            </FooterContentWrapper>
         </FooterWrapper>
      );
 }
