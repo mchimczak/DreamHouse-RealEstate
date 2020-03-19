@@ -22,7 +22,7 @@ border-right: 2px solid ${({theme}) => theme.colors.orange};
 const StyledLink = styled(Link)`
 color: ${({theme}) => theme.colors.white};
 `
-const SideMenuBtn = styled.button`
+const SideMenuBtn = styled.span`
 z-index: 999;
 
 ${({theme}) => theme.media.desktop} {
@@ -40,7 +40,9 @@ const MainNavigation = () => {
         <>
             <MainHeader>
                 <StyledLink to="/" ><Title>DreamHouse</Title></StyledLink>
-                <SideMenuBtn onClick={toggleSideMenu}>{isOpen ? 'x' : 'Menu'}</SideMenuBtn>
+                <SideMenuBtn onClick={toggleSideMenu} >
+                    {isOpen ? 'Close' : 'Menu'}
+                </SideMenuBtn>
                 <Nav>
                     <NavLinks />
                 </Nav>

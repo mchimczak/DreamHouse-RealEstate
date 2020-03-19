@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import UsersList from '../components/UsersList';
+import Loader from '../../img/loader.gif'
 
 import {UserContext} from '../../auth/context/UserContext';
 
@@ -8,8 +9,13 @@ const Users = () => {
     const {usersList} = useContext(UserContext);
 
     return ( 
-        <>
-            <UsersList users={usersList}/>
+        <> 
+        {
+            usersList 
+            ? <UsersList users={usersList}/>
+            : <img src={Loader} alt="loader"/>
+        }
+            
         </>
      );
 }

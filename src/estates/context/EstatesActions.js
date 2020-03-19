@@ -1,5 +1,10 @@
 // import uuid from 'uuid';
 
+export const setEstates = (estate) => ({
+    type: 'SET_ESTATE',
+    estate
+})
+
 export const addEstate = (estate) => ({
     type: 'ADD_ESTATE',
     estate
@@ -18,6 +23,8 @@ export const removeEstate = ({ id }) => ({
 
 export const reducer = (state, action) => {
     switch (action.type) {
+        case 'SET_ESTATE':
+            return action.estate
         case 'ADD_ESTATE':
             return [...state, action.estate]
         case 'EDIT_ESTATE':

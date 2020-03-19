@@ -14,6 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
+import { useFetch } from '../../shared/customHooks/useFetch';
 
 
 const StyledMediaWrapper = styled.div`
@@ -70,6 +71,7 @@ const EstateCard = (props) => {
     const {isLoggedIn, userData, setStatus} = useContext(UserContext);
     const {estatesLikes, addLike} = useContext(EstatesContext);
     // console.log(estatesLikes);
+
     const currentEstate = estatesLikes.find( estate => {
         return estate.estateId === props.id
     });

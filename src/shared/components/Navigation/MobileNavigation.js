@@ -10,7 +10,7 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 color: ${({theme}) => theme.colors.white};
-background-color: ${({theme}) => theme.colors.darkgrey};
+background-color: ${({theme}) => theme.colors.mobileNav};
 top: 0;
 right: 0;
 width: 200px;

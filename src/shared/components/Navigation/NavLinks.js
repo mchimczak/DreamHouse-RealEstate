@@ -23,6 +23,16 @@ font-weight: ${({theme}) => theme.font.thin};
 const Logout = styled.span`
 cursor: pointer;
 `
+const PrivateLinksWrapper = styled.div`
+display: flex;
+flex-direction: column;
+margin-top: 2rem;
+
+${({theme}) => theme.media.desktop} {
+    flex-direction: row;
+    margin: 0 2rem;
+}
+`
 
 const MainNavigationLinks = () => {
 
@@ -43,7 +53,7 @@ const MainNavigationLinks = () => {
             {
                 id && isLoggedIn
                 ? (
-                    <>
+                    <PrivateLinksWrapper>
                         <li>
                             <StyledNavLink to="/estates/new">Add new estate</StyledNavLink>
                         </li>
@@ -56,7 +66,7 @@ const MainNavigationLinks = () => {
                         <li>
                             <UserAvatar />
                         </li>
-                    </>
+                    </PrivateLinksWrapper>
                 ) 
                 : (
                     <>
@@ -69,7 +79,6 @@ const MainNavigationLinks = () => {
                     </>
                 )
             }
-
         </List>
      );
 }

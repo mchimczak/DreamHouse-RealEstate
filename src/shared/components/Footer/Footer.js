@@ -27,7 +27,6 @@ const Footer = () => {
         <FooterWrapper>
             <FooterContentWrapper>
                 <FooterContentParagraph>DreamHouse <sup><small>2020</small></sup> </FooterContentParagraph>
-                <FooterContentParagraph>Chimczak</FooterContentParagraph>
             </FooterContentWrapper>
         </FooterWrapper>
      );

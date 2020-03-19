@@ -1,13 +1,23 @@
-import React, { useReducer, useMemo, useState} from 'react';
+import React, { useReducer, useMemo, useState, useEffect} from 'react';
 
-import { reducer, addEstate, removeEstate, editEstate } from './EstatesActions';
+import { reducer, setEstates, addEstate, removeEstate, editEstate } from './EstatesActions';
+import { useFetch } from '../../shared/customHooks/useFetch';
 
 export const EstatesContext = React.createContext();
 
 export const EstatesContextProvider = (props) => {
 
-    const [state, dispatch] = useReducer(reducer, EstatesListData);
-    const [estatesLikes, setEstatesLikes]= useState(UserLikes);
+    const [state, dispatch] = useReducer(reducer, []);
+    // const [state, dispatch] = useReducer(reducer, EstatesListData);
+    const [estatesLikes, setEstatesLikes]= useState([]);
+    
+
+    const { estatesData, userLikes } = useFetch('http://localhost:5000');
+    useEffect(() => {
+        dispatch(setEstates(estatesData));
+        setEstatesLikes(userLikes);
+    },[estatesData]);
+
 
     const startAddEstate = (newEstate) => {
         setEstatesLikes(prevState => ([
@@ -48,7 +58,6 @@ export const EstatesContextProvider = (props) => {
     };
 
 
-
     const value = useMemo(() => ({
         estatesData: state,
         addEstate: startAddEstate,
@@ -66,63 +75,63 @@ export const EstatesContextProvider = (props) => {
 
 };
 
-const UserLikes = [
-    {
-        estateId: "1",
-        likes: ["2", "1"]
-    },
-    {
-        estateId: "57362",
-        likes: ["zyx"]
-    },
-    {
-        estateId: '2',
-        likes: []
-    }
-];
+// const UserLikes = [
+//     {
+//         estateId: "1",
+//         likes: ["2", "1"]
+//     },
+//     {
+//         estateId: "57362",
+//         likes: ["zyx"]
+//     },
+//     {
+//         estateId: '2',
+//         likes: []
+//     }
+// ];
 
-export const EstatesListData = [
-    {
-        id: '1',
-        title: 'Londyn mansion',
-        description: 'Big house nearby the river',
-        city: 'London',
-        address: 'St Patrick 34.12',
-        area: '235',
-        price: '234999',
-        rooms: '3',
-        year: '2005',
-        file: [],
-        createdAt: '2000-11-21',
-        owner: 'u1'
-    },
-    {
-        id: '57362',
-        title: 'PEKIN',
-        description: 'SYRENKA HEHE',
-        city: 'Warszawa',
-        address: 'Zielona 6/3',
-        area: '235',
-        price: '50076',
-        rooms: '6',
-        year: '2009',
-        file: [],
-        createdAt: '2000-11-21',
-        owner: 'u1'
-    },
-    {
-        id: '2',
-        title: 'New york mansion',
-        description: 'shithole but cool',
-        city: 'New york',
-        address: 'hollywood 3',
-        area: '125',
-        price: '23999',
-        rooms: '1',
-        year: '2015',
-        file: [],
-        createdAt: '2000-11-21',
-        owner: 'u2'
-    }
-];
+// export const EstatesListData = [
+//     {
+//         id: '1',
+//         title: 'Londyn mansion',
+//         description: 'Big house nearby the river',
+//         city: 'London',
+//         address: 'St Patrick 34.12',
+//         area: '235',
+//         price: '234999',
+//         rooms: '3',
+//         year: '2005',
+//         file: [],
+//         createdAt: '2000-11-21',
+//         owner: 'u1'
+//     },
+//     {
+//         id: '57362',
+//         title: 'PEKIN',
+//         description: 'SYRENKA HEHE',
+//         city: 'Warszawa',
+//         address: 'Zielona 6/3',
+//         area: '235',
+//         price: '50076',
+//         rooms: '6',
+//         year: '2009',
+//         file: [],
+//         createdAt: '2000-11-21',
+//         owner: 'u1'
+//     },
+//     {
+//         id: '2',
+//         title: 'New york mansion',
+//         description: 'shithole but cool',
+//         city: 'New york',
+//         address: 'hollywood 3',
+//         area: '125',
+//         price: '23999',
+//         rooms: '1',
+//         year: '2015',
+//         file: [],
+//         createdAt: '2000-11-21',
+//         owner: 'u2'
+//     }
+// ];
 

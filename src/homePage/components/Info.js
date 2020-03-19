@@ -12,7 +12,7 @@ display: grid;
 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 text-align: center;
 justify-content: center;
-align-items: center;
+align-items: baseline;
 gap: 2rem;
 margin-bottom: ${({theme}) => theme.size.large};
 `

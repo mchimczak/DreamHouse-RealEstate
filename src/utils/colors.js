@@ -5,7 +5,8 @@ export const colors = {
     white: '#f9f9f9',
     grey: '#bbb',
     lightgrey: '#e8e8e8',
+    mobileNav: '#9e9993',
     darkgrey: '#aaa',
     orange: '#ff9925',
     paleOrange: '#d6964d'
-}
+};

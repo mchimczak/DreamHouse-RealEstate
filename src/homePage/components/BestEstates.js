@@ -1,9 +1,10 @@
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import styled from 'styled-components';
 import {EstatesContext} from '../../estates/context/EstatesContext';
 
 import Section from '../../shared/components/Section/Section'
 import EstateCard from '../../estates/components/EstateCard';
+import Loader from '../../img/loader.gif';
 
 const EstatesWrapper = styled.div`
 display: flex;
@@ -38,16 +39,23 @@ ${({theme}) => theme.media.tablet} {
 const BestEstatesHeader = styled.h4`
 text-transform: uppercase;
 `
+const StyledImg = styled.img`
+display: flex;
+margin: 4rem auto;
+`
 
 const BestEstates = () => {
     const {estatesData, estatesLikes} = useContext(EstatesContext);
-    let bestThreeEstates = []
+    let bestThreeEstates = [];
+    let mostLikedEstates;
 
-    const mostLikedEstates = estatesLikes.sort( (a, b) => {
-        return b.likes.length - a.likes.length
-    }).slice(0, 3);
+    if(estatesLikes) {
+        mostLikedEstates = estatesLikes.sort( (a, b) => {
+            return b.likes.length - a.likes.length
+        }).slice(0, 3);
+    }
 
-    estatesData.map( estate => {
+    estatesData && estatesData.map( estate => {
         return mostLikedEstates.forEach( (obj, index) => {
             if(estate.id === obj.estateId) {
                 return bestThreeEstates.splice(index, 0, estate)
@@ -60,10 +68,13 @@ const BestEstates = () => {
     return ( 
         <Section>
             <BestEstatesHeader>Top 3 Real Estate</BestEstatesHeader>
-            <EstatesWrapper>
-                { bestThreeEstates.map ( estate => <EstateCard key={estate.id} {...estate} />)
-                }
-            </EstatesWrapper>
+            { bestThreeEstates.length > 1
+                ? (<EstatesWrapper>
+                    { bestThreeEstates.map ( estate => <EstateCard key={estate.id} {...estate} />)
+                    }
+                </EstatesWrapper> )
+                : <StyledImg src={Loader} alt="loading..." />
+            }
         </Section>
      );
 }

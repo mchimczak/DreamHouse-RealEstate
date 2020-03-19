@@ -9,7 +9,7 @@ import Form from '../../shared/components/Form/Form';
 import userValidationSchema from '../components/Form/userValidationSchema';
 import initUserState from '../components/Form/initUserState';
 import Card from '../../shared/components/Card/Card'
-
+import Center from '../../shared/ui/position/Center'
 
 const SignUpPage = () => {
 
@@ -19,15 +19,17 @@ const SignUpPage = () => {
         await register(user);
     }
 
-    return ( 
-        <Card title='Sign Up'>
-            {isLoggedIn && userData && <Redirect to={`/profile/${userData.id}`} />}
-            <Form 
-                submitAction={createNewUser}
-                initState={initUserState}
-                validationSchema={userValidationSchema}
-            />
-        </Card>
+    return (
+        <Center>
+            <Card title='Sign Up'>
+                {isLoggedIn && userData && <Redirect to={`/profile/${userData.id}`} />}
+                <Form 
+                    submitAction={createNewUser}
+                    initState={initUserState}
+                    validationSchema={userValidationSchema}
+                />
+            </Card>
+        </Center> 
      );
 }
  
