@@ -1,4 +1,5 @@
 import React, {useContext, useCallback} from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -70,7 +71,6 @@ margin-right: 1rem;
 const EstateCard = (props) => {
     const {isLoggedIn, userData, setStatus} = useContext(UserContext);
     const {estatesLikes, addLike} = useContext(EstatesContext);
-    // console.log(estatesLikes);
 
     const currentEstate = estatesLikes.find( estate => {
         return estate.estateId === props.id
@@ -154,4 +154,12 @@ const EstateCard = (props) => {
      );
 }
  
-export default React.memo(EstateCard);
+export default EstateCard;
+
+EstateCard.propTypes = {
+    estatesLikes: PropTypes.array
+}
+
+EstateCard.defaultProps = {
+    estatesLikes: []
+}

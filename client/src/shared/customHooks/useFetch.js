@@ -15,10 +15,11 @@ export const useFetch = url => {
         axios.get(url)
             .then( result => {
                 if(isCurrent.current) {
-                    const {data} = result
+                    const {data} = result;
+                    console.log(data);
                     setState({ data, loading: false })
                 }
-            }).then(console.log(state));
+            });
     }, [url, setState]);
 
     return state.data

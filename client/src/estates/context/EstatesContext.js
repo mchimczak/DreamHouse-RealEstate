@@ -58,14 +58,15 @@ export const EstatesContextProvider = (props) => {
     };
 
 
-    const value = useMemo(() => ({
+    const value = {
         estatesData: state,
         addEstate: startAddEstate,
         removeEstate: startRemoveEstate,
         editEstate: startEditEstate,
-        addLike: addLike,
-        estatesLikes: estatesLikes
-    }), [state, estatesLikes]);
+        addLike,
+        estatesLikes,
+        setEstatesLikes
+    };
 
     return (
         <EstatesContext.Provider value={value} >
