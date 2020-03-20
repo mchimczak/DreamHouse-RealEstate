@@ -1,4 +1,4 @@
-import React, { useReducer, useMemo, useState, useEffect} from 'react';
+import React, { useReducer, useState, useEffect} from 'react';
 
 import { reducer, setEstates, addEstate, removeEstate, editEstate } from './EstatesActions';
 import { useFetch } from '../../shared/customHooks/useFetch';
@@ -13,10 +13,11 @@ export const EstatesContextProvider = (props) => {
     
 
     const { estatesData, userLikes } = useFetch('http://localhost:5000');
+    
     useEffect(() => {
         dispatch(setEstates(estatesData));
         setEstatesLikes(userLikes);
-    },[estatesData]);
+    },[estatesData, userLikes]);
 
 
     const startAddEstate = (newEstate) => {

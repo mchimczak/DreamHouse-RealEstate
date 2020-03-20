@@ -1,24 +1,56 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 
-import { EstatesContext } from '../context/EstatesContext';
+// import { EstatesContext } from '../context/EstatesContext';
+import { UserContext } from '../../auth/context/UserContext';
 import EstateItemDetails from '../components/EstateItemDetails';
+import { useFetch } from '../../shared/customHooks/useFetch';
+import Loader from '../../shared/components/Loader/Loader';
 
 const EstateDashboard = () => {
     
     const estateId = useParams().estateId;
-    const {estatesData} = useContext(EstatesContext);
-    const currentEstate = estatesData.find( estate => estate.id === estateId);
+    // const {estatesData} = useContext(EstatesContext);
+    const {setStatus} = useContext(UserContext);
+    const [currentEstate, setCurrentEstate] = useState(null);
+    const [isRedirect, setIsRedirect] = useState(false);
+    const init = useRef(false);
+    const initRedirect = useRef(false);
+    // const currentEstate = estatesData.find( estate => estate.id === estateId);
 
-    if(!currentEstate) {
-        return <Redirect to="/estates" />
-    }
+    const fetchedEstate = useFetch(`http://localhost:5000/estates/${estateId}`);
 
-    const { id } = currentEstate;
+    useEffect(() => {
+        if(init.current === true) {
+            init.current = false;
+            setCurrentEstate(fetchedEstate);
+        } else {
+            init.current = true
+        }
+    },[fetchedEstate])
+
+    useEffect(() => {
+        if(initRedirect.current && !currentEstate) {
+            initRedirect.current = false;
+            setStatus('Sorry there is no estate with that ID');
+            setIsRedirect(true);
+        } else {
+            initRedirect.current = true;
+        }
+
+        return () => {
+            setIsRedirect(false)
+        }
+    },[currentEstate])
+
 
     return ( 
         <>
-            <EstateItemDetails key={id} {...currentEstate} />
+            {
+                currentEstate 
+                ? <EstateItemDetails key={currentEstate.id} {...currentEstate} />
+                : (isRedirect ? <Redirect to="/" /> : <Loader />)
+            }
         </>
      );
 };

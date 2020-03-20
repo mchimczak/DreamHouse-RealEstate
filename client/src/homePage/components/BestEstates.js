@@ -1,4 +1,4 @@
-import React, {useContext, useMemo} from 'react';
+import React, {useContext} from 'react';
 import styled from 'styled-components';
 import {EstatesContext} from '../../estates/context/EstatesContext';
 

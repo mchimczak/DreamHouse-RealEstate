@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import EstateCard from './EstateCard';
-import Loader from '../../shared/components/Loader/Loader'
 
 const EstateItemsWrapper = styled.div`
 position: relative;

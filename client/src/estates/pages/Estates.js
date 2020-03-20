@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 
 import EstatesList from '../components/EstatesList';
 import {EstatesContext} from '../context/EstatesContext';
+import Loader from '../../shared/components/Loader/Loader';
 
 const Estates = () => {
     const {estatesData} = useContext(EstatesContext);
@@ -9,11 +10,12 @@ const Estates = () => {
     return ( 
         <>
             <h3>Estates</h3>
-            { estatesData.length === 0 ? (
-                <p>There are no estates</p>
-                ) : (
-                <EstatesList items={estatesData} />
-                ) 
+            { estatesData 
+                ? ( estatesData.length === 0 
+                    ? <p>There are no estates</p>
+                    : <EstatesList items={estatesData} />
+                    ) 
+                : <Loader />
             }
         </>
      );

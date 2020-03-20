@@ -26,7 +26,7 @@ const UserDashboard = () => {
         } else {
             init.current = true
         }
-    }, [userLikes]);
+    }, [userLikes, userEstates]);
 
 
     return ( 

@@ -15,7 +15,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
-import { useFetch } from '../../shared/customHooks/useFetch';
 
 
 const StyledMediaWrapper = styled.div`
