@@ -12,15 +12,18 @@ column-gap: 2rem;
 justify-content: center;
 `
 
-const EstatesList = (props) => {
+const EstatesList = ({items}) => {
     return (
         <EstateItemsWrapper>
-            {props.items.map( item =>
-                <EstateCard 
-                key={item.id} 
-                    {...item}
-                />
-            )}
+            {items 
+                ?   (items.map( item =>
+                    <EstateCard 
+                    key={item.id} 
+                        {...item}
+                    />
+                    ))
+                : <p>This user has not published any offer yet.</p>
+            }
         </EstateItemsWrapper>
      );
 }

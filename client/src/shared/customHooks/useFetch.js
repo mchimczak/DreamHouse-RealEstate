@@ -19,6 +19,15 @@ export const useFetch = url => {
                     console.log(data);
                     setState({ data, loading: false })
                 }
+            }).catch( err => {
+                console.log(err);
+                setState({ 
+                    data: {
+                        errorStatus: err.response.status,
+                        errorMsg: err.response.data.message
+                    },
+                    loading: false
+                    })
             });
     }, [url, setState]);
 

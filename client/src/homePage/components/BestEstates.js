@@ -1,10 +1,13 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import styled from 'styled-components';
+
 import {EstatesContext} from '../../estates/context/EstatesContext';
+import { useFetch } from '../../shared/customHooks/useFetch';
 
 import Section from '../../shared/components/Section/Section'
 import EstateCard from '../../estates/components/EstateCard';
 import Loader from '../../img/loader.gif';
+import { useEffect } from 'react';
 
 const EstatesWrapper = styled.div`
 display: flex;
@@ -45,34 +48,23 @@ margin: 4rem auto;
 `
 
 const BestEstates = () => {
-    const {estatesData, estatesLikes} = useContext(EstatesContext);
-    let bestThreeEstates = [];
-    let mostLikedEstates;
+    const {setEstatesLikes} = useContext(EstatesContext);
+    const [bestEstate, setBestEstate] = useState([])
 
-    if(estatesLikes) {
-        mostLikedEstates = estatesLikes.sort( (a, b) => {
-            return b.likes.length - a.likes.length
-        }).slice(0, 3);
-    }
+    const {bestThreeEstate, mostLikedEstates} = useFetch('http://localhost:5000/');
 
-    estatesData && estatesData.map( estate => {
-        return mostLikedEstates.forEach( (obj, index) => {
-            if(estate.id === obj.estateId) {
-                return bestThreeEstates.splice(index, 0, estate)
-            }
-        })
-    });
-
-    console.log(bestThreeEstates);
+    useEffect(() => {
+        setBestEstate(bestThreeEstate);
+        setEstatesLikes(mostLikedEstates);
+    },[mostLikedEstates, bestThreeEstate]);
 
     return ( 
         <Section>
-            <BestEstatesHeader>Top 3 Real Estate</BestEstatesHeader>
-            { bestThreeEstates.length > 1
-                ? (<EstatesWrapper>
-                    { bestThreeEstates.map ( estate => <EstateCard key={estate.id} {...estate} />)
-                    }
-                </EstatesWrapper> )
+            <BestEstatesHeader>Top 3 most liked Real Estate offers</BestEstatesHeader>
+            { bestEstate && mostLikedEstates
+                ? ( <EstatesWrapper>
+                        { bestEstate.map ( estate => <EstateCard key={estate.id} {...estate} />) }
+                    </EstatesWrapper> )
                 : <StyledImg src={Loader} alt="loading..." />
             }
         </Section>

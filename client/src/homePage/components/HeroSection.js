@@ -68,7 +68,7 @@ const HeroSection = () => (
                     Welcome to DreamHouse
                 </ContentHeader>
                 <ContentBody>The biggest real estate agency in Poland.</ContentBody>
-                <ContentBody>- Buying and selling your property has never been easier before -</ContentBody>
+                <ContentBody>- Buying and selling an estate has never been easier before -</ContentBody>
             </ContentWrapper>
             <Rect/>
         </HeroWrapper>

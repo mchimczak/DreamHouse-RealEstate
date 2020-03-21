@@ -31,7 +31,7 @@ const InfoStatus = () => {
                 setShowState(false);
                 setStatus(false);
                 init.current = false;
-            }, 3000);
+            }, 8000);
         } else {
             init.current = true;
             setShowState(true)

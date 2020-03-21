@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import uuid from 'uuid';
 import moment from 'moment';
-
-import { useFetch } from '../../shared/customHooks/useFetch';
 
 export const UserContext = React.createContext();
 
@@ -11,13 +9,6 @@ export const UserContextProvider = (props) => {
     const [status, setStatus] = useState(false);
     const [userData, setUserData] = useState({});
     const [usersList, setUsersList] = useState([]);
-
-    const { userList } = useFetch('http://localhost:5000/users');
-    useEffect(() => {
-        setUsersList(userList);
-    },[userList]);
-
-
 
     const register = async (user) => {
         const timeStamp = new Date();
@@ -75,6 +66,7 @@ export const UserContextProvider = (props) => {
 
 
     const value = {
+        setUsersList,
         isLoggedIn,
         userData,
         usersList,

@@ -1,7 +1,6 @@
-import React, { useReducer, useState, useEffect} from 'react';
+import React, { useReducer, useState} from 'react';
 
-import { reducer, setEstates, addEstate, removeEstate, editEstate } from './EstatesActions';
-import { useFetch } from '../../shared/customHooks/useFetch';
+import { reducer, addEstate, removeEstate, editEstate } from './EstatesActions';
 
 export const EstatesContext = React.createContext();
 
@@ -11,14 +10,6 @@ export const EstatesContextProvider = (props) => {
     // const [state, dispatch] = useReducer(reducer, EstatesListData);
     const [estatesLikes, setEstatesLikes]= useState([]);
     
-
-    const { estatesData, userLikes } = useFetch('http://localhost:5000');
-    
-    useEffect(() => {
-        dispatch(setEstates(estatesData));
-        setEstatesLikes(userLikes);
-    },[estatesData, userLikes]);
-
 
     const startAddEstate = (newEstate) => {
         setEstatesLikes(prevState => ([

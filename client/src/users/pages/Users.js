@@ -1,23 +1,27 @@
-import React, {useContext} from 'react';
-import UsersList from '../components/UsersList';
-import Loader from '../../img/loader.gif'
+import React, {useContext, useEffect} from 'react';
 
 import {UserContext} from '../../auth/context/UserContext';
+import { useFetch } from '../../shared/customHooks/useFetch';
+
+import UsersList from '../components/UsersList';
+import Center from '../../shared/ui/position/Center';
+import Loader from '../../shared/components/Loader/Loader';
 
 const Users = () => {
+    const {setUsersList} = useContext(UserContext);
+    const {userList} = useFetch('http://localhost:5000/users');
 
-    const {usersList} = useContext(UserContext);
+    useEffect(() => {
+        setUsersList(userList);
+    },[userList]);
 
     return ( 
-        <> 
-        {
-            usersList 
-            ? <UsersList users={usersList}/>
-            : <img src={Loader} alt="loader"/>
-        }
-            
-        </>
+        <> {
+            userList 
+            ? <UsersList users={userList}/>
+            : <Center> <Loader/> </Center> 
+        } </>
      );
-}
+};
  
 export default Users;
