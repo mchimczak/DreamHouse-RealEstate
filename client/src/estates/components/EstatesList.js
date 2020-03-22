@@ -15,7 +15,7 @@ justify-content: center;
 const EstatesList = ({items}) => {
     return (
         <EstateItemsWrapper>
-            {items 
+            {items.length !== 0 
                 ?   (items.map( item =>
                     <EstateCard 
                     key={item.id} 

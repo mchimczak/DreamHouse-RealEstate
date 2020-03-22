@@ -1,7 +1,10 @@
 import React, {useContext} from 'react';
-import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import styled from 'styled-components';
+
 import {UserContext} from '../../auth/context/UserContext';
+
 import UserDashboard from './UserDashboard';
 import UserDetails from '../components/UserDetails';
 
@@ -12,17 +15,18 @@ gap: 2rem;
 `
 
 const UserProfilePage = () => {
-    const {usersList, updateUser} = useContext(UserContext);
-    const userId = useParams().userId;
-    
-    const user = usersList.find(user => user.id === userId);
+    const {userData, updateUser} = useContext(UserContext);
 
     return ( 
         <UserProfileWrapper>
             <UserDashboard />
-            <UserDetails user={user} updateUser={updateUser} />
+            <UserDetails user={userData} updateUser={updateUser} />
         </UserProfileWrapper>
      );
 }
  
 export default UserProfilePage;
+
+UserDashboard.propTypes = {
+    userData: PropTypes.object
+}

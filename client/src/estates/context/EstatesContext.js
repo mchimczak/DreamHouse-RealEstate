@@ -52,6 +52,7 @@ export const EstatesContextProvider = (props) => {
 
     const value = {
         estatesData: state,
+        dispatch,
         addEstate: startAddEstate,
         removeEstate: startRemoveEstate,
         editEstate: startEditEstate,

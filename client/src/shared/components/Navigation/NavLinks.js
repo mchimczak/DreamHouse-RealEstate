@@ -58,7 +58,7 @@ const MainNavigationLinks = () => {
                             <StyledNavLink to="/estates/new">Add new estate</StyledNavLink>
                         </li>
                         <li>
-                            <StyledNavLink to={`/profile/${id}`}>My Profile</StyledNavLink>
+                            <StyledNavLink to={`/users/me/${id}`}>My Profile</StyledNavLink>
                         </li>
                         <li>
                             <Logout onClick={() => logout(id)}>Logout</Logout>

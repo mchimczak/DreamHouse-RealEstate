@@ -38,11 +38,15 @@ const UserCard = ({ id, name, createdAt }) => {
                 Currently selling {estates} {estates === 1 ? 'Estate' : 'Estates'}
             </Typography>
             </CardContent>
-            <CardActionsWrapper>
-                <Button primary="true" small="true" as={Link} to={`/users/${id}`}>
-                    View Users estates
-                </Button>
-            </CardActionsWrapper>
+            {
+                estates > 0 
+                ?  <CardActionsWrapper>
+                        <Button primary="true" small="true" as={Link} to={`/users/${id}`}>
+                            View Users estates
+                        </Button>
+                    </CardActionsWrapper>
+                : null
+            }
         </Card>
     )
 };

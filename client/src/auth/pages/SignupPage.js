@@ -22,7 +22,7 @@ const SignUpPage = () => {
     return (
         <Center>
             <Card title='Sign Up'>
-                {isLoggedIn && userData && <Redirect to={`/profile/${userData.id}`} />}
+                {isLoggedIn && userData && <Redirect to={`/users/me/${userData.id}`} />}
                 <Form 
                     submitAction={createNewUser}
                     initState={initUserState}

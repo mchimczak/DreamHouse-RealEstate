@@ -1,8 +1,9 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
-
 import {UserContext} from '../../auth/context/UserContext';
+import {EstatesContext} from '../../estates/context/EstatesContext';
+import { setEstates } from '../../estates/context/EstatesActions';
 import { useFetch } from '../../shared/customHooks/useFetch';
 
 import UsersList from '../components/UsersList';
@@ -11,15 +12,23 @@ import Loader from '../../shared/components/Loader/Loader';
 
 const Users = () => {
     const {setUsersList} = useContext(UserContext);
-    const {userList} = useFetch('http://localhost:5000/users');
+    const {estatesData: estates, dispatch} = useContext(EstatesContext);
+    const init = useRef(false);
+    const {userList, estatesData} = useFetch('http://localhost:5000/users');
 
     useEffect(() => {
-        setUsersList(userList);
-    },[userList]);
+        if(init.current) {
+            init.current = false;
+            dispatch(setEstates(estatesData));
+            setUsersList(userList);
+        } else {
+            init.current = true;
+        }
+    }, [userList, estatesData])
 
     return ( 
         <> {
-            userList 
+            userList && estates
             ? <UsersList users={userList}/>
             : <Center> <Loader/> </Center> 
         } </>

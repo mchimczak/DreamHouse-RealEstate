@@ -46,6 +46,11 @@ function App() {
                 <UserDashboard />
               </Route>
 
+              <PrivateRoute
+                path="/users/me/:userId"
+                component={UserProfilePage} 
+              />
+              
               <Route path="/estates" exact>
                 <Estates />
               </Route>
@@ -67,10 +72,6 @@ function App() {
                 <LoginPage />
               </Route>
 
-              <PrivateRoute
-                path="/profile/:userId"
-                component={UserProfilePage} 
-              />
 
               <Redirect to="/"/>
 

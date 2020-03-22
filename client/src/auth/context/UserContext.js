@@ -18,13 +18,21 @@ export const UserContextProvider = (props) => {
             createdAt: moment(timeStamp).format('YYYY-MM-DD'),
             ...user
         }
-        await setUserData(newUser);
-        await setUsersList(prevList => ([
-            newUser,
-            ...prevList
-        ]));
-        setIsLoggedIn(true);
-        setStatus(`Thank you for joining in ${user.name}`);
+        console.log(newUser)
+
+        axios.post('http://localhost:5000/signup', {
+            ...newUser
+        }).then( res => {
+            console.log(res)
+            setUserData(newUser);
+            setIsLoggedIn(true);
+            setStatus(`Thank you for joining in ${newUser.name}`);
+        }).catch( err => setStatus(err.response.data.message));
+
+        // await setUsersList(prevList => ([
+        //     newUser,
+        //     ...prevList
+        // ]));
     };
 
     const login = async (val) => {
