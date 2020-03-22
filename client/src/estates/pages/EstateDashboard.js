@@ -1,5 +1,7 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import { useParams, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 
 // import { EstatesContext } from '../context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
@@ -56,3 +58,7 @@ const EstateDashboard = () => {
 };
  
 export default EstateDashboard;
+
+EstateDashboard.propTypes = {
+    fetchedEstate: PropTypes.object
+}

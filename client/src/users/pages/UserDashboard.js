@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
+import PropTypes from 'prop-types';
 import { useParams, Redirect } from 'react-router-dom';
 import { useFetch } from '../../shared/customHooks/useFetch';
 
@@ -52,3 +53,10 @@ const UserDashboard = () => {
 }
  
 export default UserDashboard;
+
+UserDashboard.propTypes = {
+    userEstates: PropTypes.array,
+    userLikes: PropTypes.array,
+    errorStatus: PropTypes.string,
+    errorMsg: PropTypes.string,
+}

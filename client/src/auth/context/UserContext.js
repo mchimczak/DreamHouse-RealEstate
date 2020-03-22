@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import uuid from 'uuid';
 import moment from 'moment';
+import axios from 'axios';
 
 export const UserContext = React.createContext();
 
@@ -27,16 +28,16 @@ export const UserContextProvider = (props) => {
     };
 
     const login = async (val) => {
-        const user = usersList.find( el => {
-            return el.email === val.email && el.password === val.password
-        });
-        if(user) {
-            await setUserData(user);
+        await axios.post('http://localhost:5000/login', {
+            email: val.email,
+            password: val.password
+        }).then( res => {
+            const { user } = res.data;
+            setUserData(user);
             setIsLoggedIn(true);
             setStatus(`Welcome back ${user.name}`)
-        } else {
-            setStatus('Cannot log in, please check your email and password');
-        }
+        })
+        .catch(err => setStatus(err.response.data.message));
     };
 
     const logout = async (id) => {

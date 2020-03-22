@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import {EstatesContext} from '../../estates/context/EstatesContext';
@@ -72,3 +73,8 @@ const BestEstates = () => {
 }
  
 export default BestEstates;
+
+BestEstates.propTypes = {
+    bestThreeEstate: PropTypes.array,
+    mostLikedEstates: PropTypes.array,
+}

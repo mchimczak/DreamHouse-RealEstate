@@ -1,4 +1,5 @@
 import React, {useContext, useReducer, useEffect, useRef} from 'react';
+import PropTypes from 'prop-types';
 
 import {EstatesContext} from '../context/EstatesContext';
 import { reducer, setEstates } from '../../estates/context/EstatesActions';
@@ -39,3 +40,8 @@ const Estates = () => {
 }
  
 export default Estates;
+
+Estates.propTypes = {
+    estatesData: PropTypes.array,
+    userLikes: PropTypes.array,
+}

@@ -156,7 +156,12 @@ const EstateCard = (props) => {
 export default EstateCard;
 
 EstateCard.propTypes = {
-    estatesLikes: PropTypes.array
+    estatesLikes: PropTypes.array,
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    owner: PropTypes.string.isRequired,
 }
 
 EstateCard.defaultProps = {

@@ -1,4 +1,6 @@
 import React, {useContext, useEffect} from 'react';
+import PropTypes from 'prop-types';
+
 
 import {UserContext} from '../../auth/context/UserContext';
 import { useFetch } from '../../shared/customHooks/useFetch';
@@ -25,3 +27,7 @@ const Users = () => {
 };
  
 export default Users;
+
+Users.propTypes = {
+    userList: PropTypes.array,
+}
