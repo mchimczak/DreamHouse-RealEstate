@@ -13,7 +13,7 @@ import Center from '../../shared/ui/position/Center';
 
 
 const UserDashboard = () => {
-    const {setEstatesLikes} = useContext(EstatesContext);
+    const {estatesLikes: [estatesLikes, setEstatesLikes]} = useContext(EstatesContext);
     const {setStatus} = useContext(UserContext);
 
     const init = useRef(false);

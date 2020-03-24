@@ -11,7 +11,7 @@ import Center from '../../shared/ui/position/Center';
 
 const Estates = () => {
     const init = useRef(false);
-    const {estatesData: estates, dispatch, estatesLikes, setEstatesLikes} = useContext(EstatesContext);
+    const {estatesData: [estates, dispatch], estatesLikes: [estatesLikes, setEstatesLikes]} = useContext(EstatesContext);
     const { estatesData, userLikes } = useFetch('http://localhost:5000/estates');
 
 
@@ -28,7 +28,7 @@ const Estates = () => {
     return ( 
         <>
             <h3>Estates</h3>
-            { estates && userLikes
+            { estates && estatesLikes
                 ? ( estates.length === 0 
                     ? <p>There are no estates</p>
                     : <EstatesList items={estates} />

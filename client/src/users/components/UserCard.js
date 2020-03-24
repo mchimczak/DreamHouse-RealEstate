@@ -19,7 +19,7 @@ padding: 1rem;
 `
 
 const UserCard = ({ id, name, createdAt }) => {
-    const {estatesData} = useContext(EstatesContext);
+    const {estatesData: [estatesData]} = useContext(EstatesContext);
     const initials = [...name[0]];
 
     let estates = 0;

@@ -12,7 +12,7 @@ import Loader from '../../shared/components/Loader/Loader';
 
 const Users = () => {
     const {setUsersList} = useContext(UserContext);
-    const {estatesData: estates, dispatch} = useContext(EstatesContext);
+    const {estatesData: [estates, dispatch]} = useContext(EstatesContext);
     const init = useRef(false);
     const {userList, estatesData} = useFetch('http://localhost:5000/users');
 
@@ -39,4 +39,5 @@ export default Users;
 
 Users.propTypes = {
     userList: PropTypes.array,
+    estatesData: PropTypes.array
 }

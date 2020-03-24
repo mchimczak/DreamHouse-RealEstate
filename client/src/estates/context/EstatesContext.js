@@ -51,15 +51,12 @@ export const EstatesContextProvider = (props) => {
 
 
     const value = {
-        estatesData: state,
-        dispatch,
+        estatesData: [state, dispatch],
         addEstate: startAddEstate,
         removeEstate: startRemoveEstate,
         editEstate: startEditEstate,
         addLike,
-        estatesLikes,
-        setEstatesLikes,
-        // estatesLikes: [estatesLikes, setEstatesLikes]
+        estatesLikes: [estatesLikes, setEstatesLikes]
     };
 
     return (
@@ -69,64 +66,4 @@ export const EstatesContextProvider = (props) => {
     )
 
 };
-
-// const UserLikes = [
-//     {
-//         estateId: "1",
-//         likes: ["2", "1"]
-//     },
-//     {
-//         estateId: "57362",
-//         likes: ["zyx"]
-//     },
-//     {
-//         estateId: '2',
-//         likes: []
-//     }
-// ];
-
-// export const EstatesListData = [
-//     {
-//         id: '1',
-//         title: 'Londyn mansion',
-//         description: 'Big house nearby the river',
-//         city: 'London',
-//         address: 'St Patrick 34.12',
-//         area: '235',
-//         price: '234999',
-//         rooms: '3',
-//         year: '2005',
-//         file: [],
-//         createdAt: '2000-11-21',
-//         owner: 'u1'
-//     },
-//     {
-//         id: '57362',
-//         title: 'PEKIN',
-//         description: 'SYRENKA HEHE',
-//         city: 'Warszawa',
-//         address: 'Zielona 6/3',
-//         area: '235',
-//         price: '50076',
-//         rooms: '6',
-//         year: '2009',
-//         file: [],
-//         createdAt: '2000-11-21',
-//         owner: 'u1'
-//     },
-//     {
-//         id: '2',
-//         title: 'New york mansion',
-//         description: 'shithole but cool',
-//         city: 'New york',
-//         address: 'hollywood 3',
-//         area: '125',
-//         price: '23999',
-//         rooms: '1',
-//         year: '2015',
-//         file: [],
-//         createdAt: '2000-11-21',
-//         owner: 'u2'
-//     }
-// ];
 

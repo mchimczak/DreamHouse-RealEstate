@@ -69,7 +69,7 @@ margin-right: 1rem;
 
 const EstateCard = (props) => {
     const {isLoggedIn, userData, setStatus} = useContext(UserContext);
-    const {estatesLikes, addLike} = useContext(EstatesContext);
+    const {estatesLikes: [estatesLikes, undefined], addLike} = useContext(EstatesContext);
     
     const currentEstate = estatesLikes.find( estate => {
         return estate.estateId === props.id
