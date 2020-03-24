@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 
 // import { EstatesContext } from '../context/EstatesContext';
+// import { setEstates } from '../context/EstatesActions';
 import { UserContext } from '../../auth/context/UserContext';
 import EstateItemDetails from '../components/EstateItemDetails';
 import { useFetch } from '../../shared/customHooks/useFetch';
@@ -12,15 +13,21 @@ import Loader from '../../shared/components/Loader/Loader';
 const EstateDashboard = () => {
     
     const estateId = useParams().estateId;
-    // const {estatesData} = useContext(EstatesContext);
-    const {setStatus} = useContext(UserContext);
+    // const {estatesData: [state, dispatch]} = useContext(EstatesContext);
+    const {status: [, setStatus]} = useContext(UserContext);
     const [currentEstate, setCurrentEstate] = useState(null);
     const [isRedirect, setIsRedirect] = useState(false);
     const init = useRef(false);
     const initRedirect = useRef(false);
     // const currentEstate = estatesData.find( estate => estate.id === estateId);
-
     const fetchedEstate = useFetch(`http://localhost:5000/estates/${estateId}`);
+
+    const editCurrentEstate = (updates) => {
+        setCurrentEstate(prevState => ({
+            ...prevState,
+            ...updates
+        }))
+    }
 
     useEffect(() => {
         if(init.current === true) {
@@ -50,7 +57,7 @@ const EstateDashboard = () => {
         <>
             {
                 currentEstate 
-                ? <EstateItemDetails key={currentEstate.id} {...currentEstate} />
+                ? <EstateItemDetails key={currentEstate.id} editCurrentEstate={editCurrentEstate} {...currentEstate} />
                 : (isRedirect ? <Redirect to="/" /> : <Loader />)
             }
         </>

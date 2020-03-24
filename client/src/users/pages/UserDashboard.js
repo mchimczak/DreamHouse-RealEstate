@@ -13,22 +13,21 @@ import Center from '../../shared/ui/position/Center';
 
 
 const UserDashboard = () => {
-    const {estatesLikes: [estatesLikes, setEstatesLikes]} = useContext(EstatesContext);
-    const {setStatus} = useContext(UserContext);
+    const {estatesLikes: [, setEstatesLikes]} = useContext(EstatesContext);
+    const {status: [, setStatus]} = useContext(UserContext);
 
     const init = useRef(false);
-    const [fetchedUserEstates, setFetchedUserEstates] = useState(undefined);
+    const [fetchedUserEstates, setFetchedUserEstates] = useState([]);
     const [isRedirect, setIsRedirect] = useState(false);
 
     const userId = useParams().userId;
     // const userEstates = estatesData.filter( estate => estate.owner === userId);
     const { userEstates, userLikes, errorStatus, errorMsg }  = useFetch(`http://localhost:5000/users/${userId}`);
 
-
     useEffect(() => {
         if(errorStatus) {
-            setStatus(errorMsg)
-            return setIsRedirect(true)
+            setStatus(errorMsg);
+            return setIsRedirect(true);
         }
         if(init.current === true) {
             init.current = false;

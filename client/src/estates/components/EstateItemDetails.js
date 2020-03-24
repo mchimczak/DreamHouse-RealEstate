@@ -75,6 +75,7 @@ align-items: center;
 `
 
 const EstateItemDetails = (props) => {
+    console.log(props)
     const {removeEstate, editEstate} = useContext(EstatesContext);
     const {isLoggedIn, userData} = useContext(UserContext);
 
@@ -82,7 +83,7 @@ const EstateItemDetails = (props) => {
     const [isDeleting, setIsDeleting] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    const { id, file, email, phone, owner, createdAt, ...estateInfo} = props;
+    const { id, file, email, phone, owner, createdAt, editCurrentEstate, ...estateInfo} = props;
     const {title, ...displayedInfo} = estateInfo;
     const ESTATE_INIT_INFO = estateInfo;
 
@@ -90,11 +91,16 @@ const EstateItemDetails = (props) => {
         setIsDeleting(true);
         toggleModal();
     };
-    const confirmDelete = () => {
+    const confirmDeleteItem = () => {
         removeEstate(props)
-    }
+    };
+    const negateDeleteItem = () => {
+        setIsDeleting(false);
+        toggleModal();
+    };
     const editEstateItem = async (updates) => {
         const id = props.id;
+        editCurrentEstate(updates)
         await editEstate(id, updates);
         toggleModal();
     };
@@ -163,8 +169,8 @@ const EstateItemDetails = (props) => {
                 <Modal isOpen={isOpen} toggleModal={toggleModal} >
                      { isDeleting 
                         ?   <ModalBox size='small' title='Delete post?'>
-                                <Button primary="yest" onClick={confirmDelete}>Yes</Button>
-                                <Button onClick={toggleModal}>No</Button>
+                                <Button primary="yest" onClick={confirmDeleteItem}>Yes</Button>
+                                <Button onClick={negateDeleteItem}>No</Button>
                             </ModalBox>
                         :   <FormWrapper>
                                 <Form 

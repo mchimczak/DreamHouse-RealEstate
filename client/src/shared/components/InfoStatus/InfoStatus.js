@@ -21,7 +21,7 @@ margin: 0 auto;
 `
 
 const InfoStatus = () => {
-    const {status, setStatus} = useContext(UserContext);
+    const {status: [status, setStatus]} = useContext(UserContext);
     const [showState, setShowState] = useState(false);
     const init = useRef(false);
 

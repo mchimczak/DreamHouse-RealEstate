@@ -27,11 +27,6 @@ export const UserContextProvider = (props) => {
             setIsLoggedIn(true);
             setStatus(`Thank you for joining in ${newUser.name}`);
             }).catch( err => setStatus(err.response.data.message));
-
-        // await setUsersList(prevList => ([
-        //     newUser,
-        //     ...prevList
-        // ]));
     };
 
     const login = async (val) => {
@@ -62,30 +57,15 @@ export const UserContextProvider = (props) => {
         axios.patch(`http://localhost:5000/users/me/${id}`, { ...userData, ...updates })
             .then( res => setStatus('Profile updated.'))
             .catch (err => setStatus(err.response.data.message));
-
-        // const updatedUserList = usersList.map( user => {
-        //     if(user.id === id) {
-        //         return {
-        //             ...user,
-        //             ...updates
-        //         }
-        //     } else {
-        //         return user
-        //     }
-        // });
-        // await setUsersList(updatedUserList);
-        // setStatus('Your profile was updated successfully.')
     };
 
 
     const value = {
-        setUsersList,
+        userList: [usersList, setUsersList],
+        status: [status, setStatus],
         isLoggedIn,
         userData,
-        usersList,
         updateUser,
-        status,
-        setStatus,
         login,
         logout,
         register,
