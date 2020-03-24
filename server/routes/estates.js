@@ -11,5 +11,12 @@ estates.get('/', (req, res, next) => {
     });
 });
 
+estates.get('/:estateId', (req, res, next) => {
+    const estateId = req.params.estateId;
+    const currentEstate = ESTATES_DATA.find( estate => estate.id === estateId);
+
+    res.json(currentEstate);
+});
+
 
 module.exports = estates;
