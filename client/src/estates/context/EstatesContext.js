@@ -58,7 +58,8 @@ export const EstatesContextProvider = (props) => {
         editEstate: startEditEstate,
         addLike,
         estatesLikes,
-        setEstatesLikes
+        setEstatesLikes,
+        // estatesLikes: [estatesLikes, setEstatesLikes]
     };
 
     return (

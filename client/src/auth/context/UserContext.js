@@ -18,7 +18,6 @@ export const UserContextProvider = (props) => {
             createdAt: moment(timeStamp).format('YYYY-MM-DD'),
             ...user
         }
-        console.log(newUser)
 
         axios.post('http://localhost:5000/signup', {
             ...newUser
@@ -27,7 +26,7 @@ export const UserContextProvider = (props) => {
             setUserData(newUser);
             setIsLoggedIn(true);
             setStatus(`Thank you for joining in ${newUser.name}`);
-        }).catch( err => setStatus(err.response.data.message));
+            }).catch( err => setStatus(err.response.data.message));
 
         // await setUsersList(prevList => ([
         //     newUser,
@@ -58,19 +57,24 @@ export const UserContextProvider = (props) => {
         await setUserData(prevState => ({
             ...prevState,
             ...updates
-        }))
-        const updatedUserList = usersList.map( user => {
-            if(user.id === id) {
-                return {
-                    ...user,
-                    ...updates
-                }
-            } else {
-                return user
-            }
-        });
-        await setUsersList(updatedUserList);
-        setStatus('Your profile was updated successfully.')
+        }));
+
+        axios.patch(`http://localhost:5000/users/me/${id}`, { ...userData, ...updates })
+            .then( res => setStatus('Profile updated.'))
+            .catch (err => setStatus(err.response.data.message));
+
+        // const updatedUserList = usersList.map( user => {
+        //     if(user.id === id) {
+        //         return {
+        //             ...user,
+        //             ...updates
+        //         }
+        //     } else {
+        //         return user
+        //     }
+        // });
+        // await setUsersList(updatedUserList);
+        // setStatus('Your profile was updated successfully.')
     };
 
 

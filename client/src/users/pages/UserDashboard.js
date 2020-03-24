@@ -24,6 +24,7 @@ const UserDashboard = () => {
     // const userEstates = estatesData.filter( estate => estate.owner === userId);
     const { userEstates, userLikes, errorStatus, errorMsg }  = useFetch(`http://localhost:5000/users/${userId}`);
 
+
     useEffect(() => {
         if(errorStatus) {
             setStatus(errorMsg)

@@ -70,11 +70,14 @@ margin-right: 1rem;
 const EstateCard = (props) => {
     const {isLoggedIn, userData, setStatus} = useContext(UserContext);
     const {estatesLikes, addLike} = useContext(EstatesContext);
-
+    
     const currentEstate = estatesLikes.find( estate => {
         return estate.estateId === props.id
     });
-    const likesNumber = currentEstate.likes.length;
+    let likesNumber = 0;
+    if(currentEstate) {
+        likesNumber = currentEstate.likes.length;
+    }
 
     const likeEstate = () => {
         if(isLoggedIn && userData.id) {
@@ -164,6 +167,6 @@ EstateCard.propTypes = {
     owner: PropTypes.string.isRequired,
 }
 
-EstateCard.defaultProps = {
-    estatesLikes: []
-}
+// EstateCard.defaultProps = {
+//     estatesLikes: []
+// }
