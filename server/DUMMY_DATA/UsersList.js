@@ -14,6 +14,12 @@ const USERS_LIST = [
         phone: '333444555', 
         estates: '7'
     }
-]
+];
 
-module.exports = USERS_LIST;
+const addNewUser = (user) => {
+    return USERS_LIST.push(user);
+};
+
+// module.exports = USERS_LIST;
+exports.USERS_LIST = USERS_LIST;
+exports.addNewUser = addNewUser;

@@ -1,6 +1,6 @@
-const ESTATES_DATA = require('../DUMMY_DATA/EstatesData');
-const USER_LIKES = require('../DUMMY_DATA/UserLikes');
-const USERS_LIST = require('../DUMMY_DATA/UsersList');
+const {ESTATES_DATA} = require('../DUMMY_DATA/EstatesData');
+const {ESTATES_LIKES} = require('../DUMMY_DATA/EstatesLikes');
+const {USERS_LIST} = require('../DUMMY_DATA/UsersList');
 
 const httpError = require('../models/http-error');
 
@@ -17,7 +17,7 @@ const getUserById = (req, res, next) => {
     const userEstates = ESTATES_DATA.filter( el => el.owner === userId);
     let arr = [];
     userEstates.map(el => arr.push(el.id));
-    const userLikes = USER_LIKES.filter( el => arr.includes(el.estateId));
+    const userLikes = ESTATES_LIKES.filter( el => arr.includes(el.estateId));
 
     if(!isUser) return next(new httpError('No user found', 404));
     

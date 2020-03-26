@@ -1,13 +1,13 @@
-const ESTATES_DATA = require('../DUMMY_DATA/EstatesData');
-const USER_LIKES = require('../DUMMY_DATA/UserLikes');
+const {getEstates} = require('../DUMMY_DATA/EstatesData');
+const {ESTATES_LIKES} = require('../DUMMY_DATA/EstatesLikes');
 const httpError = require('../models/http-error');
 
 module.exports = findMostLikedEstates = (req, res, next) => {
     const bestThreeEstate = [];
-    const mostLikedEstates = USER_LIKES.sort( (a, b) => {
+    const mostLikedEstates = ESTATES_LIKES.sort( (a, b) => {
         return b.likes.length - a.likes.length
     }).slice(0, 3);
-    ESTATES_DATA.map( estate => {
+    getEstates().map( estate => {
         return mostLikedEstates.forEach( (obj, index) => {
             if(estate.id === obj.estateId) {
                 return bestThreeEstate.splice(index, 0, estate)

@@ -43,4 +43,45 @@ const ESTATES_DATA = [
     }
 ];
 
-module.exports = ESTATES_DATA;
+const getEstates = () => {
+    return ESTATES_DATA
+};
+
+const addNewEstate = (estate) => {
+    return ESTATES_DATA.push(estate)
+};
+
+const getEstateById = (estateId) => {
+    return ESTATES_DATA.find( estate => estate.id === estateId);
+};
+
+const editEstate = (estateId, updates) => {
+    const isUpdated = ESTATES_DATA.find((estate, index) => {
+        if(estate.id === estateId) {
+            const updatedEstate = {
+                ...estate,
+                ...updates
+            }
+            return ESTATES_DATA.splice(index, 1, updatedEstate);
+        }
+    })
+    return !!isUpdated;
+};
+
+const deleteEstate = (estateId) => {
+   const isDeleted = ESTATES_DATA.find((estate, index) => {
+       if(estate.id === estateId) {
+           return ESTATES_DATA.splice(index, 1);
+       }
+   });
+   return !!isDeleted;
+}
+
+
+module.exports = {
+    getEstates,
+    addNewEstate,
+    getEstateById,
+    editEstate,
+    deleteEstate
+};
