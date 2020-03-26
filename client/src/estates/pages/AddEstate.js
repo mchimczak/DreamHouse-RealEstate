@@ -53,7 +53,7 @@ const AddEstate = () => {
 
     const createEstate = async (values) => {
         const timeStamp = new Date();
-        await addEstate({
+        addEstate({
             id: uuid(),
             owner: getOwner(),
             email: userData.email,

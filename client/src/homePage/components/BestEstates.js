@@ -49,7 +49,7 @@ margin: 4rem auto;
 `
 
 const BestEstates = () => {
-    const {estatesLikes: [undefined, setEstatesLikes]} = useContext(EstatesContext);
+    const {estatesLikes: [, setEstatesLikes]} = useContext(EstatesContext);
     const [bestEstate, setBestEstate] = useState([])
 
     const {bestThreeEstate, mostLikedEstates} = useFetch('http://localhost:5000/');

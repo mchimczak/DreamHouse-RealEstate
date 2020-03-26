@@ -78,8 +78,8 @@ const MyEnhancedForm = withFormik({
     }),
     validationSchema: (props) => props.validationSchema,
     handleSubmit: (values, bag) => {
-        bag.props.submitAction(values)
         bag.resetForm();
+        bag.props.submitAction(values)
     }
 })(MyForm);
 

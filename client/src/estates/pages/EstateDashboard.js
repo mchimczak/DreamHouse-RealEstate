@@ -2,9 +2,7 @@ import React, {useContext, useState, useEffect, useRef} from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-
-// import { EstatesContext } from '../context/EstatesContext';
-// import { setEstates } from '../context/EstatesActions';
+import { EstatesContext } from '../context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
 import EstateItemDetails from '../components/EstateItemDetails';
 import { useFetch } from '../../shared/customHooks/useFetch';
@@ -13,21 +11,27 @@ import Loader from '../../shared/components/Loader/Loader';
 const EstateDashboard = () => {
     
     const estateId = useParams().estateId;
-    // const {estatesData: [state, dispatch]} = useContext(EstatesContext);
+    const {removeEstate, editEstate} = useContext(EstatesContext);
     const {status: [, setStatus]} = useContext(UserContext);
     const [currentEstate, setCurrentEstate] = useState(null);
     const [isRedirect, setIsRedirect] = useState(false);
     const init = useRef(false);
     const initRedirect = useRef(false);
-    // const currentEstate = estatesData.find( estate => estate.id === estateId);
+
     const fetchedEstate = useFetch(`http://localhost:5000/estates/${estateId}`);
 
-    const editCurrentEstate = (updates) => {
+    const editCurrentEstate = (id, updates) => {
+        editEstate(id, updates);
         setCurrentEstate(prevState => ({
             ...prevState,
             ...updates
-        }))
-    }
+        }));
+    };
+    const removeCurrentEstate = (estateId) => {
+        removeEstate(estateId);
+        setCurrentEstate(false);
+        setIsRedirect(true);
+    };
 
     useEffect(() => {
         if(init.current === true) {
@@ -57,7 +61,7 @@ const EstateDashboard = () => {
         <>
             {
                 currentEstate 
-                ? <EstateItemDetails key={currentEstate.id} editCurrentEstate={editCurrentEstate} {...currentEstate} />
+                ? <EstateItemDetails key={currentEstate.id} removeCurrentEstate ={removeCurrentEstate} editCurrentEstate={editCurrentEstate} {...currentEstate} />
                 : (isRedirect ? <Redirect to="/" /> : <Loader />)
             }
         </>

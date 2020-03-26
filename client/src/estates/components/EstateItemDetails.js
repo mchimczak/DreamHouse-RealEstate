@@ -1,7 +1,6 @@
 import React, {useState, useContext} from 'react';
 import styled from 'styled-components';
 
-import { EstatesContext } from '../context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
 
 import Modal from '../../shared/components/Modal/Modal';
@@ -75,15 +74,13 @@ align-items: center;
 `
 
 const EstateItemDetails = (props) => {
-    console.log(props)
-    const {removeEstate, editEstate} = useContext(EstatesContext);
     const {isLoggedIn, userData} = useContext(UserContext);
 
     const [isOpen, setIsOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    const { id, file, email, phone, owner, createdAt, editCurrentEstate, ...estateInfo} = props;
+    const { id, file, email, phone, owner, createdAt, editCurrentEstate, removeCurrentEstate, ...estateInfo} = props;
     const {title, ...displayedInfo} = estateInfo;
     const ESTATE_INIT_INFO = estateInfo;
 
@@ -92,16 +89,14 @@ const EstateItemDetails = (props) => {
         toggleModal();
     };
     const confirmDeleteItem = () => {
-        removeEstate(props)
+        removeCurrentEstate(id);
     };
     const negateDeleteItem = () => {
         setIsDeleting(false);
         toggleModal();
     };
     const editEstateItem = async (updates) => {
-        const id = props.id;
-        editCurrentEstate(updates)
-        await editEstate(id, updates);
+        editCurrentEstate(id, updates);
         toggleModal();
     };
 

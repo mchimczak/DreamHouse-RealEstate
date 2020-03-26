@@ -12,7 +12,7 @@ import Center from '../../shared/ui/position/Center';
 const Estates = () => {
     const init = useRef(false);
     const {estatesData: [estates, dispatch], estatesLikes: [estatesLikes, setEstatesLikes]} = useContext(EstatesContext);
-    const { estatesData, userLikes } = useFetch('http://localhost:5000/estates');
+    const { estatesData, estatesLikes: userLikes } = useFetch('http://localhost:5000/estates');
 
 
     useEffect(() => {

@@ -1,6 +1,8 @@
-import React, { useReducer, useState} from 'react';
+import React, { useReducer, useState, useContext} from 'react';
+import axios from 'axios';
 
 import { reducer, addEstate, removeEstate, editEstate } from './EstatesActions';
+import { UserContext } from '../../auth/context/UserContext';
 
 export const EstatesContext = React.createContext();
 
@@ -9,30 +11,46 @@ export const EstatesContextProvider = (props) => {
     const [state, dispatch] = useReducer(reducer, []);
     // const [state, dispatch] = useReducer(reducer, EstatesListData);
     const [estatesLikes, setEstatesLikes]= useState([]);
+
+    const {status: [, setStatus]} = useContext(UserContext);
     
 
-    const startAddEstate = (newEstate) => {
-        setEstatesLikes(prevState => ([
-            ...prevState,
-                {
-                    estateId: newEstate.id,
-                    likes: []
-                }
-        ]));
-
-        return dispatch(addEstate(newEstate));
+    const startAddEstate = async(newEstate) => {
+        // setEstatesLikes(prevState => ([
+        //     ...prevState,
+        //         {
+        //             estateId: newEstate.id,
+        //             likes: []
+        //         }
+        // ]));
+        await axios.post('http://localhost:5000/estates/new', { ...newEstate })
+                    .then((res) => {
+                        setStatus(res.data.message);
+                    });
+                    // .then(() => {
+                    //     return dispatch(addEstate(newEstate));
+                    // })
     };
 
-    const startRemoveEstate = async (estate) => {
-        const updateList = estatesLikes.filter( el => {
-            return el.estateId !== estate.id
-        })
-        setEstatesLikes(updateList);
-        return dispatch(removeEstate(estate));
+    const startRemoveEstate = async (estateId) => {
+        await axios.delete(`http://localhost:5000/estates/${estateId}`)
+                    .then((res) => {
+                        setStatus(res.data.message);
+                    });
+
+        // const updateList = estatesLikes.filter( el => {
+        //     return el.estateId !== estateId
+        // })
+        // setEstatesLikes(updateList);
+        return dispatch(removeEstate(estateId));
     };
 
-    const startEditEstate = (id, updates) => {
-        return dispatch(editEstate(id, updates))
+    const startEditEstate = async(id, updates) => {
+        axios.patch(`http://localhost:5000/estates/${id}`, {id, updates})
+                .then((res) => {
+                    setStatus(res.data.message);
+                });
+        // return dispatch(editEstate(id, updates))
     };
 
 
