@@ -22,10 +22,9 @@ export const UserContextProvider = (props) => {
         axios.post('http://localhost:5000/signup', {
             ...newUser
         }).then( res => {
-            console.log(res)
             setUserData(newUser);
             setIsLoggedIn(true);
-            setStatus(`Thank you for joining in ${newUser.name}`);
+            setStatus(res.data.message);
             }).catch( err => setStatus(err.response.data.message));
     };
 

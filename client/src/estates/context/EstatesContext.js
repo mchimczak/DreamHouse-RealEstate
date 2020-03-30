@@ -54,7 +54,12 @@ export const EstatesContextProvider = (props) => {
     };
 
 
-    const addLike = (estateId, userId) => {
+    const addLike = async(estateId, userId) => {
+        await axios.post(`http://localhost:5000/estates/${estateId}/like`, {estateId, userId})
+                .then((res) => {
+                    setStatus(res.data.message);
+                });
+
         const updatedList = estatesLikes.map(estate => {
             if (estate.estateId === estateId) {
             return {
