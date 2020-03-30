@@ -33,10 +33,10 @@ export const UserContextProvider = (props) => {
             email: val.email,
             password: val.password
         }).then( res => {
-            const { user } = res.data;
+            const { user, message } = res.data;
             setUserData(user);
             setIsLoggedIn(true);
-            setStatus(`Welcome back ${user.name}`)
+            return setStatus(message);
         })
         .catch(err => setStatus(err.response.data.message));
     };
