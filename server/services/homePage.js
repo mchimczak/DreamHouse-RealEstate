@@ -1,10 +1,10 @@
 const {getEstates} = require('../DUMMY_DATA/EstatesData');
-const {ESTATES_LIKES} = require('../DUMMY_DATA/EstatesLikes');
+const {getEstatesLikes} = require('../DUMMY_DATA/EstatesLikes');
 const httpError = require('../models/http-error');
 
 module.exports = findMostLikedEstates = (req, res, next) => {
     const bestThreeEstate = [];
-    const mostLikedEstates = ESTATES_LIKES.sort( (a, b) => {
+    const mostLikedEstates = getEstatesLikes().sort( (a, b) => {
         return b.likes.length - a.likes.length
     }).slice(0, 3);
     getEstates().map( estate => {

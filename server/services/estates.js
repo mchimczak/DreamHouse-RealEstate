@@ -1,22 +1,23 @@
 const {getEstates, addNewEstate, getEstateById, editEstate, deleteEstate} = require('../DUMMY_DATA/EstatesData');
-const {ESTATES_LIKES, addNewEstatesLikesItem} = require('../DUMMY_DATA/EstatesLikes');
+const {getEstatesLikes, addNewEstatesLikesItem, deleteEstatesLikesItem, likeEstate} = require('../DUMMY_DATA/EstatesLikes');
 
 const httpError = require('../models/http-error');
 
 const getEstatesHandler = (req, res, next) => {
     const estatesData = getEstates();
-    if(!estatesData) return next(new httpError('No user found', 404));
+    const estatesLikes = getEstatesLikes();
+    if(!estatesData) return next(new httpError('No estates found', 404));
 
     return res.json({
         estatesData,
-        estatesLikes: ESTATES_LIKES
+        estatesLikes
     });
 };
 
 const getEstateByIdHandler = (req, res, next) => {
     const estateId = req.params.estateId;
     const currentEstate = getEstateById(estateId);
-    if(!currentEstate) return next(new httpError('No user found', 404));
+    if(!currentEstate) return next(new httpError('No estate found', 404));
 
     return res.json(currentEstate);
 };
@@ -39,11 +40,21 @@ const addNewEstateHandler = async(req, res, next) => {
 
 const deleteEstateHandler = async(req, res, next) => {
     const estateId = req.params.estateId;
+    deleteEstatesLikesItem(estateId);
     const isDeleted = deleteEstate(estateId);
     if(!isDeleted) return next(new httpError('No estate found', 404));
 
     return res.status(200).json({ message: 'Estate deleted'});
 };
+
+const likeEstateHandler = async(req, res, next) => {
+    const {estateId, userId} = req.body;
+    const isLiked = likeEstate(estateId, userId);
+    console.log(isLiked);
+    if(!isLiked) return next(new httpError('No estate found', 404));
+
+    return res.status(200).json({ message: 'You liked that'});
+}
 
 
 module.exports = {
@@ -51,5 +62,6 @@ module.exports = {
     getEstateByIdHandler,
     editEstateHandler,
     addNewEstateHandler,
-    deleteEstateHandler
+    deleteEstateHandler,
+    likeEstateHandler
 }

@@ -55,6 +55,10 @@ const getEstateById = (estateId) => {
     return ESTATES_DATA.find( estate => estate.id === estateId);
 };
 
+const getEstateListByOwnerId = (userId) => {
+    return ESTATES_DATA.filter(estate => estate.owner === userId);
+}
+
 const editEstate = (estateId, updates) => {
     const isUpdated = ESTATES_DATA.find((estate, index) => {
         if(estate.id === estateId) {
@@ -82,6 +86,7 @@ module.exports = {
     getEstates,
     addNewEstate,
     getEstateById,
+    getEstateListByOwnerId,
     editEstate,
     deleteEstate
 };

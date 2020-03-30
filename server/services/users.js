@@ -1,45 +1,52 @@
-const {ESTATES_DATA} = require('../DUMMY_DATA/EstatesData');
-const {ESTATES_LIKES} = require('../DUMMY_DATA/EstatesLikes');
-const {USERS_LIST} = require('../DUMMY_DATA/UsersList');
+const {getEstates, getEstateListByOwnerId} = require('../DUMMY_DATA/EstatesData');
+const {getEstatesLikes, getEstatesByOwner} = require('../DUMMY_DATA/EstatesLikes');
+const {getUsersList, getUserById, addNewUser, updateUserData} = require('../DUMMY_DATA/UsersList');
 
 const httpError = require('../models/http-error');
 
-const getUsers = (req, res, next) => {
+const getUsersHandler = (req, res, next) => {
+    const estatesData = getEstates();
+    const userList = getUsersList();
     res.json({
-        userList: USERS_LIST,
-        estatesData: ESTATES_DATA
+        userList,
+        estatesData
     });
 };
 
-const getUserById = (req, res, next) => {
+const getUserByIdHandler = async(req, res, next) => {
     const userId = req.params.id;
-    const isUser = USERS_LIST.find( user => user.id === userId)
-    const userEstates = ESTATES_DATA.filter( el => el.owner === userId);
+
+    const isUser = await getUserById(userId);
+    if(!isUser) return next(new httpError('No user found', 404));
+
+    const userEstates = await getEstateListByOwnerId(userId);
     let arr = [];
     userEstates.map(el => arr.push(el.id));
-    const userLikes = ESTATES_LIKES.filter( el => arr.includes(el.estateId));
+    const userLikes = await getEstatesByOwner(arr);
 
-    if(!isUser) return next(new httpError('No user found', 404));
-    
     res.json({
         userEstates,
         userLikes
     });
 };
 
-const updateUserById = (req, res, next) => {
+const addNewUserHandler = (userData) => {
+    const isUser = getUsersList().find( el => el.email === userData.email );
+    if(isUser) return false;
+
+    addNewUser(userData);
+    return true;
+};
+
+const updateUserDataHandler = (req, res, next) => {
     const updatedUser = req.body;
-    const isUser = USERS_LIST.find( (user, index) => {
-        if(user.id === updatedUser.id) {
-            USERS_LIST.splice(index, 1, updatedUser)
-            return true
-        }
-    });
+    const isUser = updateUserData(updatedUser);
     if(!isUser) return next(new httpError('Something went wrong', 404));
 
-    res.json({ message: 'Profile updated'});
-}
+    res.json({ message: 'Profile updated' });
+};
 
-exports.getUsers = getUsers;
-exports.getUserById = getUserById;
-exports.updateUserById = updateUserById;
+exports.getUsersHandler = getUsersHandler;
+exports.getUserByIdHandler = getUserByIdHandler;
+exports.updateUserDataHandler = updateUserDataHandler;
+exports.addNewUserHandler = addNewUserHandler;

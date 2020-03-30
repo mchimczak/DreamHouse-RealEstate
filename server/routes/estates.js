@@ -7,6 +7,7 @@ estates.get('/', estatesServices.getEstatesHandler);
 estates.get('/:estateId', estatesServices.getEstateByIdHandler);
 estates.patch('/:estateId', estatesServices.editEstateHandler);
 estates.delete('/:estateId', estatesServices.deleteEstateHandler);
+estates.post('/:estateId/like', estatesServices.likeEstateHandler);
 estates.post('/new', estatesServices.addNewEstateHandler);
 
 module.exports = estates;

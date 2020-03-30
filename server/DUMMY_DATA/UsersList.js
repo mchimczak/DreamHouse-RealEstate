@@ -16,10 +16,32 @@ const USERS_LIST = [
     }
 ];
 
+const getUsersList = () => {
+    return USERS_LIST;
+};
+
+const getUserById = (userId) => {
+    return getUsersList().find( user => user.id === userId);
+};
+
 const addNewUser = (user) => {
     return USERS_LIST.push(user);
 };
 
-// module.exports = USERS_LIST;
-exports.USERS_LIST = USERS_LIST;
-exports.addNewUser = addNewUser;
+const updateUserData = (updatedUser) => {
+    return getUsersList().find((user, index) => {
+        if(user.id === updatedUser.id) {
+            return USERS_LIST.splice(index, 1, updatedUser);
+        }
+    });
+};
+
+// exports.USERS_LIST = USERS_LIST;
+// exports.addNewUser = addNewUser;
+
+module.exports = {
+    getUsersList,
+    getUserById,
+    addNewUser,
+    updateUserData
+};
