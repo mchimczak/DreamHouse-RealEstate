@@ -1,6 +1,6 @@
-const {getEstates} = require('../DUMMY_DATA/EstatesData');
-const {getEstatesLikes} = require('../DUMMY_DATA/EstatesLikes');
-const httpError = require('../models/http-error');
+const {getEstates} = require('../../estates/DUMMY_DATA/EstatesData');
+const {getEstatesLikes} = require('../../estates/DUMMY_DATA/EstatesLikes');
+const httpError = require('../../../models/http-error');
 
 module.exports = findMostLikedEstates = (req, res, next) => {
     const bestThreeEstate = [];

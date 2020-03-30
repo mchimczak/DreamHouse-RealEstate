@@ -1,5 +1,5 @@
-const httpError = require('../models/http-error');
-const {logInUser} = require('../DUMMY_DATA/UsersList');
+const httpError = require('../../../models/http-error');
+const {logInUser} = require('../../users/DUMMY_DATA/UsersList');
 
 module.exports = loginHandler = async (req, res, next) => {
         const { email, password } = req.body;

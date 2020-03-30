@@ -1,5 +1,5 @@
-const httpError = require('../models/http-error');
-const { addNewUserHandler } = require('../services/users');
+const httpError = require('../../../models/http-error');
+const { addNewUserHandler } = require('../../users/services/users');
 
 module.exports = signUpHandler = async (req, res, next) => {
     const user = req.body;

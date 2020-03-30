@@ -1,7 +1,7 @@
 const {getEstates, addNewEstate, getEstateById, editEstate, deleteEstate} = require('../DUMMY_DATA/EstatesData');
 const {getEstatesLikes, addNewEstatesLikesItem, deleteEstatesLikesItem, likeEstate} = require('../DUMMY_DATA/EstatesLikes');
 
-const httpError = require('../models/http-error');
+const httpError = require('../../../models/http-error');
 
 const getEstatesHandler = (req, res, next) => {
     const estatesData = getEstates();

@@ -2,12 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 //ROUTES
-const estatesRoutes = require('./routes/estates');
-const usersRoutes = require('./routes/users');
-const loginRoute = require('./routes/auth/login');
-const signUpRoute = require('./routes/auth/signUp');
+const estatesRoutes = require('./components/estates/routes/estates');
+const usersRoutes = require('./components/users/routes/users')
+const loginRoute = require('./components/subscribers/routes/login');
+const signUpRoute = require('./components/subscribers/routes/signUp');
 //SERVICES
-const findMostLikedEstates = require('./services/homePage');
+const findMostLikedEstates = require('./components/homePage/services/homePage');
 
 const app = express();
 const PORT = 5000;

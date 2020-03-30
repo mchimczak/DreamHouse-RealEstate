@@ -1,8 +1,8 @@
-const {getEstates, getEstateListByOwnerId} = require('../DUMMY_DATA/EstatesData');
-const {getEstatesLikes, getEstatesByOwner} = require('../DUMMY_DATA/EstatesLikes');
+const {getEstates, getEstateListByOwnerId} = require('../../estates/DUMMY_DATA/EstatesData');
+const {getEstatesLikes, getEstatesByOwner} = require('../../estates/DUMMY_DATA/EstatesLikes');
 const {getUsersList, getUserById, addNewUser, updateUserData} = require('../DUMMY_DATA/UsersList');
 
-const httpError = require('../models/http-error');
+const httpError = require('../../../models/http-error');
 
 const getUsersHandler = (req, res, next) => {
     const estatesData = getEstates();
