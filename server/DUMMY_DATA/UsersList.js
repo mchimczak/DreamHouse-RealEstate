@@ -36,6 +36,10 @@ const updateUserData = (updatedUser) => {
     });
 };
 
+const logInUser = (email, password) => {
+    return getUsersList().find( user => user.email === email && user.password === password );
+}
+
 // exports.USERS_LIST = USERS_LIST;
 // exports.addNewUser = addNewUser;
 
@@ -43,5 +47,6 @@ module.exports = {
     getUsersList,
     getUserById,
     addNewUser,
-    updateUserData
+    updateUserData,
+    logInUser
 };
