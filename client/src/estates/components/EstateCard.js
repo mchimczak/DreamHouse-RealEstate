@@ -146,8 +146,20 @@ const EstateCard = (props) => {
                                 <Btn small="true" aria-label="add to fav" onClick={likeEstate}>
                                     <Number>{likesNumber}</Number><FavoriteIcon />
                                 </Btn>
-                                <Btn small="true" upc="true">e-mail</Btn>
-                                <Btn small="true" upc="true">tel</Btn>
+                                { props.email 
+                                    ? (<Btn small="true" upc="true">
+                                        <a href={'mailto:' + props.email}>e-mail</a>
+                                    </Btn>)
+                                    : <Btn small="true" upc="true" disabled={true}>email</Btn>
+
+                                }
+                                { props.phone 
+                                    ? ( <Btn small="true" upc="true">
+                                            <a href={'tel:' + props.phone}>tel</a>
+                                        </Btn> )
+                                    : <Btn small="true" upc="true" disabled>tel</Btn>
+                                }
+                                
                             </>
                     }
                 </CardActionsBlock>

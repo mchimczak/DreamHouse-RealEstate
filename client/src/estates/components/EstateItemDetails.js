@@ -144,10 +144,13 @@ const EstateItemDetails = (props) => {
                                     <Button primary="yes" small="true" cap="true">
                                         <a href={`mailto:${email}`}>Email</a>
                                     </Button>
-                                    { phone &&
-                                        <Button primary="yes" small="true" cap="true">
+                                    { phone 
+                                        ? (<Button primary="yes" small="true" cap="true">
                                             <a href={`tel:${phone}`}>Tel</a>
-                                        </Button>
+                                            </Button>)
+                                        : (<Button primary="yes" small="true" cap="true" disabled={true}>
+                                                Tel
+                                            </Button>)
                                     }
                                 </> )
                             : ( <>

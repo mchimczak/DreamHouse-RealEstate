@@ -19,9 +19,15 @@ cursor: pointer;
 border: none;
 font-size: ${props => props.small ? '1rem' : '1.6rem'};
 
-:hover {
+:hover:enabled {
     box-shadow: inset 0px 1px 9px #7d7d7d94;
 }
+
+:disabled {
+    background-color: ${props => props.theme.colors.grey};
+    cursor: initial;
+}
+
 `
 
 const Btn = (props) => {
@@ -34,6 +40,7 @@ const Btn = (props) => {
             onClick={props.onClick}
             as={props.as}
             to={props.to}
+            disabled={props.disabled}
         >
             {props.children}
         </StyledButton>

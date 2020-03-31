@@ -16,32 +16,17 @@ export const EstatesContextProvider = (props) => {
     
 
     const startAddEstate = async(newEstate) => {
-        // setEstatesLikes(prevState => ([
-        //     ...prevState,
-        //         {
-        //             estateId: newEstate.id,
-        //             likes: []
-        //         }
-        // ]));
         await axios.post('http://localhost:5000/estates/new', { ...newEstate })
                     .then((res) => {
                         setStatus(res.data.message);
-                    });
-                    // .then(() => {
-                    //     return dispatch(addEstate(newEstate));
-                    // })
+                    }).catch( err => setStatus(err.response.data.message));
     };
 
     const startRemoveEstate = async (estateId) => {
         await axios.delete(`http://localhost:5000/estates/${estateId}`)
                     .then((res) => {
                         setStatus(res.data.message);
-                    });
-
-        // const updateList = estatesLikes.filter( el => {
-        //     return el.estateId !== estateId
-        // })
-        // setEstatesLikes(updateList);
+                    }).catch( err => setStatus(err.response.data.message));
         return dispatch(removeEstate(estateId));
     };
 
@@ -49,8 +34,7 @@ export const EstatesContextProvider = (props) => {
         axios.patch(`http://localhost:5000/estates/${id}`, {id, updates})
                 .then((res) => {
                     setStatus(res.data.message);
-                });
-        // return dispatch(editEstate(id, updates))
+                }).catch( err => setStatus(err.response.data.message));
     };
 
 
@@ -58,7 +42,7 @@ export const EstatesContextProvider = (props) => {
         await axios.post(`http://localhost:5000/estates/${estateId}/like`, {estateId, userId})
                 .then((res) => {
                     setStatus(res.data.message);
-                });
+                }).catch( err => setStatus(err.response.data.message));
 
         const updatedList = estatesLikes.map(estate => {
             if (estate.estateId === estateId) {

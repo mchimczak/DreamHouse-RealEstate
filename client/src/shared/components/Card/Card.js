@@ -15,7 +15,9 @@ const StyledHeader = styled.h4`
 font-size: ${({theme}) => theme.size.large};
 color: ${({theme}) => theme.colors.darkgrey};
 font-weight: ${({theme}) => theme.font.thin};
-overflow-wrap: break-word;
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden;
 margin: 0;
 `
 

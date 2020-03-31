@@ -40,12 +40,16 @@ const UserCard = ({ id, name, createdAt }) => {
             </CardContent>
             {
                 estates > 0 
-                ?  <CardActionsWrapper>
+                ?   <CardActionsWrapper>
                         <Button primary="true" small="true" as={Link} to={`/users/${id}`}>
                             View Users estates
                         </Button>
                     </CardActionsWrapper>
-                : null
+                :   <CardActionsWrapper>
+                        <Button primary="true" small="true" disabled={true}>
+                            View Users estates
+                        </Button>
+                    </CardActionsWrapper>
             }
         </Card>
     )
