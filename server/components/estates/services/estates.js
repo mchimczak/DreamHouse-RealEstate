@@ -1,3 +1,6 @@
+const { v4: uuid } = require('uuid');
+const moment = require('moment');
+
 const {getEstates, addNewEstate, getEstateById, editEstate, deleteEstate} = require('../DUMMY_DATA/EstatesData');
 const {getEstatesLikes, addNewEstatesLikesItem, deleteEstatesLikesItem, likeEstate} = require('../DUMMY_DATA/EstatesLikes');
 
@@ -32,7 +35,12 @@ const editEstateHandler = async(req, res, next) => {
 };
 
 const addNewEstateHandler = async(req, res, next) => {
-    const newEstate = req.body;
+    const timeStamp = new Date();
+    const newEstate = {
+        id: uuid(),
+        createdAt: moment(timeStamp).format('YYYY-MM-DD'),
+        ...req.body
+    };
     addNewEstate(newEstate);
     addNewEstatesLikesItem(newEstate.id);
     return res.status(201).json({ message: 'New estate added'});
@@ -50,7 +58,6 @@ const deleteEstateHandler = async(req, res, next) => {
 const likeEstateHandler = async(req, res, next) => {
     const {estateId, userId} = req.body;
     const isLiked = likeEstate(estateId, userId);
-    console.log(isLiked);
     if(!isLiked) return next(new httpError('No estate found', 404));
 
     return res.status(200).json({ message: 'You liked that'});

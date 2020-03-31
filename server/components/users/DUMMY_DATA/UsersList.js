@@ -1,3 +1,6 @@
+const { v4: uuid } = require('uuid');
+const moment = require('moment');
+
 const USERS_LIST = [
     { 
         id: 'u1', 
@@ -25,7 +28,14 @@ const getUserById = (userId) => {
 };
 
 const addNewUser = (user) => {
-    return USERS_LIST.push(user);
+    const timeStamp = new Date();
+    const newUser = {
+        id: uuid(),
+        createdAt: moment(timeStamp).format('YYYY-MM-DD'),
+        ...user
+    }
+    USERS_LIST.push(newUser);
+    return newUser;
 };
 
 const updateUserData = (updatedUser) => {
@@ -38,7 +48,11 @@ const updateUserData = (updatedUser) => {
 
 const logInUser = (email, password) => {
     return getUsersList().find( user => user.email === email && user.password === password );
-}
+};
+
+const findUserByProp = (param, userData) => {
+    return getUsersList().find( user => user[param] === userData[param]);
+};
 
 // exports.USERS_LIST = USERS_LIST;
 // exports.addNewUser = addNewUser;
@@ -48,5 +62,6 @@ module.exports = {
     getUserById,
     addNewUser,
     updateUserData,
-    logInUser
+    logInUser,
+    findUserByProp
 };

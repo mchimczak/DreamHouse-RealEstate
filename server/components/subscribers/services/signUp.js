@@ -6,6 +6,6 @@ module.exports = signUpHandler = async (req, res, next) => {
     const isUserAdded = addNewUserHandler(user);
 
     isUserAdded
-        ? res.status(201).send({ message: `Thank you for joining in ${user.name}` })
+        ? res.status(201).send({ user: isUserAdded, message: `Thank you for joining in ${user.name}` })
         : next(new httpError('This email is already taken, please try another', 404))
 };

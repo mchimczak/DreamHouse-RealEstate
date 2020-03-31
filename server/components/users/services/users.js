@@ -1,6 +1,6 @@
 const {getEstates, getEstateListByOwnerId} = require('../../estates/DUMMY_DATA/EstatesData');
 const {getEstatesLikes, getEstatesByOwner} = require('../../estates/DUMMY_DATA/EstatesLikes');
-const {getUsersList, getUserById, addNewUser, updateUserData} = require('../DUMMY_DATA/UsersList');
+const {getUsersList, getUserById, addNewUser, updateUserData, findUserByProp} = require('../DUMMY_DATA/UsersList');
 
 const httpError = require('../../../models/http-error');
 
@@ -31,11 +31,12 @@ const getUserByIdHandler = async(req, res, next) => {
 };
 
 const addNewUserHandler = (userData) => {
-    const isUser = getUsersList().find( el => el.email === userData.email );
+    // const isUser = getUsersList().find( el => el.email === userData.email );
+    const isUser = findUserByProp('email', userData);
     if(isUser) return false;
 
-    addNewUser(userData);
-    return true;
+    return addNewUser(userData);
+    // return true;
 };
 
 const updateUserDataHandler = (req, res, next) => {
