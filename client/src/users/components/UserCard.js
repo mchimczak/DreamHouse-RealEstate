@@ -33,21 +33,16 @@ const UserCard = ({ id, name, createdAt }) => {
                 title={name}
                 subheader={`Joined: ${createdAt}`}
             />
-            <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-                Currently selling {estates} {estates === 1 ? 'Estate' : 'Estates'}
-            </Typography>
-            </CardContent>
             {
                 estates > 0 
                 ?   <CardActionsWrapper>
-                        <Button primary="true" small="true" as={Link} to={`/users/${id}`}>
-                            View Users estates
+                        <Button primary="true" small="true" upc="true" as={Link} to={`/users/${id}`}>
+                            View {estates} {estates === 1 ? 'offer' : 'offers'}
                         </Button>
                     </CardActionsWrapper>
                 :   <CardActionsWrapper>
-                        <Button primary="true" small="true" disabled={true}>
-                            View Users estates
+                        <Button primary="true" small="true" upc="true" disabled={true}>
+                            View offer
                         </Button>
                     </CardActionsWrapper>
             }

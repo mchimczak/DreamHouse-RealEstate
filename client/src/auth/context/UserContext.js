@@ -47,8 +47,8 @@ export const UserContextProvider = (props) => {
             ...updates
         }));
 
-        axios.patch(`http://localhost:5000/users/me/${id}`, { ...userData, ...updates })
-            .then( res => setStatus('Profile updated.'))
+        axios.patch(`http://localhost:5000/users/me/${id}`, { id: userData.id, ...updates })
+            .then( res => setStatus(res.data.message))
             .catch (err => setStatus(err.response.data.message));
     };
 

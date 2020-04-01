@@ -1,8 +1,6 @@
 import React, {useContext, useState} from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import { v4 as uuid} from 'uuid';
-import * as moment from 'moment';
 
 import Form from '../../shared/components/Form/Form';
 import estateValidationSchema from '../components/Form/EstateValidationSchema';
@@ -52,13 +50,10 @@ const AddEstate = () => {
     };
 
     const createEstate = async (values) => {
-        // const timeStamp = new Date();
         addEstate({
-            // id: uuid(),
             owner: getOwner(),
             email: userData.email,
             phone: getPhone(),
-            // createdAt: moment(timeStamp).format('YYYY-MM-DD'),
             ...values
         });
         setIsRedirect(true);

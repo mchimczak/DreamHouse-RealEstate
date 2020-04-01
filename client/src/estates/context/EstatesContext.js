@@ -26,8 +26,9 @@ export const EstatesContextProvider = (props) => {
         await axios.delete(`http://localhost:5000/estates/${estateId}`)
                     .then((res) => {
                         setStatus(res.data.message);
+                        dispatch(removeEstate(estateId))
                     }).catch( err => setStatus(err.response.data.message));
-        return dispatch(removeEstate(estateId));
+        // return dispatch(removeEstate(estateId));
     };
 
     const startEditEstate = async(id, updates) => {

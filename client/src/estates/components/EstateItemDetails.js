@@ -9,6 +9,7 @@ import estateValidationSchema from './Form/EstateValidationSchema';
 import MyCard from '../../shared/components/Card/Card';
 import ModalBox from '../../shared/components/Modal/ModalBox';
 import Button from '../../shared/components/Button/Button';
+import Center from '../../shared/ui/position/Center'
 
 import House from '../../img/house.jpg'
 
@@ -101,7 +102,7 @@ const EstateItemDetails = (props) => {
     };
 
     return ( 
-        <div>
+        <Center>
             <MyCard>
             <StyledMediaWrapper>
                     <StyledMediaMain 
@@ -180,7 +181,7 @@ const EstateItemDetails = (props) => {
                      }
                 </Modal>
             }
-        </div>
+        </Center>
      );
 };
  

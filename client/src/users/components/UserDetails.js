@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 import Modal from '../../shared/components/Modal/Modal';
 import Form from '../../shared/components/Form/Form';
-import userProfileValidationSchema from '../../auth/components/Form/userProfile/userProfileValidationSchema';
+// import userProfileValidationSchema from '../../auth/components/Form/userProfile/userProfileValidationSchema';
+import updateUserValidationSchema from '../../auth/components/Form/userProfile/updateUserProfileValidationSchema';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -72,7 +73,7 @@ const UserDetails = ({user, updateUser}) => {
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    const {id, createdAt, estates, ...editableUserInfo} = user;
+    const {id, createdAt, estates, email, ...editableUserInfo} = user;
 
     const startUpdateUser = async (updates) => {
         await updateUser(id, updates);
@@ -111,7 +112,7 @@ const UserDetails = ({user, updateUser}) => {
                         <Form 
                             submitAction={startUpdateUser}
                             initState={editableUserInfo}
-                            validationSchema={userProfileValidationSchema}
+                            validationSchema={updateUserValidationSchema}
                         />
                     </FormWrapper>
                 </Modal>
