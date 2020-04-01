@@ -1,7 +1,9 @@
 const express = require('express');
 const loginHandler = require('../services/login');
+const loginValidationRules = require('../validators/loginValidationRules');
+const validate = require('../validators/validate');
 
 const login = express.Router();
-login.post('/', loginHandler);
+login.post('/', loginValidationRules(), validate, loginHandler);
 
 module.exports = login;
