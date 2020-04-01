@@ -44,7 +44,7 @@ const ESTATES_DATA = [
 ];
 
 const getEstates = () => {
-    return ESTATES_DATA
+    return [...ESTATES_DATA]
 };
 
 const addNewEstate = (estate) => {
@@ -52,15 +52,15 @@ const addNewEstate = (estate) => {
 };
 
 const getEstateById = (estateId) => {
-    return ESTATES_DATA.find( estate => estate.id === estateId);
+    return getEstates().find( estate => estate.id === estateId);
 };
 
 const getEstateListByOwnerId = (userId) => {
-    return ESTATES_DATA.filter(estate => estate.owner === userId);
+    return getEstates().filter(estate => estate.owner === userId);
 }
 
 const editEstate = (estateId, updates) => {
-    const isUpdated = ESTATES_DATA.find((estate, index) => {
+    const isUpdated = getEstates().find((estate, index) => {
         if(estate.id === estateId) {
             const updatedEstate = {
                 ...estate,
@@ -73,7 +73,7 @@ const editEstate = (estateId, updates) => {
 };
 
 const deleteEstate = (estateId) => {
-   const isDeleted = ESTATES_DATA.find((estate, index) => {
+   const isDeleted = getEstates().find((estate, index) => {
        if(estate.id === estateId) {
            return ESTATES_DATA.splice(index, 1);
        }

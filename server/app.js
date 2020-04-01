@@ -8,6 +8,8 @@ const loginRoute = require('./components/subscribers/routes/login');
 const signUpRoute = require('./components/subscribers/routes/signUp');
 //SERVICES
 const findMostLikedEstates = require('./components/homePage/services/homePage');
+//HTTPERROR
+const HttpError = require('./models/http-error');
 
 const app = express();
 const PORT = 5000;
@@ -21,12 +23,18 @@ app.use('/users' , usersRoutes);
 app.use('/login', loginRoute);
 app.use('/signup', signUpRoute);
 
+
+app.use((req,res, next) => {
+    const error = new HttpError('Could not found this page', 404);
+    throw error;
+});
+
 app.use((error, req, res, next) => {
     if(res.headerSent) {
         return next(error);
     }
     res.status(error.code || 500);
     res.json({message: error.message || 'An error occurred!'});
-})
+});
 
 app.listen(PORT);

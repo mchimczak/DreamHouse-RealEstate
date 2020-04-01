@@ -41,7 +41,9 @@ const addNewUser = (user) => {
 const updateUserData = (updatedUser) => {
     return getUsersList().find((user, index) => {
         if(user.id === updatedUser.id) {
-            return USERS_LIST.splice(index, 1, updatedUser);
+            return USERS_LIST.splice(index, 1, {
+                ...user,
+                ...updatedUser});
         }
     });
 };

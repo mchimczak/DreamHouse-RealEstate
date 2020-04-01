@@ -14,7 +14,7 @@ const ESTATES_LIKES = [
 ];
 
 const getEstatesLikes = () => {
-    return ESTATES_LIKES;
+    return [...ESTATES_LIKES];
 }
 
 const addNewEstatesLikesItem = (estateId) => {
@@ -25,9 +25,9 @@ const addNewEstatesLikesItem = (estateId) => {
 };
 
 const deleteEstatesLikesItem = (estateId) => {
-    const isDeleted = ESTATES_LIKES.find( (estate, index )=> {
+    const isDeleted = getEstatesLikes().find((estate, index) => {
         if(estate.estateId === estateId) {
-            return ESTATES_LIKES.splice(1, index);
+            return ESTATES_LIKES.splice(index, 1);
         }
     });
     return !!isDeleted;

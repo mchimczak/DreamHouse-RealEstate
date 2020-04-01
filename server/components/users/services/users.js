@@ -1,4 +1,4 @@
-const {getEstates, getEstateListByOwnerId} = require('../../estates/DUMMY_DATA/EstatesData');
+const {getEstates, getEstateListByOwnerId, editEstate} = require('../../estates/DUMMY_DATA/EstatesData');
 const {getEstatesLikes, getEstatesByOwner} = require('../../estates/DUMMY_DATA/EstatesLikes');
 const {getUsersList, getUserById, addNewUser, updateUserData, findUserByProp} = require('../DUMMY_DATA/UsersList');
 
@@ -31,12 +31,10 @@ const getUserByIdHandler = async(req, res, next) => {
 };
 
 const addNewUserHandler = (userData) => {
-    // const isUser = getUsersList().find( el => el.email === userData.email );
     const isUser = findUserByProp('email', userData);
     if(isUser) return false;
 
     return addNewUser(userData);
-    // return true;
 };
 
 const updateUserDataHandler = (req, res, next) => {
@@ -44,10 +42,22 @@ const updateUserDataHandler = (req, res, next) => {
     const isUser = updateUserData(updatedUser);
     if(!isUser) return next(new httpError('Something went wrong', 404));
 
+    if(updatedUser.phone !== isUser.phone) {
+        const userEstates = getEstateListByOwnerId(updatedUser.id);
+        userEstates.map( estate => editEstate(estate.id, {phone: updatedUser.phone}))
+    }
+
     res.json({ message: 'Profile updated' });
 };
 
-exports.getUsersHandler = getUsersHandler;
-exports.getUserByIdHandler = getUserByIdHandler;
-exports.updateUserDataHandler = updateUserDataHandler;
-exports.addNewUserHandler = addNewUserHandler;
+// exports.getUsersHandler = getUsersHandler;
+// exports.getUserByIdHandler = getUserByIdHandler;
+// exports.updateUserDataHandler = updateUserDataHandler;
+// exports.addNewUserHandler = addNewUserHandler;
+
+module.exports = {
+    getUsersHandler,
+    getUserByIdHandler,
+    updateUserDataHandler,
+    addNewUserHandler
+}
