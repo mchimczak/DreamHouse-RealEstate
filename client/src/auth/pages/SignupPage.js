@@ -6,8 +6,8 @@ import { Redirect } from 'react-router-dom';
 
 import { UserContext } from '../context/UserContext';
 import Form from '../../shared/components/Form/Form';
-import userValidationSchema from '../components/Form/userValidationSchema';
-import initUserState from '../components/Form/initUserState';
+import userValidationSchema from '../components/signUp/onCreateUserValidationSchema';
+import initUserState from '../components/signUp/initUserState';
 import Card from '../../shared/components/Card/Card'
 import Center from '../../shared/ui/position/Center'
 

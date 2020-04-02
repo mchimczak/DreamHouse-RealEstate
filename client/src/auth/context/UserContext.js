@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import uuid from 'uuid';
-import moment from 'moment';
 import axios from 'axios';
 
 export const UserContext = React.createContext();
