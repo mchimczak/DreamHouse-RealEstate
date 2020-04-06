@@ -28,7 +28,6 @@ export const EstatesContextProvider = (props) => {
                         setStatus(res.data.message);
                         dispatch(removeEstate(estateId))
                     }).catch( err => setStatus(err.response.data.message));
-        // return dispatch(removeEstate(estateId));
     };
 
     const startEditEstate = async(id, updates) => {
@@ -42,19 +41,19 @@ export const EstatesContextProvider = (props) => {
     const addLike = async(estateId, userId) => {
         await axios.post(`http://localhost:5000/estates/${estateId}/like`, {estateId, userId})
                 .then((res) => {
+                    const updatedList = estatesLikes.map(estate => {
+                        if (estate.estateId === estateId) {
+                        return {
+                            ...estate,
+                            likes: [...estate.likes, userId]
+                        };
+                        } else return {...estate};
+                    });
+            
+                    setEstatesLikes(updatedList);
                     setStatus(res.data.message);
                 }).catch( err => setStatus(err.response.data.message));
 
-        const updatedList = estatesLikes.map(estate => {
-            if (estate.estateId === estateId) {
-            return {
-                ...estate,
-                likes: [...estate.likes, userId]
-            };
-            } else return {...estate};
-        });
-
-        return setEstatesLikes(updatedList);
     };
 
 

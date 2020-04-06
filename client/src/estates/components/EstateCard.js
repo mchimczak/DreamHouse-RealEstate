@@ -71,13 +71,10 @@ const EstateCard = (props) => {
     const {isLoggedIn, userData, status: [, setStatus]} = useContext(UserContext);
     const {estatesLikes: [estatesLikes, ], addLike} = useContext(EstatesContext);
     
-    const currentEstate = estatesLikes.find( estate => {
-        return estate.estateId === props.id
-    });
+    const currentEstate = estatesLikes.find( estate => estate.estateId === props.id);
+
     let likesNumber = 0;
-    if(currentEstate) {
-        likesNumber = currentEstate.likes.length;
-    }
+    if(currentEstate) likesNumber = currentEstate.likes.length;
 
     const likeEstate = () => {
         if(isLoggedIn && userData.id) {
@@ -131,7 +128,7 @@ const EstateCard = (props) => {
                         <b>Address:</b> {props.address}
                     </Typography>
                     <Typography variant="h6">
-                        <b>Price:</b>{props.price}$
+                        <b>Price:</b>{props.price} $
                     </Typography>
                 </CardContentInfoWrapper>
             </CardContent>

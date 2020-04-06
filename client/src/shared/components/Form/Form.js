@@ -19,11 +19,14 @@ flex-direction: column;
 border-radius: 3px;
 `
 const StyledLabel = styled.label`
-font-weight: ${({theme}) => theme.font.thin};;
-text-transform: capitalize;
+font-weight: ${({theme}) => theme.font.thin};
 font-size: 12px;
 color: ${({theme}) => theme.colors.dark};
 margin-top: 1.8rem;
+
+&::first-letter {
+    text-transform: capitalize;
+}
 `
 const StyledField = styled(Field)`
 border: none;

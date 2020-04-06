@@ -48,6 +48,11 @@ const CardContentInfoWrapper = styled.div`
 display: grid;
 grid-template-columns: auto auto;
 gap: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
+
+& > div:first-child {
+    grid-column: 1 / 3;
+    margin-bottom: 1rem;
+}
 `
 const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;

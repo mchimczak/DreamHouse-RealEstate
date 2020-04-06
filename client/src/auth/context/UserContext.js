@@ -10,9 +10,10 @@ export const UserContextProvider = (props) => {
     const [usersList, setUsersList] = useState([]);
 
     const register = async (user) => {
-        axios.post('http://localhost:5000/signup', {
+        await axios.post('http://localhost:5000/signup', {
             ...user
         }).then( res => {
+            console.log(res.data);
             const { user, message } = res.data;
             setUserData(user);
             setIsLoggedIn(true);
