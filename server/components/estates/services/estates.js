@@ -5,59 +5,99 @@ const {getEstates, addNewEstate, getEstateById, editEstate, deleteEstate} = requ
 const {getEstatesLikes, addNewEstatesLikesItem, deleteEstatesLikesItem, likeEstate} = require('../DUMMY_DATA/EstatesLikes');
 
 const httpError = require('../../../models/http-error');
+const Estate = require('../models/estate');
+const EstateLikes = require('../models/estateLikes');
 
-const getEstatesHandler = (req, res, next) => {
-    const estatesData = getEstates();
-    const estatesLikes = getEstatesLikes();
+
+const getEstatesHandler = async (req, res, next) => {
+    let estatesData, estatesLikes;
+    
+    try {
+        estatesData = await Estate.find({})
+        estatesLikes = await EstateLikes.find({})
+    } catch(err) { return next(new httpError('Something went wrong', 500)) }
+    
     if(!estatesData) return next(new httpError('No estates found', 404));
 
     return res.json({
-        estatesData,
-        estatesLikes
+        estatesData: estatesData.map(estate => estate.toObject({ getters: true})),
+        estatesLikes: estatesLikes.map(estateLikes => estateLikes.toObject({ getters: true}))
     });
 };
 
-const getEstateByIdHandler = (req, res, next) => {
+
+const getEstateByIdHandler = async(req, res, next) => {
     const estateId = req.params.estateId;
-    const currentEstate = getEstateById(estateId);
+    let currentEstate;
+
+    try {
+        currentEstate = await Estate.findById(estateId);
+    } catch (err) { return next(new httpError('Something went wrong', 500)) }
+
     if(!currentEstate) return next(new httpError('No estate found', 404));
 
-    return res.json(currentEstate);
+    return res.json(currentEstate.toObject({ getters: true}));
 };
 
-const editEstateHandler = async(req, res, next) => {
-    const estateId = req.body.id;
-    const estateUpdates = req.body.updates;
-    const isUpdated = editEstate(estateId, estateUpdates);
-    if(!isUpdated) return next(new httpError('No estate found', 404));
-
-    return res.json({ message: 'Estate info updated'});
-};
 
 const addNewEstateHandler = async(req, res, next) => {
     const timeStamp = new Date();
-    const newEstate = {
-        id: uuid(),
+    const newEstate = new Estate ({
         createdAt: moment(timeStamp).format('YYYY-MM-DD'),
         ...req.body
-    };
-    addNewEstate(newEstate);
-    addNewEstatesLikesItem(newEstate.id);
+    });
+    const newEstateLikes = new EstateLikes({
+        estateId: newEstate.id,
+        likes: []
+    })
+    try {
+        await newEstate.save()
+        await newEstateLikes.save()
+    } catch (err) {
+        return next(new httpError('DB didnt work', 500))
+    }
+
     return res.status(201).json({ message: 'New estate added'});
 };
 
+
+const editEstateHandler = async(req, res, next) => {
+    const { id, updates } = req.body;
+    let isUpdated;
+
+    try {
+        isUpdated = await Estate.findByIdAndUpdate(id, updates);
+    } catch (err) { return next(new httpError('Something went wrong', 500)) }
+
+    if(!isUpdated) return next(new httpError('No estate found', 404));
+
+    return res.json({ message: 'Estate info updated' });
+};
+
+
 const deleteEstateHandler = async(req, res, next) => {
     const estateId = req.params.estateId;
-    deleteEstatesLikesItem(estateId);
-    const isDeleted = deleteEstate(estateId);
+    let isDeleted;
+
+    try {
+        isDeleted = await Estate.findByIdAndDelete(estateId);
+        await EstateLikes.findOneAndDelete({ estateId })
+    } catch (err) { return next(new httpError('Something went wrong', 500)) }
+
     if(!isDeleted) return next(new httpError('No estate found', 404));
 
     return res.status(200).json({ message: 'Estate deleted'});
 };
 
+
 const likeEstateHandler = async(req, res, next) => {
     const {estateId, userId} = req.body;
-    const isLiked = likeEstate(estateId, userId);
+    let isLiked;
+
+    try {
+        isLiked = await EstateLikes.findOneAndUpdate({ estateId }, {$push: { likes: userId }});
+    } catch (err) { return next(new httpError('Something went wrong', 500)) }
+
     if(!isLiked) return next(new httpError('No estate found', 404));
 
     return res.status(200).json({ message: 'You liked that'});

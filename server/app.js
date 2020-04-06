@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
 //ROUTES
 const estatesRoutes = require('./components/estates/routes/estates');
 const usersRoutes = require('./components/users/routes/users')
@@ -10,11 +11,17 @@ const signUpRoute = require('./components/subscribers/routes/signUp');
 const findMostLikedEstates = require('./components/homePage/services/homePage');
 //HTTPERROR
 const HttpError = require('./models/http-error');
+//POST REQUEST TRIMMER
+const postReqTrimmer = require('./components/shared/postReqTrimmer/postReqTrimmer');
 
 const app = express();
 const PORT = 5000;
 
+require('dotenv').config();
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(postReqTrimmer);
 app.use(cors());
 
 app.get('/', findMostLikedEstates);
@@ -37,4 +44,7 @@ app.use((error, req, res, next) => {
     res.json({message: error.message || 'An error occurred!'});
 });
 
-app.listen(PORT);
+
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+    .then(() => app.listen(PORT))
+    .catch(err => console.log(err));

@@ -56,9 +56,6 @@ const findUserByProp = (param, userData) => {
     return getUsersList().find( user => user[param] === userData[param]);
 };
 
-// exports.USERS_LIST = USERS_LIST;
-// exports.addNewUser = addNewUser;
-
 module.exports = {
     getUsersList,
     getUserById,

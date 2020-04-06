@@ -1,7 +1,7 @@
 const express = require('express');
 const signUpHandler = require('../services/signUp');
 
-const validate = require('../validators/validate');
+const validate = require('../../shared/validators/validate');
 const signUpValidationRules = require('../validators/signUpValidationRules');
 
 const signUp = express.Router();

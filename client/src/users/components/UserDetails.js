@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import Modal from '../../shared/components/Modal/Modal';
 import Form from '../../shared/components/Form/Form';
-import updateUserValidationSchema from '../../auth/components/Form/userProfile/onUpdateUserValidationSchema';
+import updateUserValidationSchema from '../../auth/components/userProfile/onUpdateUserValidationSchema';
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
