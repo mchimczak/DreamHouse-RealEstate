@@ -1,5 +1,6 @@
 const { v4: uuid } = require('uuid');
 const moment = require('moment');
+const mongoose = require('mongoose');
 
 const {getEstates, addNewEstate, getEstateById, editEstate, deleteEstate} = require('../DUMMY_DATA/EstatesData');
 const {getEstatesLikes, addNewEstatesLikesItem, deleteEstatesLikesItem, likeEstate} = require('../DUMMY_DATA/EstatesLikes');
@@ -7,6 +8,7 @@ const {getEstatesLikes, addNewEstatesLikesItem, deleteEstatesLikesItem, likeEsta
 const httpError = require('../../../models/http-error');
 const Estate = require('../models/estate');
 const EstateLikes = require('../models/estateLikes');
+const User = require('../../users/models/user');
 
 
 const getEstatesHandler = async (req, res, next) => {
@@ -41,6 +43,7 @@ const getEstateByIdHandler = async(req, res, next) => {
 
 
 const addNewEstateHandler = async(req, res, next) => {
+    let user;
     const timeStamp = new Date();
     const newEstate = new Estate ({
         createdAt: moment(timeStamp).format('YYYY-MM-DD'),
@@ -49,13 +52,22 @@ const addNewEstateHandler = async(req, res, next) => {
     const newEstateLikes = new EstateLikes({
         estateId: newEstate.id,
         likes: []
-    })
+    });
+
     try {
-        await newEstate.save()
-        await newEstateLikes.save()
-    } catch (err) {
-        return next(new httpError('DB didnt work', 500))
-    }
+        user = await User.findById(req.body.owner)
+    } catch (err) { return next(new httpError('Something went wrong', 500)) }
+
+    user ? '' : next(new httpError('Could not find creator ID. Please try again later', 500))
+
+
+    try {
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        await newEstate.save({ session });
+        await newEstateLikes.save({ session });
+        await session.commitTransaction();
+    } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
     return res.status(201).json({ message: 'New estate added'});
 };
