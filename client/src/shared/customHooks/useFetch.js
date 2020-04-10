@@ -7,8 +7,8 @@ export const useFetch = url => {
     const [state, setState] = useState({ data: [], loading: true});
 
     useEffect(() => {
-        return () => isCurrent.current = false;}
-    ,[]);
+        return () => isCurrent.current = false;
+    },[]);
 
     useEffect(() => {
         setState({ data: state.data, loading: true});
@@ -28,7 +28,7 @@ export const useFetch = url => {
                         errorMsg: err.response.data.message
                     },
                     loading: false
-                    })
+                });
             });
     }, [url, setState]);
 

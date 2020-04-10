@@ -47,7 +47,17 @@ border: none;
 
 
 const MyForm = props => {
-    const { initState, dirty, touched, errors, handleChange, handleSubmit, isSubmitting } = props;
+    const { initState: {file,...initState }, fileUpload, setFieldValue, dirty, touched, errors, handleChange, handleSubmit, isSubmitting } = props;
+    console.log(fileUpload);
+
+    const handleImageUpload = (file) => {
+        console.log(typeof file);
+        setFieldValue('file', {
+            filename: file.name,
+            type: file.type,
+            size: file.size
+        });
+    }
 
     return (
         <StyledForm onSubmit={handleSubmit}>
@@ -68,6 +78,23 @@ const MyForm = props => {
                     </StyledFieldWrapper>
                 ))
             }
+            {   fileUpload 
+                && <StyledFieldWrapper key={'file'}>
+                        <StyledLabel htmlFor={'file'}>
+                            {(touched[fileUpload.name] && errors[fileUpload.name]) ? errors[fileUpload.name] : fileUpload.name}
+                        </StyledLabel>
+                        <StyledField
+                            type="file"
+                            name={fileUpload.name}
+                            multiple={ fileUpload.multiple ? true : false}
+                            border={touched[fileUpload.name] && errors[fileUpload.name] && '1px solid #f18080'}
+                            background={touched[fileUpload.name] && errors[fileUpload.name] && '#ffacac'}
+                            onChange={(event) => { handleImageUpload(event.currentTarget.files[0]) }}
+                            autoComplete="off"
+                        />
+
+                    </StyledFieldWrapper>
+            }
             <StyledButton type="submit" disabled={isSubmitting} isValid={dirty && Object.keys(errors).length === 0}>Submit</StyledButton>
         </StyledForm>
     );
@@ -81,8 +108,9 @@ const MyEnhancedForm = withFormik({
     }),
     validationSchema: (props) => props.validationSchema,
     handleSubmit: (values, bag) => {
-        bag.resetForm();
-        bag.props.submitAction(values)
+        console.log(values);
+        // bag.resetForm();
+        // bag.props.submitAction(values)
     }
 })(MyForm);
 
@@ -91,7 +119,8 @@ const MyEnhancedForm = withFormik({
 MyEnhancedForm.propTypes = {
     submitAction: PropTypes.func.isRequired,
     validationSchema: PropTypes.any.isRequired,
-    initState: PropTypes.objectOf(PropTypes.string),
+    // initState: PropTypes.objectOf(PropTypes.string),
+    initState: PropTypes.object,
 }
 
 MyEnhancedForm.defaultProps = {

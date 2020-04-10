@@ -49,6 +49,13 @@ align-items: baseline;
     grid-template-columns: 70px auto;
     gap: 1rem;
     font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    & span::first-letter {
+        text-transform: uppercase;
+    }
 }
 `
 const CardActionsWrapper = styled.div`
@@ -89,6 +96,7 @@ const EstateCard = (props) => {
     };
 
     const title = (props.title).toUpperCase();
+    const price = (props.price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 
     const isUsers = useCallback((login, user) => {
         if(!!login === false) {
@@ -122,13 +130,16 @@ const EstateCard = (props) => {
             <CardContent>
                 <CardContentInfoWrapper>
                     <Typography variant="h6">
-                        <b>City:</b> {props.city}
+                        <b>City:</b> 
+                        <span title={props.city}>{props.city}</span>
                     </Typography>
                     <Typography variant="h6">
-                        <b>Address:</b> {props.address}
+                        <b>Address:</b> 
+                        <span title={props.address}>{props.address}</span>
                     </Typography>
                     <Typography variant="h6">
-                        <b>Price:</b>{props.price} $
+                        <b>Price:</b> 
+                        <span title={props.price}>{price} $</span>
                     </Typography>
                 </CardContentInfoWrapper>
             </CardContent>
@@ -140,18 +151,18 @@ const EstateCard = (props) => {
                     { 
                         isUsers(isLoggedIn, userData) &&
                             <>
-                                <Btn small="true" aria-label="add to fav" onClick={likeEstate}>
+                                <Btn small="true" title="Like estate" onClick={likeEstate}>
                                     <Number>{likesNumber}</Number><FavoriteIcon />
                                 </Btn>
                                 { props.email 
-                                    ? (<Btn small="true" upc="true">
+                                    ? (<Btn small="true" upc="true" title="E-mail user">
                                         <a href={'mailto:' + props.email}>e-mail</a>
                                     </Btn>)
                                     : <Btn small="true" upc="true" disabled={true}>email</Btn>
 
                                 }
                                 { props.phone 
-                                    ? ( <Btn small="true" upc="true">
+                                    ? ( <Btn small="true" upc="true" title="Call user">
                                             <a href={'tel:' + props.phone}>tel</a>
                                         </Btn> )
                                     : <Btn small="true" upc="true" disabled>tel</Btn>

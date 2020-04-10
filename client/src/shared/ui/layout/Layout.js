@@ -17,8 +17,9 @@ body {
     padding: 0;
     background-color: ${theme.colors.lightgrey};
     color: ${theme.colors.dark};
-    overflow-x: hidden;
     font-size: ${theme.size.medium};
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 a {

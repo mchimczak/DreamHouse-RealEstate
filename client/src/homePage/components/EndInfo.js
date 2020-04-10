@@ -24,17 +24,18 @@ const EndInfo = () => {
     return ( 
         <Section>
             <JoinUsWrapper>
-                <h4>Don't hesitate</h4>
                 <BtnBox>
                     <Button
                         as={Link}
-                        to="/signup" 
+                        to="/estates" 
                         primary="true"
-                        >
-                            Join the community!
+                        title="View more"
+                        upc="true"
+                    >
+                        View more !
                     </Button>
                 </BtnBox>
-                <h4>and find your DREAM HOUSE today</h4>
+                <h4>...and find your DREAM HOUSE today.</h4>
             </JoinUsWrapper>
         </Section>
      );

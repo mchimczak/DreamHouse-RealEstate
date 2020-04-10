@@ -16,7 +16,6 @@ import House from '../../img/house.jpg'
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 
 
@@ -108,7 +107,7 @@ const EstateItemDetails = (props) => {
 
     return ( 
         <Center>
-            <MyCard>
+            <MyCard title={(props.title).toUpperCase()} createdAt={createdAt}>
             <StyledMediaWrapper>
                     <StyledMediaMain 
                         image={House}
@@ -126,9 +125,6 @@ const EstateItemDetails = (props) => {
                     </StyledMediaAsideWrapper>
                 </StyledMediaWrapper>
                 <StyledContentWrapper>
-                    <CardHeader
-                        title={(props.title).toUpperCase()}
-                    />
                     <CardContent>
                         <CardContentInfoWrapper>
                             { Object.entries(displayedInfo).map(([title, value]) => {
@@ -140,29 +136,28 @@ const EstateItemDetails = (props) => {
                                         </Typography>
                                     </div>
                                 )
-                                }) 
-                            }
+                            }) }
                         </CardContentInfoWrapper>
                     </CardContent>
                     <StyledCardActions>
                         { (!isLoggedIn || (isLoggedIn && userData.id !== owner))
                             ? ( <>
-                                    <Button primary="yes" small="true" cap="true">
-                                        <a href={`mailto:${email}`}>Email</a>
+                                    <Button primary="yes" small="true" upc="true" title="E-mail User">
+                                        <a href={`mailto:${email}`}>E-mail</a>
                                     </Button>
                                     { phone 
-                                        ? (<Button primary="yes" small="true" cap="true">
+                                        ? (<Button primary="yes" small="true" upc="true" title="Call User">
                                             <a href={`tel:${phone}`}>Tel</a>
                                             </Button>)
-                                        : (<Button primary="yes" small="true" cap="true" disabled={true}>
+                                        : (<Button primary="yes" small="true" upc="true" disabled={true}>
                                                 Tel
                                             </Button>)
                                     }
                                 </> )
                             : ( <>
-                                    <Button onClick={toggleModal} small="true" cap="true"
+                                    <Button onClick={toggleModal} small="true" upc="true" title="Edit estate info"
                                     >edit</Button>
-                                    <Button onClick={removeEstateItem} primary="yes"small="true" cap="true"
+                                    <Button onClick={removeEstateItem} primary="yes"small="true" upc="true" title="Delete estate card"
                                     >delete</Button>
                                 </> )
                         }

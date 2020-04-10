@@ -5,23 +5,26 @@ export const UserContext = React.createContext();
 
 export const UserContextProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [status, setStatus] = useState(false);
     const [userData, setUserData] = useState({});
     const [usersList, setUsersList] = useState([]);
 
     const register = async (user) => {
+        setIsLoading(true);
         await axios.post('http://localhost:5000/signup', {
             ...user
         }).then( res => {
-            console.log(res.data);
             const { user, message } = res.data;
             setUserData(user);
             setIsLoggedIn(true);
             setStatus(message);
-            }).catch( err => setStatus(err.response.data.message));
+            return setIsLoading(false);
+        }).catch( err => setStatus(err.response.data.message), setIsLoading(false));
     };
 
     const login = async (val) => {
+        setIsLoading(true);
         await axios.post('http://localhost:5000/login', {
             email: val.email,
             password: val.password
@@ -29,32 +32,33 @@ export const UserContextProvider = (props) => {
             const { user, message } = res.data;
             setUserData(user);
             setIsLoggedIn(true);
-            return setStatus(message);
-        })
-        .catch(err => setStatus(err.response.data.message));
+            setStatus(message);
+            return setIsLoading(false);
+        }).catch(err => setStatus(err.response.data.message), setIsLoading(false));
     };
 
-    const logout = async (id) => {
-        await setUserData(id === userData.id ? {} : userData)
+    const logout = (id) => {
+        setUserData(id === userData.id ? {} : userData)
         setIsLoggedIn(false);
         setStatus(`See you next time ${userData.name}`);
     };
 
     const updateUser = async (id, updates) => {
-        await setUserData(prevState => ({
+        await axios.patch(`http://localhost:5000/users/me/${id}`, { id: userData.id, ...updates })
+        .then(res => setStatus(res.data.message))
+        .catch(err => setStatus(err.response.data.message));
+
+        setUserData(prevState => ({
             ...prevState,
             ...updates
         }));
-
-        axios.patch(`http://localhost:5000/users/me/${id}`, { id: userData.id, ...updates })
-            .then( res => setStatus(res.data.message))
-            .catch (err => setStatus(err.response.data.message));
     };
 
 
     const value = {
         userList: [usersList, setUsersList],
         status: [status, setStatus],
+        loading: [isLoading, setIsLoading],
         isLoggedIn,
         userData,
         updateUser,

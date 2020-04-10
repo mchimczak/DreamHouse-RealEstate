@@ -22,6 +22,7 @@ const JoinSection = () => {
                 to="/signup"
                 primary="true"
                 upc="true"
+                title="Sign up"
                 >
                     Sign up
                 </Button>
@@ -29,8 +30,9 @@ const JoinSection = () => {
                 as={Link}
                 to="/login"
                 upc="true"
+                title="Log in"
                 >
-                    Login
+                    Log in
                 </Button>
             </Wrapper>
         </Section> 

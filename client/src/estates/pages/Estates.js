@@ -14,15 +14,12 @@ const Estates = () => {
     const {estatesData: [estates, dispatch], estatesLikes: [estatesLikes, setEstatesLikes]} = useContext(EstatesContext);
     const { estatesData, estatesLikes: userLikes } = useFetch('http://localhost:5000/estates');
 
-
     useEffect(() => {
         if(init.current) {
             init.current = false;
             setEstatesLikes(userLikes);
             dispatch(setEstates(estatesData));
-        } else {
-            init.current = true;
-        }
+        } else init.current = true;
     }, [estatesData, userLikes])
 
     return ( 

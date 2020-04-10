@@ -7,9 +7,7 @@ import { EstatesContext } from '../../estates/context/EstatesContext';
 
 import Card from '@material-ui/core/Card';
 import Avatar from '@material-ui/core/Avatar';
-import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
-import Typography from '@material-ui/core/Typography';
 
 import Button from '../../shared/components/Button/Button';
 

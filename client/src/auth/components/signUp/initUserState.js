@@ -2,7 +2,8 @@ const initUserState = {
     name: '',
     email: '',
     phone: '',
-    password: ''
+    password: '',
+    file: {}
 };
 
 export default initUserState;

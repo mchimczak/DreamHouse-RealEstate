@@ -21,9 +21,6 @@ padding-bottom: 1rem;
     margin: 0;
     margin-left: 10px;
 }
-& > div:first-of-type {
-    margin-left: -20px;
-}
 
 ${({theme}) => theme.media.tablet} {
     display: grid;
@@ -35,13 +32,11 @@ ${({theme}) => theme.media.tablet} {
     & > div {
         margin: 0;
     }
-    & > div:first-of-type {
-        margin-left: 0px;
-    }
 }
 `
 const BestEstatesHeader = styled.h4`
 text-transform: uppercase;
+font-weight: ${({theme}) => theme.font.thin};
 `
 const StyledImg = styled.img`
 display: flex;

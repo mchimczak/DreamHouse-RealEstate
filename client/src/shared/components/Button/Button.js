@@ -41,6 +41,7 @@ const Btn = (props) => {
             as={props.as}
             to={props.to}
             disabled={props.disabled}
+            title={props.title}
         >
             {props.children}
         </StyledButton>

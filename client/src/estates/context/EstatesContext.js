@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useContext} from 'react';
+import React, { useReducer, useState, useContext } from 'react';
 import axios from 'axios';
 
 import { reducer, addEstate, removeEstate, editEstate } from './EstatesActions';
@@ -9,12 +9,9 @@ export const EstatesContext = React.createContext();
 export const EstatesContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(reducer, []);
-    // const [state, dispatch] = useReducer(reducer, EstatesListData);
     const [estatesLikes, setEstatesLikes]= useState([]);
-
     const {status: [, setStatus]} = useContext(UserContext);
     
-
     const startAddEstate = async(newEstate) => {
         await axios.post('http://localhost:5000/estates/new', { ...newEstate })
                     .then((res) => {
@@ -37,7 +34,6 @@ export const EstatesContextProvider = (props) => {
                 }).catch( err => setStatus(err.response.data.message));
     };
 
-
     const addLike = async(estateId, userId) => {
         await axios.post(`http://localhost:5000/estates/${estateId}/like`, {estateId, userId})
                 .then((res) => {
@@ -55,7 +51,6 @@ export const EstatesContextProvider = (props) => {
                 }).catch( err => setStatus(err.response.data.message));
 
     };
-
 
     const value = {
         estatesData: [state, dispatch],

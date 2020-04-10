@@ -9,6 +9,9 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
+import Loader from '../../shared/components/Loader/Loader';
+import Center from '../../shared/ui/position/Center';
+
 import { EstatesContext } from '../context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
 
@@ -39,7 +42,7 @@ ${({theme}) => theme.media.tablet} {
 
 const AddEstate = () => {
     const { addEstate } = useContext(EstatesContext);
-    const { userData } = useContext(UserContext);
+    const { userData, status: [, setStatus], loading: [isLoading, setIsLoading] } = useContext(UserContext);
     const [isRedirect, setIsRedirect] = useState(false);
 
     const getOwner = () => {
@@ -50,34 +53,41 @@ const AddEstate = () => {
     };
 
     const createEstate = async (values) => {
-        addEstate({
-            owner: getOwner(),
-            email: userData.email,
-            phone: getPhone(),
-            ...values
-        });
+        setIsLoading(true);
+        try {
+            await addEstate({
+                owner: getOwner(),
+                email: userData.email,
+                phone: getPhone(),
+                ...values
+            });
+        } catch (err) { setStatus('Something went wrong') }
+        setIsLoading(false);
         setIsRedirect(true);
     };
 
     return (
         <> 
             {isRedirect ? <Redirect to="/estates" /> : null}
-            <StyledCard>
-                <CardMedia>
-                    <StyledMediaMain 
-                        image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
-                    />
-                </CardMedia>
-                <StyledCardContent>
-                    <p>Tired of searching a buyer?</p>
-                    <p>Let them find you!</p>
-                    <h3>Create new advertisement and wait for a call, it's that simple.</h3>
-                    <Form 
-                        submitAction={createEstate}
-                        validationSchema={estateValidationSchema}
-                    />
-                </StyledCardContent>
-            </StyledCard>
+            { isLoading
+                ? <Center> <Loader /> </Center>
+                : <StyledCard>
+                    <CardMedia>
+                        <StyledMediaMain 
+                            image="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80"
+                        />
+                    </CardMedia>
+                    <StyledCardContent>
+                        <p>Tired of searching a buyer?</p>
+                        <p>Let them find you!</p>
+                        <h3>Create new advertisement and wait for a call, it's that simple.</h3>
+                        <Form 
+                            submitAction={createEstate}
+                            validationSchema={estateValidationSchema}
+                        />
+                    </StyledCardContent>
+                </StyledCard>
+            }
         </>
      );
 }

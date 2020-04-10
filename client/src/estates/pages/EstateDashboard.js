@@ -7,6 +7,7 @@ import { UserContext } from '../../auth/context/UserContext';
 import EstateItemDetails from '../components/EstateItemDetails';
 import { useFetch } from '../../shared/customHooks/useFetch';
 import Loader from '../../shared/components/Loader/Loader';
+import Center from '../../shared/ui/position/Center';
 
 const EstateDashboard = () => {
     
@@ -62,7 +63,7 @@ const EstateDashboard = () => {
             {
                 currentEstate 
                 ? <EstateItemDetails key={currentEstate.id} removeCurrentEstate ={removeCurrentEstate} editCurrentEstate={editCurrentEstate} {...currentEstate} />
-                : (isRedirect ? <Redirect to="/" /> : <Loader />)
+                : (isRedirect ? <Redirect to="/" /> : <Center> <Loader /> </Center> )
             }
         </>
      );

@@ -4,24 +4,31 @@ import styled from 'styled-components';
 import Backdrop from '../../ui/layout/Backdrop';
 
 let Aside = styled.aside`
-position: absolute;
+position: fixed;
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-color: ${({theme}) => theme.colors.white};
-background-color: ${({theme}) => theme.colors.mobileNav};
-top: 0;
+color: ${({theme}) => theme.colors.black};
+background-color: ${({theme}) => theme.colors.orange};
+bottom: 0;
 right: 0;
-width: 200px;
-height: 100%;
-padding: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
+left: 0;
+width: 100vw;
+height: auto;
+padding: ${({theme}) => theme.size.medium} ${({theme}) => theme.size.medium};
 z-index: 100;
 transition: .5s ease-in-out;
-transform: ${({isOpen}) => isOpen ? null : 'translateX(200px)'};
+transform: ${({isOpen}) => isOpen ? '0' : 'translateY(300px)'};
 
 & ul {
+    position: relative;
+    z-index: 999;
     flex-direction: column;
+    padding: 0;
+    text-align: center;
+    font-size: ${({theme}) => theme.size.medium};
+
 }
 
 ${({theme}) => theme.media.desktop} {
