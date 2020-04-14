@@ -72,7 +72,7 @@ const UserDetails = ({user, updateUser}) => {
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    const {id, createdAt, estates, email, ...editableUserInfo} = user;
+    const {id, createdAt, estates, email, file, ...editableUserInfo} = user;
 
     const startUpdateUser = async (updates) => {
         await updateUser(id, updates);

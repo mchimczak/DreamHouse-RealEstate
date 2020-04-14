@@ -12,9 +12,17 @@ export const UserContextProvider = (props) => {
 
     const register = async (user) => {
         setIsLoading(true);
-        await axios.post('http://localhost:5000/signup', {
-            ...user
-        }).then( res => {
+        const formData = new FormData();
+        Object.keys(user).map( field => {
+            user[field][0] instanceof FileList || user[field][0] instanceof File
+                ? formData.append(field, user[field][0], user[field][0].name) 
+                : formData.append(field, user[field])
+        });
+        await axios({
+            method: 'post',
+            url: 'http://localhost:5000/signup',
+            data: formData
+          }).then( res => {
             const { user, message } = res.data;
             setUserData(user);
             setIsLoggedIn(true);

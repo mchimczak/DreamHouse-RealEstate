@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import styled from 'styled-components';
 
 import { withFormik, Field } from "formik";
@@ -44,20 +43,53 @@ padding: 15px;
 margin-top: 4rem;
 border: none;
 `
-
+const StyledImgPrevWrapper = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+margin: 1rem 0;
+`
+const StyledImgPrev = styled.img`
+width: 200px;
+height: 200px;
+object-fit: fill;
+`
 
 const MyForm = props => {
     const { initState: {file,...initState }, fileUpload, setFieldValue, dirty, touched, errors, handleChange, handleSubmit, isSubmitting } = props;
-    console.log(fileUpload);
+    const [ pickedFiles, setPickedFiles ] = useState([]);
+    const [ imgPrev, setImgPrev ] = useState([]);
 
-    const handleImageUpload = (file) => {
-        console.log(typeof file);
-        setFieldValue('file', {
-            filename: file.name,
-            type: file.type,
-            size: file.size
+    const SUPPORTED_FORMAT = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
+
+    useEffect(() => {
+        if(!pickedFiles) return;
+
+        setImgPrev([]);
+        let imgData = [];
+        pickedFiles.map( file => {
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                setImgPrev(prevState => ([ ...prevState, { data: fileReader.result, type: file.type} ]))
+                imgData.push(file)
+                // imgData.push({
+                //     data: fileReader.result,
+                //     type: file.type
+                // })
+            };
+            fileReader.readAsDataURL(file);
         });
-    }
+
+        setFieldValue('file', imgData);
+    },[pickedFiles]);
+
+    const handleImageUpload = (files) => {
+        if(files && files.length !== 0) {
+            const filesArray = Object.values(files);
+            setPickedFiles(filesArray);
+        }
+    };
 
     return (
         <StyledForm onSubmit={handleSubmit}>
@@ -78,23 +110,30 @@ const MyForm = props => {
                     </StyledFieldWrapper>
                 ))
             }
-            {   fileUpload 
-                && <StyledFieldWrapper key={'file'}>
-                        <StyledLabel htmlFor={'file'}>
-                            {(touched[fileUpload.name] && errors[fileUpload.name]) ? errors[fileUpload.name] : fileUpload.name}
-                        </StyledLabel>
-                        <StyledField
-                            type="file"
-                            name={fileUpload.name}
-                            multiple={ fileUpload.multiple ? true : false}
-                            border={touched[fileUpload.name] && errors[fileUpload.name] && '1px solid #f18080'}
-                            background={touched[fileUpload.name] && errors[fileUpload.name] && '#ffacac'}
-                            onChange={(event) => { handleImageUpload(event.currentTarget.files[0]) }}
-                            autoComplete="off"
-                        />
+            {   fileUpload && 
+                    <>
+                        <StyledFieldWrapper key={'file'}>
+                            <StyledLabel htmlFor={'file'}>
+                                {(touched[fileUpload.name] && errors['file']) ? errors['file'] : fileUpload.name}
+                            </StyledLabel>
+                            <StyledField
+                                type="file"
+                                name={fileUpload.name}
+                                multiple={ fileUpload.multiple ? true : false}
+                                border={touched[fileUpload.name] && errors['file'] && '1px solid #f18080'}
+                                background={touched[fileUpload.name] && errors['file'] ? '#ffacac' : 'transparent'}
+                                onChange={(event) => { handleImageUpload(event.currentTarget.files) }}
+                                autoComplete="off"
+                            />
 
-                    </StyledFieldWrapper>
+                        </StyledFieldWrapper>
+                    </>
             }
+            <StyledImgPrevWrapper>
+                    { imgPrev && !errors['file'] && imgPrev.map( img => (
+                        SUPPORTED_FORMAT.includes(img.type) && <StyledImgPrev src={img.data} key={img.data} alt={img.data} />
+                     )) }
+            </StyledImgPrevWrapper>
             <StyledButton type="submit" disabled={isSubmitting} isValid={dirty && Object.keys(errors).length === 0}>Submit</StyledButton>
         </StyledForm>
     );
@@ -109,8 +148,8 @@ const MyEnhancedForm = withFormik({
     validationSchema: (props) => props.validationSchema,
     handleSubmit: (values, bag) => {
         console.log(values);
-        // bag.resetForm();
-        // bag.props.submitAction(values)
+        bag.resetForm();
+        bag.props.submitAction(values)
     }
 })(MyForm);
 

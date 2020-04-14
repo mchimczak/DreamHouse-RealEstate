@@ -3,7 +3,7 @@ const initUserState = {
     email: '',
     phone: '',
     password: '',
-    file: {}
+    file: []
 };
 
 export default initUserState;
