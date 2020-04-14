@@ -8,7 +8,8 @@ const userSchema = new Schema({
     name: { type: String, required: true },
     phone: String,
     email: { type: String, required: true, unique: true, uniqueCaseInsensitive: true},
-    password: { type: String, required: true, minlength: 6}
+    password: { type: String, required: true, minlength: 6},
+    file: Array
 },{
     toObject: {
       transform: function (doc, ret) {
