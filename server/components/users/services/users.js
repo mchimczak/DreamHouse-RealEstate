@@ -57,7 +57,8 @@ const addNewUserHandler = async (req, res, next) => {
         const timeStamp = new Date();
         const createUser = new User ({
             createdAt: moment(timeStamp).format('YYYY-MM-DD'),
-            ...user
+            ...user,
+            file: req.files[0].path
         });
         await createUser.save().then(res => newUser = res.toObject({ getters: true }))
     } catch (err) { return new httpError('Something went wrong, please try again later', 500) }
@@ -67,11 +68,15 @@ const addNewUserHandler = async (req, res, next) => {
 
 
 const updateUserDataHandler = async (req, res, next) => {
-    const {id, ...updatedUser} = req.body;
+    let {id, ...updatedUser} = req.body;
+    if(req.files.length !== 0) {
+        updatedUser = {...updatedUser, file: req.files[0].path}
+    }
     let isUser;
 
     try {
-        isUser = await User.findOneAndUpdate(id, updatedUser);
+        isUser = await User.findOneAndUpdate({_id: id}, updatedUser, {new: true});
+        console.log(isUser);
     } catch (err) { return new httpError('Something went wrong', 500) }
 
     if(!isUser) return next(new httpError('Could not find the user', 404));
@@ -82,7 +87,7 @@ const updateUserDataHandler = async (req, res, next) => {
         }catch (err) { return new httpError('Something went wrong', 500) }
     }
 
-    res.json({ message: 'Profile updated' });
+    res.json({ user: isUser.toObject({ getters: true}), message: 'Profile updated' });
 };
 
 module.exports = {

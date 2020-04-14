@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -24,6 +26,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(postReqTrimmer);
 app.use(cors());
 
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
+
 app.get('/', findMostLikedEstates);
 app.use('/estates',estatesRoutes);
 app.use('/users' , usersRoutes);
@@ -37,9 +41,14 @@ app.use((req,res, next) => {
 });
 
 app.use((error, req, res, next) => {
-    if(res.headerSent) {
-        return next(error);
-    }
+    const handleCancelUploadImg = file => fs.unlink(file.path, err => console.log(err));
+    if(req.files) {
+        let files = req.files;
+        files.forEach(file => handleCancelUploadImg(file))
+    };
+
+    if(res.headerSent) return next(error);
+
     res.status(error.code || 500);
     res.json({message: error.message || 'An error occurred!'});
 });

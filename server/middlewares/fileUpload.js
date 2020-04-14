@@ -1,5 +1,5 @@
 const multer = require('multer');
-const uuid = require('uuid/v1');
+const uuid = require('uuid/v4');
 
 const ALLOWED_MIME_TYPE = {
     'image/jpeg': 'jpeg',
