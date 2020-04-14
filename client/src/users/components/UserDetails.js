@@ -11,7 +11,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
-// import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
 import Button from '../../shared/components/Button/Button'
@@ -72,23 +72,34 @@ const UserDetails = ({user, updateUser}) => {
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    const {id, createdAt, estates, email, file, ...editableUserInfo} = user;
+    // const {id, createdAt, email, file, ...editableUserInfo} = user;
+    const { id, createdAt, file, email, password, name, phone} = user;
+    const publicInfo = { name, email, phone };
+    const editableUserInfo = { password, name, phone, file };
 
     const startUpdateUser = async (updates) => {
         await updateUser(id, updates);
         setIsOpen(false);
     };
 
+    const initials = [...user.name[0]];
+    const avatar = file && file.length !== 0 
+    ? <Avatar alt="Remy Sharp" src={`http://localhost:5000/${file[0]}`} />
+    : <Avatar aria-label="user">{initials}</Avatar>
+
     return ( 
         <CardWrapper>
             <StyledCard>
                 <StyledContentWrapper>
-                    <CardHeader
-                        title='Your profile'
-                    />
+                <CardHeader
+                    color="primary"
+                    avatar={ avatar }
+                    title={'Your profile dashboard'}
+                    subheader={`Joined: ${createdAt}`}
+                />
                     <CardContent>
                         <CardContentInfoWrapper>
-                        { Object.entries(user).map(([title, value]) => (
+                        { Object.entries(publicInfo).map(([title, value]) => (
                                     <div key={title}>
                                         <Typography variant="h6">
                                             <FieldTitle>{title}:</FieldTitle> {value}
@@ -112,6 +123,7 @@ const UserDetails = ({user, updateUser}) => {
                             submitAction={startUpdateUser}
                             initState={editableUserInfo}
                             validationSchema={updateUserValidationSchema}
+                            fileUpload={{name: 'avatar', multiple: false}}
                         />
                     </FormWrapper>
                 </Modal>

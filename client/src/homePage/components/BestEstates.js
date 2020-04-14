@@ -56,7 +56,7 @@ const BestEstates = () => {
 
     return ( 
         <Section>
-            <BestEstatesHeader>Top 3 most liked Real Estate offers</BestEstatesHeader>
+            <BestEstatesHeader>Top 3 most recommended Real Estate offers</BestEstatesHeader>
             { bestEstate && mostLikedEstates
                 ? ( <EstatesWrapper>
                         { bestEstate.map ( estate => <EstateCard key={estate.id} {...estate} />) }

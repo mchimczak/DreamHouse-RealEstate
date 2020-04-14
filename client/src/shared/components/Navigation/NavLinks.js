@@ -10,6 +10,7 @@ const List = styled.ul`
 display: flex;
 flex-direction: row;
 list-style: none;
+align-items: center;
 
 & li {
     padding: .5rem;
@@ -27,6 +28,7 @@ const PrivateLinksWrapper = styled.div`
 display: flex;
 flex-direction: column;
 margin-top: 2rem;
+align-items: center;
 
 ${({theme}) => theme.media.desktop} {
     flex-direction: row;

@@ -16,18 +16,22 @@ display: grid;
 padding: 1rem;
 `
 
-const UserCard = ({ id, name, createdAt }) => {
+const UserCard = ({ id, name, createdAt, file }) => {
     const {estatesData: [estatesData]} = useContext(EstatesContext);
     const initials = [...name[0]];
 
     let estates = 0;
     estatesData.map( el => el.owner === id ? estates++ : null );
 
+    const avatar = file && file.length !== 0 
+        ? <Avatar alt="Remy Sharp" src={`http://localhost:5000/${file[0]}`} />
+        : <Avatar aria-label="user">{initials}</Avatar>
+
     return (
         <Card>
             <CardHeader
                 color="primary"
-                avatar={ <Avatar aria-label="user">{initials}</Avatar> }
+                avatar={ avatar }
                 title={name}
                 subheader={`Joined: ${createdAt}`}
             />

@@ -24,7 +24,7 @@ const SignUpPage = () => {
                             submitAction={createNewUser}
                             initState={initUserState}
                             validationSchema={userValidationSchema}
-                            fileUpload={{name: 'avatar', multiple: true}}
+                            fileUpload={{name: 'avatar', multiple: false}}
                         />
                     </Card>
             }

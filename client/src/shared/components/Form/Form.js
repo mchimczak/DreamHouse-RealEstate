@@ -73,10 +73,6 @@ const MyForm = props => {
             fileReader.onload = () => {
                 setImgPrev(prevState => ([ ...prevState, { data: fileReader.result, type: file.type} ]))
                 imgData.push(file)
-                // imgData.push({
-                //     data: fileReader.result,
-                //     type: file.type
-                // })
             };
             fileReader.readAsDataURL(file);
         });

@@ -52,14 +52,24 @@ export const UserContextProvider = (props) => {
     };
 
     const updateUser = async (id, updates) => {
-        await axios.patch(`http://localhost:5000/users/me/${id}`, { id: userData.id, ...updates })
-        .then(res => setStatus(res.data.message))
-        .catch(err => setStatus(err.response.data.message));
-
-        setUserData(prevState => ({
-            ...prevState,
-            ...updates
-        }));
+        const formData = new FormData();
+        Object.keys(updates).map( field => {
+            if (!!updates[field][0] === false) return 
+            updates[field][0] instanceof FileList || updates[field][0] instanceof File
+                ? formData.append(field, updates[field][0], updates[field][0].name) 
+                : formData.append(field, updates[field])
+        });
+        formData.append('id', userData.id);
+         
+         await axios({
+             method: 'post',
+             url: `http://localhost:5000/users/me/${id}`, 
+             data: formData
+            }).then(res => {
+                setStatus(res.data.message);
+                setUserData(res.data.user);
+            })
+            .catch(err => setStatus(err.response.data.message));
     };
 
 
