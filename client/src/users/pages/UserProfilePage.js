@@ -10,6 +10,10 @@ const UserProfileWrapper = styled.div`
 display: grid;
 grid-template-columns: auto;
 gap: 2rem;
+
+${({theme}) => theme.media.desktop} {
+    grid-template-columns: 4fr 1fr;
+}
 `
 
 const UserProfilePage = () => {
@@ -26,5 +30,6 @@ const UserProfilePage = () => {
 export default UserProfilePage;
 
 UserDashboard.propTypes = {
-    userData: PropTypes.object
+    userData: PropTypes.object,
+    updateUser: PropTypes.func
 }

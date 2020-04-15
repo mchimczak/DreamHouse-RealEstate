@@ -14,7 +14,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
-import Button from '../../shared/components/Button/Button'
+import Button from '../../shared/components/Button/Button';
+import CardFields from '../../shared/components/Card/CardFields';
 
 const CardWrapper = styled.div`
 grid-row: 1;
@@ -22,14 +23,13 @@ ${({theme}) => theme.media.tablet} {
     grid-column: 2;
 }
 `
-
 const StyledCard = styled(Card)`
 position: sticky;
 top: 50px;
 width: 100%;
 max-width: 400px;
 height: auto;
-margin: 2rem auto;
+margin: ${({theme}) => theme.size.xlarge} auto;
 display: flex;
 flex-direction: column-reverse;
 `
@@ -68,11 +68,9 @@ align-items: center;
 `
 
 const UserDetails = ({user, updateUser}) => {
-
     const [isOpen, setIsOpen] = useState(false);
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
-    // const {id, createdAt, email, file, ...editableUserInfo} = user;
     const { id, createdAt, file, email, password, name, phone} = user;
     const publicInfo = { name, email, phone };
     const editableUserInfo = { password, name, phone, file };
@@ -84,7 +82,7 @@ const UserDetails = ({user, updateUser}) => {
 
     const initials = [...user.name[0]];
     const avatar = file && file.length !== 0 
-    ? <Avatar alt="Remy Sharp" src={`http://localhost:5000/${file[0]}`} />
+    ? <Avatar alt="User profile picture" src={`http://localhost:5000/${file[0]}`} />
     : <Avatar aria-label="user">{initials}</Avatar>
 
     return ( 
@@ -98,16 +96,7 @@ const UserDetails = ({user, updateUser}) => {
                     subheader={`Joined: ${createdAt}`}
                 />
                     <CardContent>
-                        <CardContentInfoWrapper>
-                        { Object.entries(publicInfo).map(([title, value]) => (
-                                    <div key={title}>
-                                        <Typography variant="h6">
-                                            <FieldTitle>{title}:</FieldTitle> {value}
-                                        </Typography>
-                                    </div>
-                                )) 
-                            }
-                        </CardContentInfoWrapper>
+                        <CardFields data={publicInfo} />
                     </CardContent>
                     <StyledCardActions>
                         <Button small="yes" onClick={toggleModal}>
@@ -135,5 +124,6 @@ const UserDetails = ({user, updateUser}) => {
 export default UserDetails;
 
 UserDetails.propTypes = {
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    updateUser: PropTypes.func.isRequired
 }

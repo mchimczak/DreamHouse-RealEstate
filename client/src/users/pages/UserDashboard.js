@@ -21,7 +21,6 @@ const UserDashboard = () => {
     const [isRedirect, setIsRedirect] = useState(false);
 
     const userId = useParams().userId;
-    // const userEstates = estatesData.filter( estate => estate.owner === userId);
     const { userEstates, userLikes, errorStatus, errorMsg }  = useFetch(`http://localhost:5000/users/${userId}`);
 
     useEffect(() => {
@@ -39,17 +38,14 @@ const UserDashboard = () => {
     }, [userLikes, userEstates, errorStatus]);
 
 
-    return ( 
-        <div>
-            {
-                errorStatus && isRedirect
+    return ( <>
+            { errorStatus && isRedirect
                 ? <Redirect to="/" />
-                : (fetchedUserEstates
+                : fetchedUserEstates
                     ? <EstatesList items={fetchedUserEstates}/> 
-                    : <Center> <Loader/> </Center>  )
+                    : <Center> <Loader/> </Center>
             }
-        </div>
-     );
+        </> );
 }
  
 export default UserDashboard;

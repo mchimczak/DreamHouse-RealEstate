@@ -8,13 +8,13 @@ import  { EstatesContext } from '../../estates/context/EstatesContext';
 
 import House from '../../img/house.jpg'
 import MyCard from '../../shared/components/Card/Card';
+import CardFields from '../../shared/components/Card/CardFields';
 import Btn from '../../shared/components/Button/Button';
 
 
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import Typography from '@material-ui/core/Typography';
 
 
 const StyledMediaWrapper = styled.div`
@@ -36,27 +36,6 @@ grid-template: 1fr 1fr 1fr / auto;
 gap: .5rem;
 `
 const StyledMediaAsideItem = styled(CardMedia)`
-`
-const CardContentInfoWrapper = styled.div`
-display: grid;
-gap: .5rem;
-justify-content: space-between;
-grid-template-columns: auto;
-align-items: baseline;
-
-& > h6 {
-    display: grid;
-    grid-template-columns: 70px auto;
-    gap: 1rem;
-    font-size: 12px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-
-    & span::first-letter {
-        text-transform: uppercase;
-    }
-}
 `
 const CardActionsWrapper = styled.div`
 display: grid;
@@ -95,21 +74,20 @@ const EstateCard = (props) => {
         } else setStatus('You have to be logged in to like this estate');
     };
 
-    const title = (props.title).toUpperCase();
-    const price = (props.price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    const showFields = {
+        city: (props.city),
+        address: props.address,
+        price: (props.price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    };
 
     const isUsers = useCallback((login, user) => {
-        if(!!login === false) {
-            return true
-        } else if (login && user.id !== props.owner){
-            return true
-        } else {
-            return false
-        }
+        if(!!login === false) return true
+        else if (login && user.id !== props.owner) return true
+        else return false
     },[props.owner]);
 
     return ( 
-        <MyCard title={title}>
+        <MyCard title={props.title}>
             <StyledMediaWrapper>
                 <StyledMediaMain 
                     image={House}
@@ -125,51 +103,33 @@ const EstateCard = (props) => {
                     image={House}
                     />
                 </StyledMediaAsideWrapper>
-
             </StyledMediaWrapper>
             <CardContent>
-                <CardContentInfoWrapper>
-                    <Typography variant="h6">
-                        <b>City:</b> 
-                        <span title={props.city}>{props.city}</span>
-                    </Typography>
-                    <Typography variant="h6">
-                        <b>Address:</b> 
-                        <span title={props.address}>{props.address}</span>
-                    </Typography>
-                    <Typography variant="h6">
-                        <b>Price:</b> 
-                        <span title={props.price}>{price} $</span>
-                    </Typography>
-                </CardContentInfoWrapper>
+                    <CardFields data={showFields} />
             </CardContent>
             <CardActionsWrapper>
                 <Btn primary="true" upc="true" small="true" as={Link} to={`/estates/${props.id}`}>
                     View details
                 </Btn>
                 <CardActionsBlock>
-                    { 
-                        isUsers(isLoggedIn, userData) &&
-                            <>
-                                <Btn small="true" title="Like estate" onClick={likeEstate}>
-                                    <Number>{likesNumber}</Number><FavoriteIcon />
-                                </Btn>
-                                { props.email 
-                                    ? (<Btn small="true" upc="true" title="E-mail user">
-                                        <a href={'mailto:' + props.email}>e-mail</a>
-                                    </Btn>)
-                                    : <Btn small="true" upc="true" disabled={true}>email</Btn>
+                    { isUsers(isLoggedIn, userData) && <>
+                        <Btn small="true" title="Like estate" onClick={likeEstate}>
+                            <Number>{likesNumber}</Number><FavoriteIcon />
+                        </Btn>
+                        { props.email 
+                            ? (<Btn small="true" upc="true" title="E-mail user">
+                                <a href={'mailto:' + props.email}>e-mail</a>
+                            </Btn>)
+                            : <Btn small="true" upc="true" disabled={true}>email</Btn>
 
-                                }
-                                { props.phone 
-                                    ? ( <Btn small="true" upc="true" title="Call user">
-                                            <a href={'tel:' + props.phone}>tel</a>
-                                        </Btn> )
-                                    : <Btn small="true" upc="true" disabled>tel</Btn>
-                                }
-                                
-                            </>
-                    }
+                        }
+                        { props.phone 
+                            ? ( <Btn small="true" upc="true" title="Call user">
+                                    <a href={'tel:' + props.phone}>tel</a>
+                                </Btn> )
+                            : <Btn small="true" upc="true" disabled>tel</Btn>
+                        }
+                    </> }
                 </CardActionsBlock>
             </CardActionsWrapper>
         </MyCard>
@@ -186,7 +146,3 @@ EstateCard.propTypes = {
     price: PropTypes.string.isRequired,
     owner: PropTypes.string.isRequired,
 }
-
-// EstateCard.defaultProps = {
-//     estatesLikes: []
-// }

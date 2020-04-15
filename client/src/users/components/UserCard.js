@@ -57,7 +57,8 @@ export default UserCard;
 UserCard.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string,
-    createdAt: PropTypes.string
+    createdAt: PropTypes.string,
+    file: PropTypes.arrayOf(PropTypes.string)
 }
 
 UserCard.defaultProps = {

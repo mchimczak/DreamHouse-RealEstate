@@ -7,9 +7,10 @@ import Modal from '../../shared/components/Modal/Modal';
 import Form from '../../shared/components/Form/Form';
 import estateValidationSchema from './Form/EstateValidationSchema';
 import MyCard from '../../shared/components/Card/Card';
+import CardFields from '../../shared/components/Card/CardFields';
 import ModalBox from '../../shared/components/Modal/ModalBox';
 import Button from '../../shared/components/Button/Button';
-import Center from '../../shared/ui/position/Center'
+import Center from '../../shared/ui/position/Center';
 
 import House from '../../img/house.jpg'
 
@@ -55,10 +56,6 @@ gap: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
 `
 const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;
-`
-const FieldTitle = styled.span`
-font-weight: ${({theme}) => theme.font.bold};
-text-transform: capitalize;
 `
 const FormWrapper = styled.div`
 display: grid;
@@ -107,7 +104,7 @@ const EstateItemDetails = (props) => {
 
     return ( 
         <Center>
-            <MyCard title={(props.title).toUpperCase()} createdAt={createdAt}>
+            <MyCard title={props.title} createdAt={createdAt}>
             <StyledMediaWrapper>
                     <StyledMediaMain 
                         image={House}
@@ -127,45 +124,36 @@ const EstateItemDetails = (props) => {
                 <StyledContentWrapper>
                     <CardContent>
                         <CardContentInfoWrapper>
-                            { Object.entries(displayedInfo).map(([title, value]) => {
-                                let val = [...value].length === 0 ? 'No info provided' : value;
-                                return (
-                                    <div key={title}>
-                                        <Typography variant="h6">
-                                            <FieldTitle>{title}:</FieldTitle> {val}
-                                        </Typography>
-                                    </div>
-                                )
-                            }) }
+                            <CardFields data={displayedInfo} />
                         </CardContentInfoWrapper>
                     </CardContent>
                     <StyledCardActions>
                         { (!isLoggedIn || (isLoggedIn && userData.id !== owner))
-                            ? ( <>
+                            ?   <>
                                     <Button primary="yes" small="true" upc="true" title="E-mail User">
                                         <a href={`mailto:${email}`}>E-mail</a>
                                     </Button>
                                     { phone 
-                                        ? (<Button primary="yes" small="true" upc="true" title="Call User">
-                                            <a href={`tel:${phone}`}>Tel</a>
-                                            </Button>)
-                                        : (<Button primary="yes" small="true" upc="true" disabled={true}>
-                                                Tel
-                                            </Button>)
+                                        ?   <Button primary="yes" small="true" upc="true" title="Call User">
+                                                <a href={`tel:${phone}`}>Tel</a>
+                                            </Button>
+                                        :   <Button primary="yes" small="true" upc="true" disabled={true}>
+                                                <span>Tel</span>
+                                            </Button>
                                     }
-                                </> )
-                            : ( <>
+                                </>
+                            :   <>
                                     <Button onClick={toggleModal} small="true" upc="true" title="Edit estate info"
                                     >edit</Button>
                                     <Button onClick={removeEstateItem} primary="yes"small="true" upc="true" title="Delete estate card"
                                     >delete</Button>
-                                </> )
+                                </>
                         }
                     </StyledCardActions>
                 </StyledContentWrapper>
             </MyCard>
             { isOpen && 
-                <Modal isOpen={isOpen} toggleModal={toggleModal} >
+                <Modal isOpen={isOpen} toggleModal={negateDeleteItem} >
                      { isDeleting 
                         ?   <ModalBox size='small' title='Delete post?'>
                                 <Button primary="yest" onClick={confirmDeleteItem}>Yes</Button>

@@ -22,23 +22,19 @@ const Estates = () => {
         } else init.current = true;
     }, [estatesData, userLikes])
 
-    return ( 
-        <>
-            <h3>Estates</h3>
+    return ( <>
             { estates && estatesLikes
-                ? ( estates.length === 0 
-                    ? <p>There are no estates</p>
+                ? estates.length === 0 
+                    ? <Center> <h3>No offers found, please try again later.</h3> </Center> 
                     : <EstatesList items={estates} />
-                    ) 
                 : <Center> <Loader /> </Center> 
             }
-        </>
-     );
+        </> );
 }
  
 export default Estates;
 
 Estates.propTypes = {
-    estatesData: PropTypes.array,
-    userLikes: PropTypes.array,
+    estatesData: PropTypes.arrayOf(PropTypes.object),
+    userLikes: PropTypes.arrayOf(PropTypes.object),
 }

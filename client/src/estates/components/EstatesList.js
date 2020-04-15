@@ -16,20 +16,15 @@ const EstatesList = ({items}) => {
     return (
         <EstateItemsWrapper>
             {items.length !== 0 
-                ?   (items.map( item =>
-                    <EstateCard 
-                    key={item.id} 
-                        {...item}
-                    />
-                    ))
+                ? (items.map(item => <EstateCard key={item.id} {...item} /> ))
                 : <p>This user has not published any offer yet.</p>
             }
         </EstateItemsWrapper>
      );
-}
+};
  
 export default EstatesList;
 
 EstatesList.propTypes = {
-    items: PropTypes.array.isRequired
+    items: PropTypes.arrayOf(PropTypes.object).isRequired
 }

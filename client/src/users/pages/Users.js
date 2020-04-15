@@ -27,12 +27,10 @@ const Users = () => {
     }, [userList, estatesData])
 
     return ( 
-        <> 
-            { userList && estates
+        <> { userList && estates
                 ? <UsersList users={userList}/>
                 : <Center> <Loader/> </Center> 
-            } 
-        </>
+        } </>
      );
 };
  
