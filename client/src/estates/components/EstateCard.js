@@ -6,36 +6,34 @@ import styled from 'styled-components';
 import { UserContext } from '../../auth/context/UserContext';
 import  { EstatesContext } from '../../estates/context/EstatesContext';
 
-import House from '../../img/house.jpg'
 import MyCard from '../../shared/components/Card/Card';
 import CardFields from '../../shared/components/Card/CardFields';
 import Btn from '../../shared/components/Button/Button';
-
+import Image from '../../shared/components/ImageContainer/Image';
 
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import Divider from '@material-ui/core/Divider';
+
 
 
 const StyledMediaWrapper = styled.div`
 display: grid;
-grid-template: auto / 3fr 1fr;
+grid-template: ${({images}) => images.length !== 0 ? 'auto / 3fr 1fr;' : '1fr' };
 gap: .5rem;
 height: 200px;
 width: 100%;
+overflow: hidden;
+margin: 1rem 0;
 ${({theme}) => theme.media.tablet} {
     height: 300px;
 }
 `
-const StyledMediaMain = styled(CardMedia)`
-height: 100%;
-`
 const StyledMediaAsideWrapper = styled.div`
-display: grid;
+display: ${({images}) => images.length !== 0 ? 'grid' : 'none' };
+// display: grid;
 grid-template: 1fr 1fr 1fr / auto;
 gap: .5rem;
-`
-const StyledMediaAsideItem = styled(CardMedia)`
 `
 const CardActionsWrapper = styled.div`
 display: grid;
@@ -86,24 +84,20 @@ const EstateCard = (props) => {
         else return false
     },[props.owner]);
 
+    const [mainImg, ...photos] = props.file;
+    const gallery = photos.map( photo => <Image url={photo} key={photo} /> )
+
     return ( 
         <MyCard title={props.title}>
-            <StyledMediaWrapper>
-                <StyledMediaMain 
-                    image={House}
-                />
-                <StyledMediaAsideWrapper>
-                    <StyledMediaAsideItem 
-                    image={House}
-                    />
-                    <StyledMediaAsideItem 
-                    image={House}
-                    />
-                    <StyledMediaAsideItem 
-                    image={House}
-                    />
-                </StyledMediaAsideWrapper>
+            <StyledMediaWrapper images={props.file}>
+                <Image url={mainImg} />
+                { props.file && 
+                    <StyledMediaAsideWrapper images={props.file}>
+                        {gallery}
+                    </StyledMediaAsideWrapper>
+                }
             </StyledMediaWrapper>
+            <Divider light />
             <CardContent>
                     <CardFields data={showFields} />
             </CardContent>

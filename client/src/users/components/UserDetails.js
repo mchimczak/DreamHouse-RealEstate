@@ -12,10 +12,10 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 
 import Button from '../../shared/components/Button/Button';
 import CardFields from '../../shared/components/Card/CardFields';
+import Divider from '@material-ui/core/Divider';
 
 const CardWrapper = styled.div`
 grid-row: 1;
@@ -37,17 +37,8 @@ const StyledContentWrapper = styled(CardMedia)`
 display: flex;
 flex-direction: column;
 `
-const CardContentInfoWrapper = styled.div`
-display: flex;
-flex-direction: column;
-flex-wrap: wrap;
-`
 const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;
-`
-const FieldTitle = styled.span`
-font-weight: ${({theme}) => theme.font.bold};
-text-transform: capitalize;
 `
 const FormWrapper = styled.div`
 display: grid;
@@ -98,6 +89,7 @@ const UserDetails = ({user, updateUser}) => {
                     <CardContent>
                         <CardFields data={publicInfo} />
                     </CardContent>
+                    <Divider light />
                     <StyledCardActions>
                         <Button small="yes" onClick={toggleModal}>
                             EDIT PROFILE

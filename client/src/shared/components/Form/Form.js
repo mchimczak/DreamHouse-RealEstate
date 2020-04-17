@@ -49,6 +49,7 @@ flex-direction: row;
 justify-content: center;
 align-items: center;
 margin: 1rem 0;
+overflow: hidden;
 `
 const StyledImgPrev = styled.img`
 width: 200px;
@@ -64,7 +65,7 @@ const MyForm = props => {
     const SUPPORTED_FORMAT = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
 
     useEffect(() => {
-        if(!pickedFiles) return;
+        if(!pickedFiles || pickedFiles.length === 0) return;
 
         setImgPrev([]);
         let imgData = [];
@@ -154,7 +155,6 @@ const MyEnhancedForm = withFormik({
 MyEnhancedForm.propTypes = {
     submitAction: PropTypes.func.isRequired,
     validationSchema: PropTypes.any.isRequired,
-    // initState: PropTypes.objectOf(PropTypes.string),
     initState: PropTypes.object,
 }
 

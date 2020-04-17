@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Card from '@material-ui/core/Card';
+import Divider from '@material-ui/core/Divider';
 
 const StyledCard = styled(Card)`
 width: ${({small}) => small ? '300px' : '100%'};
@@ -40,6 +41,7 @@ const CardTemplate = (props) => {
                 {props.createdAt ? <StyledCreatedAt>created at {props.createdAt}</StyledCreatedAt> : ''}
                 <StyledHeader title={props.title}> {props.title} </StyledHeader>
             </StyledHeaderWrapper>
+            <Divider light />
             {props.children}
         </StyledCard>
      );

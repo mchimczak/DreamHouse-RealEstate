@@ -30,6 +30,9 @@ align-items: baseline;
     }
 }
 `
+const FieldContent = styled.span`
+white-space: normal;
+`
 
 const CardFields = (props) => {
     return ( <>
@@ -37,10 +40,10 @@ const CardFields = (props) => {
             <CardContentInfoWrapper key={title}>
                 <Typography variant="h6">
                     <FieldTitle>{title}:</FieldTitle> 
-                    <span title={value}> 
+                    <FieldContent title={value}> 
                     {value ? value : 'no info provided'} 
                     { title in props.defaultUnits ? ` ${props.defaultUnits[title]}` : '' }
-                    </span>
+                    </FieldContent>
                 </Typography>
             </CardContentInfoWrapper>
         )) }

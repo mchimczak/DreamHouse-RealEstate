@@ -10,14 +10,12 @@ import MyCard from '../../shared/components/Card/Card';
 import CardFields from '../../shared/components/Card/CardFields';
 import ModalBox from '../../shared/components/Modal/ModalBox';
 import Button from '../../shared/components/Button/Button';
-import Center from '../../shared/ui/position/Center';
-
-import House from '../../img/house.jpg'
+import Image from '../../shared/components/ImageContainer/Image';
 
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 
 const StyledContentWrapper = styled(CardMedia)`
@@ -26,32 +24,31 @@ flex-direction: column;
 `
 const StyledMediaWrapper = styled.div`
 display: grid;
-grid-template: 2fr 1fr / auto;
+grid-template: ${({images}) => images.length !== 0 ? '2fr 1fr / auto' : '1fr' };
 gap: .5rem;
-height: 200px;
+height: auto;
 width: 100%;
-${({theme}) => theme.media.tablet} {
-    height: 300px;
-}
-`
-const StyledMediaMain = styled(CardMedia)`
-height: 100%;
+margin: 2rem 0;
 `
 const StyledMediaAsideWrapper = styled.div`
-display: grid;
+// display: grid;
+display: ${({images}) => images.length !== 0 ? 'grid' : 'none' };
 grid-template: auto / 1fr 1fr 1fr;
 gap: .5rem;
 `
-const StyledMediaAsideItem = styled(CardMedia)`
-`
 const CardContentInfoWrapper = styled.div`
-display: grid;
-grid-template-columns: auto auto;
+display: flex;
+flex-direction: column;
 gap: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
 
 & > div:first-child {
     grid-column: 1 / 3;
     margin-bottom: 1rem;
+}
+
+${({theme}) => theme.media.tablet} {
+    display: grid;
+    grid-template-columns: auto auto;
 }
 `
 const StyledCardActions = styled(CardActions)`
@@ -85,6 +82,8 @@ const EstateItemDetails = (props) => {
     const { id, file, email, phone, owner, createdAt, editCurrentEstate, removeCurrentEstate, ...estateInfo} = props;
     const {title, ...displayedInfo} = estateInfo;
     const ESTATE_INIT_INFO = estateInfo;
+    const [mainImg, ...photos] = file;
+    const gallery = photos.map( photo => <Image url={photo} key={photo} /> );
 
     const removeEstateItem = () => {
         setIsDeleting(true);
@@ -103,30 +102,24 @@ const EstateItemDetails = (props) => {
     };
 
     return ( 
-        <Center>
+        <>
             <MyCard title={props.title} createdAt={createdAt}>
-            <StyledMediaWrapper>
-                    <StyledMediaMain 
-                        image={House}
-                    />
-                    <StyledMediaAsideWrapper>
-                        <StyledMediaAsideItem 
-                        image={House}
-                        />
-                        <StyledMediaAsideItem 
-                        image={House}
-                        />
-                        <StyledMediaAsideItem 
-                        image={House}
-                        />
+            <StyledMediaWrapper images={file}>
+                <Image url={mainImg} /> 
+                { props.file && 
+                    <StyledMediaAsideWrapper images={file}>
+                        {gallery}
                     </StyledMediaAsideWrapper>
+                }
                 </StyledMediaWrapper>
+                <Divider light />
                 <StyledContentWrapper>
                     <CardContent>
                         <CardContentInfoWrapper>
                             <CardFields data={displayedInfo} />
                         </CardContentInfoWrapper>
                     </CardContent>
+                    <Divider light />
                     <StyledCardActions>
                         { (!isLoggedIn || (isLoggedIn && userData.id !== owner))
                             ?   <>
@@ -164,12 +157,13 @@ const EstateItemDetails = (props) => {
                                     submitAction={editEstateItem}
                                     initState={ESTATE_INIT_INFO}
                                     validationSchema={estateValidationSchema}
+                                    fileUpload={{name: 'images', multiple: true}}
                                 />
                             </FormWrapper>
                      }
                 </Modal>
             }
-        </Center>
+        </>
      );
 };
  

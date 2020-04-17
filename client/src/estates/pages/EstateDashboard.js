@@ -21,12 +21,9 @@ const EstateDashboard = () => {
 
     const fetchedEstate = useFetch(`http://localhost:5000/estates/${estateId}`);
 
-    const editCurrentEstate = (id, updates) => {
-        editEstate(id, updates);
-        setCurrentEstate(prevState => ({
-            ...prevState,
-            ...updates
-        }));
+    const editCurrentEstate = async(id, updates) => {
+        await editEstate(id, updates)
+                    .then(res => setCurrentEstate(res));
     };
     const removeCurrentEstate = (estateId) => {
         removeEstate(estateId);

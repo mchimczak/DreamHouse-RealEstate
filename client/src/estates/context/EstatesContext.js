@@ -11,12 +11,47 @@ export const EstatesContextProvider = (props) => {
     const [state, dispatch] = useReducer(reducer, []);
     const [estatesLikes, setEstatesLikes]= useState([]);
     const {status: [, setStatus]} = useContext(UserContext);
+
+    const convertToFormData = (data) => {
+        const formData = new FormData();
+
+        const handleFilesArray = (filesArray) => {
+            for (var i = 0; i < filesArray.length; i++) {
+                formData.append('file', filesArray[i], filesArray[i].name)
+            }
+        };
+
+        Object.keys(data).map( field => {
+            data[field] instanceof FileList || data[field] instanceof Array
+                ? handleFilesArray(data[field])
+                : formData.append(field, data[field])
+        });
+
+        return formData
+    }
     
     const startAddEstate = async(newEstate) => {
-        await axios.post('http://localhost:5000/estates/new', { ...newEstate })
-                    .then((res) => {
-                        setStatus(res.data.message);
-                    }).catch( err => setStatus(err.response.data.message));
+        const formData = new FormData();
+
+        const handleFilesArray = (filesArray) => {
+            for (var i = 0; i < filesArray.length; i++) {
+                formData.append('file', filesArray[i], filesArray[i].name)
+            }
+        };
+
+        Object.keys(newEstate).map( field => {
+            newEstate[field] instanceof FileList || newEstate[field] instanceof Array
+                ? handleFilesArray(newEstate[field])
+                : formData.append(field, newEstate[field])
+        });
+
+        await axios({
+             method: 'post',
+             url: 'http://localhost:5000/estates/new',
+             data: formData
+        }).then((res) => {
+            setStatus(res.data.message);
+        }).catch( err => setStatus(err.response.data.message));
     };
 
     const startRemoveEstate = async (estateId) => {
@@ -28,10 +63,19 @@ export const EstatesContextProvider = (props) => {
     };
 
     const startEditEstate = async(id, updates) => {
-        axios.patch(`http://localhost:5000/estates/${id}`, {id, updates})
-                .then((res) => {
-                    setStatus(res.data.message);
-                }).catch( err => setStatus(err.response.data.message));
+        const newData = convertToFormData(updates);
+        newData.append('id', id);
+
+        const newEstate = await axios({
+            method: 'post',
+            url: `http://localhost:5000/estates/${id}`,
+            data: newData
+        }).then((res) => {
+            setStatus(res.data.message);
+            return res.data.estate
+        }).catch( err => setStatus(err.response.data.message));
+
+        return newEstate;
     };
 
     const addLike = async(estateId, userId) => {
