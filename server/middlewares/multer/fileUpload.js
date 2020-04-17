@@ -7,8 +7,12 @@ const ALLOWED_MIME_TYPE = {
     'image/png': 'png',
 };
 
+const fileSizeLimit = 1024 * 1024 * 0.5;
+
 const fileUpload = multer({
-    limits: 5000000, 
+    limits: {
+        fileSize: fileSizeLimit,
+    }, 
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
             cb(null, 'uploads/images');
@@ -19,9 +23,10 @@ const fileUpload = multer({
         }
     }),
     fileFilter: (req, file, cb) => {
-        const isValid = !!ALLOWED_MIME_TYPE[file.mimetype];
-        let error = isValid ? null : new Error('Invalid mime type!');
-        cb(error, isValid)
+        const isValidType = !!ALLOWED_MIME_TYPE[file.mimetype];
+
+        if(!isValidType) cb(new Error('Invalid mime type!'));
+        else cb(null, true);
     }
 });
 

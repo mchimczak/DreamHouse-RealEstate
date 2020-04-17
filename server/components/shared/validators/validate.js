@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const multer = require('multer');
 const httpError = require('../http-errors/http-errors');
 
 module.exports = validate = (req, res, next) => {

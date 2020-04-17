@@ -1,9 +1,6 @@
-const { v4: uuid } = require('uuid');
+// const { v4: uuid } = require('uuid');
 const moment = require('moment');
 const mongoose = require('mongoose');
-
-const {getEstates, addNewEstate, getEstateById, editEstate, deleteEstate} = require('../DUMMY_DATA/EstatesData');
-const {getEstatesLikes, addNewEstatesLikesItem, deleteEstatesLikesItem, likeEstate} = require('../DUMMY_DATA/EstatesLikes');
 
 const httpError = require('../../../models/http-error');
 const Estate = require('../models/estate');
@@ -43,11 +40,15 @@ const getEstateByIdHandler = async(req, res, next) => {
 
 
 const addNewEstateHandler = async(req, res, next) => {
-    let user;
+    const files = req.files;
+    let user, estateImages;
+    if(files) estateImages = files.map( img => img.path );
+    
     const timeStamp = new Date();
     const newEstate = new Estate ({
         createdAt: moment(timeStamp).format('YYYY-MM-DD'),
-        ...req.body
+        ...req.body,
+        file: estateImages
     });
     const newEstateLikes = new EstateLikes({
         estateId: newEstate.id,
@@ -74,16 +75,22 @@ const addNewEstateHandler = async(req, res, next) => {
 
 
 const editEstateHandler = async(req, res, next) => {
-    const { id, updates } = req.body;
-    let isUpdated;
+    let { id, ...updates } = req.body;
+    const files = req.files;
+    let isUpdated, estateImages;
+
+    if(files) {
+        estateImages = files.map( img => img.path );
+        updates = {...updates, file: estateImages}
+    }
 
     try {
-        isUpdated = await Estate.findByIdAndUpdate(id, updates);
+        isUpdated = await Estate.findOneAndUpdate({_id: id}, updates, { new: true });
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
     if(!isUpdated) return next(new httpError('No estate found', 404));
 
-    return res.json({ message: 'Estate info updated' });
+    return res.json({ estate: isUpdated.toObject({ getters: true}) , message: 'Estate info updated' });
 };
 
 

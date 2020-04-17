@@ -72,18 +72,18 @@ const updateUserDataHandler = async (req, res, next) => {
     if(req.files.length !== 0) {
         updatedUser = {...updatedUser, file: req.files[0].path}
     }
-    let isUser;
+    let isUser, prevUserData;
 
     try {
+        prevUserData = await User.findById(id);
         isUser = await User.findOneAndUpdate({_id: id}, updatedUser, {new: true});
-        console.log(isUser);
     } catch (err) { return new httpError('Something went wrong', 500) }
 
     if(!isUser) return next(new httpError('Could not find the user', 404));
 
-    if(updatedUser.phone !== isUser.phone) {
+    if(prevUserData && prevUserData.phone !== isUser.phone) {
         try {
-            await Estate.updateMany({owner: id}, {phone: updatedUser.phone});
+            await Estate.updateMany({owner: id}, {phone: isUser.phone});
         }catch (err) { return new httpError('Something went wrong', 500) }
     }
 

@@ -3,7 +3,7 @@ const express = require('express');
 const usersServices = require('../services/users');
 const editUserValidatorRules = require('../validators/editUserValidatorRules');
 const validate = require('../../shared/validators/validate');
-const fileUpload = require('../../../middlewares/fileUpload');
+const fileUpload = require('../../../middlewares/multer/fileUpload');
 
 const users = express.Router();
 users.get('/', usersServices.getUsersHandler);

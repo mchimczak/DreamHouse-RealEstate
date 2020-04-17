@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, check } = require('express-validator');
 
 module.exports = addEstaterValidationRules = () => {
     return [
@@ -11,6 +11,7 @@ module.exports = addEstaterValidationRules = () => {
         body('description').optional({checkFalsy: true}).isLength({min: 10, max: 1000}),
         body('area').optional({checkFalsy: true}).matches(/^[1-9]\d{0,4}$/),
         body('rooms').optional({checkFalsy: true}).matches(/^[1-9]$/),
-        body('year').optional({checkFalsy: true}).matches(/^(19[4-9]\d|20[0-1]\d|2020)$/)
+        body('year').optional({checkFalsy: true}).matches(/^(19[4-9]\d|20[0-1]\d|2020)$/),
+        check('files.file').isArray().optional({checkFalsy: true})
     ]
 };
