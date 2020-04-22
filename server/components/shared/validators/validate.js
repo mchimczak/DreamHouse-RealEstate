@@ -6,6 +6,7 @@ module.exports = validate = (req, res, next) => {
     // console.log(req.body);
     // console.log(req.files);
     const errors = validationResult(req);
+    // console.log(errors);
     if(errors.isEmpty()) {
         return next()
     }

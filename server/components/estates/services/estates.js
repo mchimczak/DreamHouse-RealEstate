@@ -1,4 +1,5 @@
 // const { v4: uuid } = require('uuid');
+const fs = require('fs');
 const moment = require('moment');
 const mongoose = require('mongoose');
 
@@ -77,7 +78,7 @@ const addNewEstateHandler = async(req, res, next) => {
 const editEstateHandler = async(req, res, next) => {
     let { id, ...updates } = req.body;
     const files = req.files;
-    let isUpdated, estateImages;
+    let isUpdated, estateImages, imagesToRemove, prevUserData;
 
     if(files) {
         estateImages = files.map( img => img.path );
@@ -85,10 +86,17 @@ const editEstateHandler = async(req, res, next) => {
     }
 
     try {
+        prevEstateData = await Estate.findById(id);
+        imagesToRemove = prevEstateData.file;
+    } catch (err) { return next(new httpError('Something went wrong', 500)) }
+
+    try {
         isUpdated = await Estate.findOneAndUpdate({_id: id}, updates, { new: true });
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
     if(!isUpdated) return next(new httpError('No estate found', 404));
+
+    if(files) imagesToRemove.forEach( file => fs.unlink(file, err => err && console.log(err)));
 
     return res.json({ estate: isUpdated.toObject({ getters: true}) , message: 'Estate info updated' });
 };
@@ -96,7 +104,7 @@ const editEstateHandler = async(req, res, next) => {
 
 const deleteEstateHandler = async(req, res, next) => {
     const estateId = req.params.estateId;
-    let isDeleted;
+    let isDeleted, imagesToRemove;
 
     try {
         isDeleted = await Estate.findByIdAndDelete(estateId);
@@ -104,6 +112,9 @@ const deleteEstateHandler = async(req, res, next) => {
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
     if(!isDeleted) return next(new httpError('No estate found', 404));
+
+    imagesToRemove = isDeleted.file;
+    imagesToRemove.forEach(file => fs.unlink(file, err => err && console.log(err)));
 
     return res.status(200).json({ message: 'Estate deleted'});
 };

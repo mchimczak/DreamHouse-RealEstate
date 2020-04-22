@@ -9,10 +9,10 @@ const fileUploadHandler = require('../middlewares/multer/estateImageUploadHandle
 
 const estates = express.Router();
 estates.get('/', estatesServices.getEstatesHandler);
+estates.post('/new', fileUploadHandler, addEstateValidationRules(), validate, estatesServices.addNewEstateHandler);
 estates.get('/:estateId', estatesServices.getEstateByIdHandler);
 estates.post('/:estateId', fileUploadHandler, editEstateValidationRules(), validate, estatesServices.editEstateHandler);
 estates.delete('/:estateId', estatesServices.deleteEstateHandler);
 estates.post('/:estateId/like', likeEstateValidationRules(), validate, estatesServices.likeEstateHandler);
-estates.post('/new', fileUploadHandler, addEstateValidationRules(), validate, estatesServices.addNewEstateHandler);
 
 module.exports = estates;

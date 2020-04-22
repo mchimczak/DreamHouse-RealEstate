@@ -1,3 +1,4 @@
+const fs = require('fs');
 const moment = require('moment');
 
 const User = require('../models/user');
@@ -85,6 +86,10 @@ const updateUserDataHandler = async (req, res, next) => {
         try {
             await Estate.updateMany({owner: id}, {phone: isUser.phone});
         }catch (err) { return new httpError('Something went wrong', 500) }
+    }
+
+    if(prevUserData.file && isUser.file) {
+        prevUserData.file.forEach( file => fs.unlink(file, err => err && console.log(err)))
     }
 
     res.json({ user: isUser.toObject({ getters: true}), message: 'Profile updated' });
