@@ -44,15 +44,17 @@ margin-top: 4rem;
 border: none;
 `
 const StyledImgPrevWrapper = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: center;
+display: grid;
+gap: 2rem;
+grid-template-columns: ${({grid}) => grid ? `repeat(auto-fill, minmax(200px, 1fr))` : '300px'};
+justify-items: center;
 align-items: center;
 margin: 1rem 0;
 overflow: hidden;
+justify-content: center;
 `
 const StyledImgPrev = styled.img`
-width: 200px;
+width: 100%;
 height: 200px;
 object-fit: fill;
 `
@@ -75,7 +77,7 @@ const MyForm = props => {
                 setImgPrev(prevState => ([ ...prevState, { data: fileReader.result, type: file.type} ]))
                 imgData.push(file)
             };
-            fileReader.readAsDataURL(file);
+            return fileReader.readAsDataURL(file);
         });
 
         setFieldValue('file', imgData);
@@ -126,7 +128,7 @@ const MyForm = props => {
                         </StyledFieldWrapper>
                     </>
             }
-            <StyledImgPrevWrapper>
+            <StyledImgPrevWrapper grid={fileUpload && fileUpload.multiple}>
                     { imgPrev && !errors['file'] && imgPrev.map( img => (
                         SUPPORTED_FORMAT.includes(img.type) && <StyledImgPrev src={img.data} key={img.data} alt={img.data} />
                      )) }
@@ -144,7 +146,6 @@ const MyEnhancedForm = withFormik({
     }),
     validationSchema: (props) => props.validationSchema,
     handleSubmit: (values, bag) => {
-        console.log(values);
         bag.resetForm();
         bag.props.submitAction(values)
     }

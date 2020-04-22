@@ -15,11 +15,9 @@ import CardContent from '@material-ui/core/CardContent';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Divider from '@material-ui/core/Divider';
 
-
-
 const StyledMediaWrapper = styled.div`
 display: grid;
-grid-template: ${({images}) => images.length !== 0 ? 'auto / 3fr 1fr;' : '1fr' };
+grid-template: ${({images}) => images.length >= 2 ? 'auto / 3fr 1fr;' : '1fr' };
 gap: .5rem;
 height: 200px;
 width: 100%;
@@ -30,8 +28,7 @@ ${({theme}) => theme.media.tablet} {
 }
 `
 const StyledMediaAsideWrapper = styled.div`
-display: ${({images}) => images.length !== 0 ? 'grid' : 'none' };
-// display: grid;
+display: ${({images}) => images.length >= 2 ? 'grid' : 'none' };
 grid-template: 1fr 1fr 1fr / auto;
 gap: .5rem;
 `

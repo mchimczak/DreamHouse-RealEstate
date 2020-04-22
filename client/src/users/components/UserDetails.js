@@ -12,10 +12,11 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
+import Divider from '@material-ui/core/Divider';
 
 import Button from '../../shared/components/Button/Button';
 import CardFields from '../../shared/components/Card/CardFields';
-import Divider from '@material-ui/core/Divider';
+import FormCard from '../../shared/components/Card/Card';
 
 const CardWrapper = styled.div`
 grid-row: 1;
@@ -30,8 +31,6 @@ width: 100%;
 max-width: 400px;
 height: auto;
 margin: ${({theme}) => theme.size.xlarge} auto;
-display: flex;
-flex-direction: column-reverse;
 `
 const StyledContentWrapper = styled(CardMedia)`
 display: flex;
@@ -39,23 +38,6 @@ flex-direction: column;
 `
 const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;
-`
-const FormWrapper = styled.div`
-display: grid;
-z-index: 999;
-width: 90%;
-max-width: 900px;
-padding: 3rem 2rem;
-margin-top: 150px;
-border-radius: 3px;
-background-color: ${({theme}) => theme.colors.white};
-align-items: center;
-
-& > form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
 `
 
 const UserDetails = ({user, updateUser}) => {
@@ -99,14 +81,14 @@ const UserDetails = ({user, updateUser}) => {
             </StyledCard>
             { isOpen && 
                 <Modal isOpen={isOpen} toggleModal={toggleModal} >
-                    <FormWrapper>
+                    <FormCard title="Edit profile" modal="true" small="true" fixed="true">
                         <Form 
                             submitAction={startUpdateUser}
                             initState={editableUserInfo}
                             validationSchema={updateUserValidationSchema}
                             fileUpload={{name: 'avatar', multiple: false}}
                         />
-                    </FormWrapper>
+                    </FormCard>
                 </Modal>
             }
         </CardWrapper>

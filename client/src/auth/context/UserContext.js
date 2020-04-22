@@ -10,19 +10,32 @@ export const UserContextProvider = (props) => {
     const [userData, setUserData] = useState({});
     const [usersList, setUsersList] = useState([]);
 
+    const convertToFormData = (data) => {
+        const formData = new FormData();
+
+        const handleFilesArray = (filesArray) => {
+            for (var i = 0; i < filesArray.length; i++) {
+                formData.append('file', filesArray[i], filesArray[i].name)
+            }
+        };
+
+        Object.keys(data).map( field => {
+            return data[field][0] instanceof FileList || data[field] instanceof Array
+                ? handleFilesArray(data[field])
+                : formData.append(field, data[field])
+        });
+
+        return formData
+    };
+
     const register = async (user) => {
         setIsLoading(true);
-        const formData = new FormData();
-        Object.keys(user).map( field => {
-            user[field][0] instanceof FileList || user[field][0] instanceof File
-                ? formData.append(field, user[field][0], user[field][0].name) 
-                : formData.append(field, user[field])
-        });
+        const formData = convertToFormData(user);
         await axios({
             method: 'post',
             url: 'http://localhost:5000/signup',
             data: formData
-          }).then( res => {
+        }).then( res => {
             const { user, message } = res.data;
             setUserData(user);
             setIsLoggedIn(true);
@@ -48,28 +61,21 @@ export const UserContextProvider = (props) => {
     const logout = (id) => {
         setUserData(id === userData.id ? {} : userData)
         setIsLoggedIn(false);
-        setStatus(`See you next time ${userData.name}`);
+        return setStatus(`See you next time ${userData.name}`);
     };
 
     const updateUser = async (id, updates) => {
-        const formData = new FormData();
-        Object.keys(updates).map( field => {
-            if (!!updates[field][0] === false) return 
-            updates[field][0] instanceof FileList || updates[field][0] instanceof File
-                ? formData.append(field, updates[field][0], updates[field][0].name) 
-                : formData.append(field, updates[field])
-        });
+        const formData = convertToFormData(updates);
         formData.append('id', userData.id);
          
-         await axios({
-             method: 'post',
-             url: `http://localhost:5000/users/me/${id}`, 
-             data: formData
-            }).then(res => {
-                setStatus(res.data.message);
-                setUserData(res.data.user);
-            })
-            .catch(err => setStatus(err.response.data.message));
+        await axios({
+            method: 'post',
+            url: `http://localhost:5000/users/me/${id}`, 
+            data: formData
+        }).then(res => {
+            setStatus(res.data.message);
+            setUserData(res.data.user);
+        }).catch(err => setStatus(err.response.data.message));
     };
 
 

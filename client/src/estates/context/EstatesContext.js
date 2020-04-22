@@ -28,22 +28,10 @@ export const EstatesContextProvider = (props) => {
         });
 
         return formData
-    }
+    };
     
     const startAddEstate = async(newEstate) => {
-        const formData = new FormData();
-
-        const handleFilesArray = (filesArray) => {
-            for (var i = 0; i < filesArray.length; i++) {
-                formData.append('file', filesArray[i], filesArray[i].name)
-            }
-        };
-
-        Object.keys(newEstate).map( field => {
-            newEstate[field] instanceof FileList || newEstate[field] instanceof Array
-                ? handleFilesArray(newEstate[field])
-                : formData.append(field, newEstate[field])
-        });
+        const formData = convertToFormData(newEstate);
 
         await axios({
              method: 'post',

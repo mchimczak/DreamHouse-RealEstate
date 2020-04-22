@@ -5,12 +5,18 @@ import Card from '@material-ui/core/Card';
 import Divider from '@material-ui/core/Divider';
 
 const StyledCard = styled(Card)`
+position: ${({fixed}) => fixed ? 'fixed' : 'initial'};
 width: ${({small}) => small ? '300px' : '100%'};
 max-width: 600px;
 padding: ${({theme}) => theme.size.large};
-margin: ${({theme}) => theme.size.xlarge} auto;
+margin: ${({theme}) => theme.size.medium} auto;
 z-index: ${({modal}) => modal ? '999' : null};
+overflow-y: ${({scroll}) => scroll ? 'scroll !important' : null};
 cursor: default;
+
+${({theme}) => theme.media.tablet} {
+    margin: ${({theme}) => theme.size.xlarge} auto;
+}
 `
 const StyledHeader = styled.h4`
 font-size: ${({theme}) => theme.size.large};
@@ -36,7 +42,7 @@ font-size: 10px;
 
 const CardTemplate = (props) => {
     return ( 
-        <StyledCard>
+        <StyledCard modal={props.modal} small={props.small} fixed={props.fixed} scroll={props.scroll}>
             <StyledHeaderWrapper>
                 {props.createdAt ? <StyledCreatedAt>created at {props.createdAt}</StyledCreatedAt> : ''}
                 <StyledHeader title={props.title}> {props.title} </StyledHeader>

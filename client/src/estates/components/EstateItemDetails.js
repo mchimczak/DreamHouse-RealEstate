@@ -24,15 +24,14 @@ flex-direction: column;
 `
 const StyledMediaWrapper = styled.div`
 display: grid;
-grid-template: ${({images}) => images.length !== 0 ? '2fr 1fr / auto' : '1fr' };
+grid-template: ${({images}) => images.length >= 2 ? '2fr 1fr / auto' : '1fr' };
 gap: .5rem;
 height: auto;
 width: 100%;
 margin: 2rem 0;
 `
 const StyledMediaAsideWrapper = styled.div`
-// display: grid;
-display: ${({images}) => images.length !== 0 ? 'grid' : 'none' };
+display: ${({images}) => images.length >= 2 ? 'grid' : 'none' };
 grid-template: auto / 1fr 1fr 1fr;
 gap: .5rem;
 `
@@ -84,6 +83,7 @@ const EstateItemDetails = (props) => {
     const ESTATE_INIT_INFO = estateInfo;
     const [mainImg, ...photos] = file;
     const gallery = photos.map( photo => <Image url={photo} key={photo} /> );
+
 
     const removeEstateItem = () => {
         setIsDeleting(true);
@@ -152,14 +152,14 @@ const EstateItemDetails = (props) => {
                                 <Button primary="yest" onClick={confirmDeleteItem}>Yes</Button>
                                 <Button onClick={negateDeleteItem}>No</Button>
                             </ModalBox>
-                        :   <FormWrapper>
+                        :   <MyCard title="Edit post" modal="true" scroll="true">
                                 <Form 
                                     submitAction={editEstateItem}
                                     initState={ESTATE_INIT_INFO}
                                     validationSchema={estateValidationSchema}
                                     fileUpload={{name: 'images', multiple: true}}
                                 />
-                            </FormWrapper>
+                            </MyCard>
                      }
                 </Modal>
             }
