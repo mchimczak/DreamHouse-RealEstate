@@ -20,7 +20,7 @@ margin: 0 auto;
 width: 200px;
 `
 
-const EndInfo = () => {
+const EndInfo = React.memo(() => {
     return ( 
         <Section>
             <JoinUsWrapper>
@@ -39,6 +39,6 @@ const EndInfo = () => {
             </JoinUsWrapper>
         </Section>
      );
-}
+},[]);
  
 export default EndInfo;

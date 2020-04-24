@@ -27,7 +27,7 @@ align-items: center;
 }
 `
 
-const Info = () => {
+const Info = React.memo(() => {
     return (
         <Section>
             <ContentWrapper>
@@ -46,6 +46,6 @@ const Info = () => {
             </ContentWrapper>
         </Section> 
      );
-}
+},[]);
  
 export default Info;

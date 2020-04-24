@@ -10,7 +10,7 @@ export const EstatesContextProvider = (props) => {
 
     const [state, dispatch] = useReducer(reducer, []);
     const [estatesLikes, setEstatesLikes]= useState([]);
-    const {status: [, setStatus]} = useContext(UserContext);
+    const {status: [, setStatus], token: [token, ]} = useContext(UserContext);
 
     const convertToFormData = (data) => {
         const formData = new FormData();
@@ -36,7 +36,10 @@ export const EstatesContextProvider = (props) => {
         await axios({
              method: 'post',
              url: 'http://localhost:5000/estates/new',
-             data: formData
+             data: formData,
+             headers: {
+                Authorization: `Bearer ${token}`
+            }
         }).then((res) => {
             setStatus(res.data.message);
         }).catch( err => setStatus(err.response.data.message));
@@ -57,7 +60,10 @@ export const EstatesContextProvider = (props) => {
         const newEstate = await axios({
             method: 'post',
             url: `http://localhost:5000/estates/${id}`,
-            data: newData
+            data: newData,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }).then((res) => {
             setStatus(res.data.message);
             return res.data.estate

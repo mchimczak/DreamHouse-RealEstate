@@ -16,14 +16,19 @@ const EstateDashboard = () => {
     const {status: [, setStatus]} = useContext(UserContext);
     const [currentEstate, setCurrentEstate] = useState(null);
     const [isRedirect, setIsRedirect] = useState(false);
+    const [isLoading, setIsLoading]= useState(true);
     const init = useRef(false);
     const initRedirect = useRef(false);
 
     const fetchedEstate = useFetch(`http://localhost:5000/estates/${estateId}`);
 
     const editCurrentEstate = async(id, updates) => {
+        setIsLoading(true);
         await editEstate(id, updates)
-                    .then(res => setCurrentEstate(res));
+            .then(res => {
+                setCurrentEstate(res);
+                setIsLoading(false);
+            });
     };
     const removeCurrentEstate = (estateId) => {
         removeEstate(estateId);
@@ -35,9 +40,8 @@ const EstateDashboard = () => {
         if(init.current === true) {
             init.current = false;
             setCurrentEstate(fetchedEstate);
-        } else {
-            init.current = true
-        }
+            setIsLoading(false);
+        } else init.current = true
     },[fetchedEstate])
 
     useEffect(() => {
@@ -45,24 +49,20 @@ const EstateDashboard = () => {
             initRedirect.current = false;
             setStatus('Sorry there is no estate with that ID');
             setIsRedirect(true);
-        } else {
-            initRedirect.current = true;
-        }
+        } else initRedirect.current = true;
 
-        return () => {
-            setIsRedirect(false)
-        }
+        return () => setIsRedirect(false)
     },[currentEstate])
 
 
     return ( 
-        <>
-            {
-                currentEstate 
-                ? <EstateItemDetails key={currentEstate.id} removeCurrentEstate ={removeCurrentEstate} editCurrentEstate={editCurrentEstate} {...currentEstate} />
-                : (isRedirect ? <Redirect to="/" /> : <Center> <Loader /> </Center> )
-            }
-        </>
+        <> {
+            currentEstate && !isLoading
+            ? <EstateItemDetails key={currentEstate.id} removeCurrentEstate ={removeCurrentEstate} editCurrentEstate={editCurrentEstate} {...currentEstate} />
+            : isRedirect 
+                ? <Redirect to="/" /> 
+                : <Center> <Loader /> </Center>
+        } </>
      );
 };
  

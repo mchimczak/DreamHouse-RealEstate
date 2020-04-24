@@ -63,10 +63,10 @@ const EstateCard = (props) => {
             const userId = userData.id;
 
             currentEstate.likes.includes(userId) 
-            ?  setStatus('You have already liked that')
+            ?  setStatus('You have already liked that post')
             :  addLike(estateId, userId);
 
-        } else setStatus('You have to be logged in to like this estate');
+        } else setStatus('You have to be logged in to like posts');
     };
 
     const showFields = {
@@ -136,4 +136,6 @@ EstateCard.propTypes = {
     address: PropTypes.string.isRequired,
     price: PropTypes.string.isRequired,
     owner: PropTypes.string.isRequired,
+    phone: PropTypes.string,
+    email: PropTypes.string
 }

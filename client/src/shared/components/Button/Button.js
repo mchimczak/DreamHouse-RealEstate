@@ -46,8 +46,8 @@ const Btn = (props) => {
             {props.children}
         </StyledButton>
      );
-}
- 
+};
+
 export default Btn;
 
 Btn.propTypes = {

@@ -59,7 +59,7 @@ z-index: 45;
 
 `
 
-const HeroSection = () => ( 
+const HeroSection = React.memo(() => ( 
     <Section>
         <HeroWrapper>
             <HeroImg/>
@@ -73,6 +73,6 @@ const HeroSection = () => (
             <Rect/>
         </HeroWrapper>
     </Section>
-);
+),[]);
  
 export default HeroSection;

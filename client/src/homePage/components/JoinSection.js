@@ -13,7 +13,7 @@ text-align: center;
 gap: 2rem;
 `
 
-const JoinSection = () => {
+const JoinSection = React.memo(() => {
     return (
         <Section>
             <Wrapper>
@@ -37,6 +37,6 @@ const JoinSection = () => {
             </Wrapper>
         </Section> 
      );
-}
+},[]);
  
 export default JoinSection;

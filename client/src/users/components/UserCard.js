@@ -18,7 +18,7 @@ padding: 1rem;
 
 const UserCard = ({ id, name, createdAt, file }) => {
     const {estatesData: [estatesData]} = useContext(EstatesContext);
-    const initials = [...name[0]];
+    const initials = new String([...name[0]]).toUpperCase();
 
     let estates = 0;
     estatesData.map( el => el.owner === id ? estates++ : null );

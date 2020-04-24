@@ -46,14 +46,14 @@ const UserDetails = ({user, updateUser}) => {
 
     const { id, createdAt, file, email, password, name, phone} = user;
     const publicInfo = { name, email, phone };
-    const editableUserInfo = { password, name, phone, file };
+    const editableUserInfo = { password, name, phone };
 
     const startUpdateUser = async (updates) => {
         await updateUser(id, updates);
         setIsOpen(false);
     };
 
-    const initials = [...user.name[0]];
+    const initials = new String([...user.name[0]]).toUpperCase();
     const avatar = file && file.length !== 0 
     ? <Avatar alt="User profile picture" src={`http://localhost:5000/${file[0]}`} />
     : <Avatar aria-label="user">{initials}</Avatar>

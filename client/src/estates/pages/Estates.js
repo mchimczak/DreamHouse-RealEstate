@@ -23,14 +23,14 @@ const Estates = () => {
     }, [estatesData, userLikes])
 
     return ( <>
-            { estates && estatesLikes
-                ? estates.length === 0 
-                    ? <Center> <h3>No offers found, please try again later.</h3> </Center> 
-                    : <EstatesList items={estates} />
-                : <Center> <Loader /> </Center> 
-            }
-        </> );
-}
+        { estatesData && estatesLikes
+            ? estates.length === 0 
+                ? <Center> <h3>No offers found, please try again later.</h3> </Center> 
+                : <EstatesList items={estatesData} />
+            : <Center> <Loader /> </Center> 
+        }
+    </> );
+};
  
 export default Estates;
 

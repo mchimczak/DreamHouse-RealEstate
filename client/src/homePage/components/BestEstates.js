@@ -1,14 +1,13 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import {EstatesContext} from '../../estates/context/EstatesContext';
 import { useFetch } from '../../shared/customHooks/useFetch';
 
-import Section from '../../shared/components/Section/Section'
+import Section from '../../shared/components/Section/Section';
 import EstateCard from '../../estates/components/EstateCard';
-import Loader from '../../img/loader.gif';
-import { useEffect } from 'react';
+import Loader from '../../shared/components/Loader/Loader';
 
 const EstatesWrapper = styled.div`
 display: flex;
@@ -38,10 +37,6 @@ const BestEstatesHeader = styled.h4`
 text-transform: uppercase;
 font-weight: ${({theme}) => theme.font.thin};
 `
-const StyledImg = styled.img`
-display: flex;
-margin: 4rem auto;
-`
 
 const BestEstates = () => {
     const {estatesLikes: [, setEstatesLikes]} = useContext(EstatesContext);
@@ -56,12 +51,12 @@ const BestEstates = () => {
 
     return ( 
         <Section>
-            <BestEstatesHeader>Top 3 most recommended Real Estate offers</BestEstatesHeader>
+            <BestEstatesHeader>Top 3 most recommended posts</BestEstatesHeader>
             { bestEstate && mostLikedEstates
                 ? ( <EstatesWrapper>
                         { bestEstate.map ( estate => <EstateCard key={estate.id} {...estate} />) }
                     </EstatesWrapper> )
-                : <StyledImg src={Loader} alt="loading..." />
+                : <Loader/>
             }
         </Section>
      );

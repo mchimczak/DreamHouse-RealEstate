@@ -9,6 +9,7 @@ export const UserContextProvider = (props) => {
     const [status, setStatus] = useState(false);
     const [userData, setUserData] = useState({});
     const [usersList, setUsersList] = useState([]);
+    const [token, setToken] = useState(false);
 
     const convertToFormData = (data) => {
         const formData = new FormData();
@@ -50,10 +51,11 @@ export const UserContextProvider = (props) => {
             email: val.email,
             password: val.password
         }).then( res => {
-            const { user, message } = res.data;
+            const { user, message, token } = res.data;
             setUserData(user);
             setIsLoggedIn(true);
             setStatus(message);
+            setToken(token);
             return setIsLoading(false);
         }).catch(err => setStatus(err.response.data.message), setIsLoading(false));
     };
@@ -61,6 +63,7 @@ export const UserContextProvider = (props) => {
     const logout = (id) => {
         setUserData(id === userData.id ? {} : userData)
         setIsLoggedIn(false);
+        setToken(false);
         return setStatus(`See you next time ${userData.name}`);
     };
 
@@ -71,7 +74,10 @@ export const UserContextProvider = (props) => {
         await axios({
             method: 'post',
             url: `http://localhost:5000/users/me/${id}`, 
-            data: formData
+            data: formData,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }).then(res => {
             setStatus(res.data.message);
             setUserData(res.data.user);
@@ -83,6 +89,7 @@ export const UserContextProvider = (props) => {
         userList: [usersList, setUsersList],
         status: [status, setStatus],
         loading: [isLoading, setIsLoading],
+        token: [token, setToken],
         isLoggedIn,
         userData,
         updateUser,
@@ -96,5 +103,4 @@ export const UserContextProvider = (props) => {
             {props.children}
         </UserContext.Provider>
     )
-
 };

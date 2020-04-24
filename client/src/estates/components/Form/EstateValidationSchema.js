@@ -12,7 +12,7 @@ const estateValidationSchema = yup.object().shape({
             rooms: yup.string().matches(/^[1-9]$/, "Please provide a number in range 1 - 9").trim(),
             year: yup.string().matches(/^(19[4-9]\d|20[0-1]\d|2020)$/, "Provide a value in range 1940 - 2020").trim(),
             file: yup.array().of(yup.mixed().test('type', "Unsupported file format", value => value && SUPPORTED_FORMAT.includes(value.type) ))
-                .max(4, 'Please select up to 4 images').required('Please provide an images')
+                .max(4, 'Please select up to 4 images')
         });
 
 export default estateValidationSchema;
