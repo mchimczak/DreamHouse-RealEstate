@@ -46,11 +46,12 @@ export const EstatesContextProvider = (props) => {
     };
 
     const startRemoveEstate = async (estateId) => {
-        await axios.delete(`http://localhost:5000/estates/${estateId}`)
-                    .then((res) => {
-                        setStatus(res.data.message);
-                        dispatch(removeEstate(estateId))
-                    }).catch( err => setStatus(err.response.data.message));
+        await axios.delete(`http://localhost:5000/estates/${estateId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        }).then((res) => {
+            setStatus(res.data.message);
+            dispatch(removeEstate(estateId))
+        }).catch( err => setStatus(err.response.data.message));
     };
 
     const startEditEstate = async(id, updates) => {
@@ -73,21 +74,24 @@ export const EstatesContextProvider = (props) => {
     };
 
     const addLike = async(estateId, userId) => {
-        await axios.post(`http://localhost:5000/estates/${estateId}/like`, {estateId, userId})
-                .then((res) => {
-                    const updatedList = estatesLikes.map(estate => {
-                        if (estate.estateId === estateId) {
-                        return {
-                            ...estate,
-                            likes: [...estate.likes, userId]
-                        };
-                        } else return {...estate};
-                    });
-            
-                    setEstatesLikes(updatedList);
-                    setStatus(res.data.message);
-                }).catch( err => setStatus(err.response.data.message));
-
+        await axios({
+            method: 'post',
+            url: `http://localhost:5000/estates/${estateId}/like`, 
+            data: {estateId}, 
+            headers: { Authorization: `Bearer ${token}` }
+        }).then((res) => {
+            const updatedList = estatesLikes.map(estate => {
+                if (estate.estateId === estateId) {
+                return {
+                    ...estate,
+                    likes: [...estate.likes, userId]
+                };
+                } else return {...estate};
+            });
+    
+            setEstatesLikes(updatedList);
+            setStatus(res.data.message);
+        }).catch( err => setStatus(err.response.data.message));
     };
 
     const value = {

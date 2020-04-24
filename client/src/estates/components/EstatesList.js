@@ -33,7 +33,7 @@ const EstatesList = ({items}) => {
                     ?   <Center>
                             <StyledHeader>It's so empty here...</StyledHeader>
                             <Button primary="yes" upc="true" title="Add your first offer">
-                                <Link to='/estates/new'>Add your first offer</Link>
+                                <Link to='/estates/new'>Create your first offer</Link>
                             </Button>
                         </Center>
                     :   <Center><Loader/></Center>

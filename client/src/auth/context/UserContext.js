@@ -37,10 +37,11 @@ export const UserContextProvider = (props) => {
             url: 'http://localhost:5000/signup',
             data: formData
         }).then( res => {
-            const { user, message } = res.data;
+            const { user, message, token } = res.data;
             setUserData(user);
             setIsLoggedIn(true);
             setStatus(message);
+            setToken(token);
             return setIsLoading(false);
         }).catch( err => setStatus(err.response.data.message), setIsLoading(false));
     };
