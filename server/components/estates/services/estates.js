@@ -13,7 +13,7 @@ const getEstatesHandler = async (req, res, next) => {
     let estatesData, estatesLikes;
     
     try {
-        estatesData = await Estate.find({})
+        estatesData = await Estate.find({}, 'address price title file email phone id owner')
         estatesLikes = await EstateLikes.find({})
     } catch(err) { return next(new httpError('Something went wrong', 500)) }
     
@@ -41,6 +41,8 @@ const getEstateByIdHandler = async(req, res, next) => {
 
 
 const addNewEstateHandler = async(req, res, next) => {
+    const userIdToken = req.authUser.userId;
+
     const files = req.files;
     let user, estateImages;
     if(files) estateImages = files.map( img => img.path );
@@ -49,6 +51,7 @@ const addNewEstateHandler = async(req, res, next) => {
     const newEstate = new Estate ({
         createdAt: moment(timeStamp).format('YYYY-MM-DD'),
         ...req.body,
+        owner: userIdToken,
         file: estateImages
     });
     const newEstateLikes = new EstateLikes({
@@ -71,24 +74,29 @@ const addNewEstateHandler = async(req, res, next) => {
         await session.commitTransaction();
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
-    return res.status(201).json({ message: 'New estate added'});
+    return res.status(201).json({ message: 'Your post was published successfully'});
 };
 
 
 const editEstateHandler = async(req, res, next) => {
+    const userIdToken = req.authUser.userId;
     let { id, ...updates } = req.body;
     const files = req.files;
-    let isUpdated, estateImages, imagesToRemove, prevUserData;
+    
+    let isUpdated, estateImages, prevEstateFiles, prevEstateData, removePrevImg = false;
 
-    if(files) {
+    if(files && files.length !== 0) {
         estateImages = files.map( img => img.path );
-        updates = {...updates, file: estateImages}
+        updates = {...updates, file: estateImages};
+        removePrevImg = true;
     }
 
     try {
         prevEstateData = await Estate.findById(id);
-        imagesToRemove = prevEstateData.file;
+        prevEstateFiles = prevEstateData.file;
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
+
+    if(prevEstateData.owner !== userIdToken) return next(new httpError('Permission denied, you are not authorized', 500));
 
     try {
         isUpdated = await Estate.findOneAndUpdate({_id: id}, updates, { new: true });
@@ -96,9 +104,9 @@ const editEstateHandler = async(req, res, next) => {
 
     if(!isUpdated) return next(new httpError('No estate found', 404));
 
-    if(files) imagesToRemove.forEach( file => fs.unlink(file, err => err && console.log(err)));
+    if(removePrevImg) prevEstateFiles.forEach( file => fs.unlink(file, err => err && console.log(err)));
 
-    return res.json({ estate: isUpdated.toObject({ getters: true}) , message: 'Estate info updated' });
+    return res.json({ estate: isUpdated.toObject({ getters: true}) , message: 'Your post was updated successfully' });
 };
 
 
