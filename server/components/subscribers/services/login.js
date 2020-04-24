@@ -11,13 +11,13 @@ module.exports = loginHandler = async (req, res, next) => {
             user = await User.findOne({ email });
         } catch(err) { return next(new httpError('Login failed, try again later', 404)) };
 
-        if(!user) return next(new httpError('Cannot log in, please check your email and password.', 401));
+        if(!user) return next(new httpError('Cannot log in, please check your email and password.', 403));
 
         try {
             isMatch = await bcrypt.compare(password, user.password);
         } catch(err) { return next(new httpError('Login failed, try again later', 500)) }
         
-        if(!isMatch) return next(new httpError('Login failed, try again later', 404));
+        if(!isMatch) return next(new httpError('Login failed, try again later', 403));
 
         try {
             token = jwt.sign({

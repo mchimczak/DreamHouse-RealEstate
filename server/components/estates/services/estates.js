@@ -82,7 +82,7 @@ const editEstateHandler = async(req, res, next) => {
     const userIdToken = req.authUser.userId;
     let { id, ...updates } = req.body;
     const files = req.files;
-    
+
     let isUpdated, estateImages, prevEstateFiles, prevEstateData, removePrevImg = false;
 
     if(files && files.length !== 0) {
@@ -96,7 +96,7 @@ const editEstateHandler = async(req, res, next) => {
         prevEstateFiles = prevEstateData.file;
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
-    if(prevEstateData.owner !== userIdToken) return next(new httpError('Permission denied, you are not authorized', 500));
+    if(prevEstateData.owner !== userIdToken) return next(new httpError('Permission denied, you are not authorized', 401));
 
     try {
         isUpdated = await Estate.findOneAndUpdate({_id: id}, updates, { new: true });
@@ -111,29 +111,34 @@ const editEstateHandler = async(req, res, next) => {
 
 
 const deleteEstateHandler = async(req, res, next) => {
+    const userIdToken = req.authUser.userId;
     const estateId = req.params.estateId;
     let isDeleted, imagesToRemove;
 
     try {
-        isDeleted = await Estate.findByIdAndDelete(estateId);
-        await EstateLikes.findOneAndDelete({ estateId })
-    } catch (err) { return next(new httpError('Something went wrong', 500)) }
+        const session = await mongoose.startSession();
+        session.startTransaction();
+        isDeleted = await Estate.findOneAndDelete({owner: userIdToken, _id: estateId});
+        await EstateLikes.findOneAndDelete({ estateId });
+        session.commitTransaction();
+    } catch (err) { return next(new httpError('Error, you are not authorized', 401)) }
 
     if(!isDeleted) return next(new httpError('No estate found', 404));
 
     imagesToRemove = isDeleted.file;
     imagesToRemove.forEach(file => fs.unlink(file, err => err && console.log(err)));
 
-    return res.status(200).json({ message: 'Estate deleted'});
+    return res.status(200).json({ message: 'Post deleted successfully'});
 };
 
 
 const likeEstateHandler = async(req, res, next) => {
-    const {estateId, userId} = req.body;
+    const userIdToken = req.authUser.userId;
+    const { estateId } = req.body;
     let isLiked;
 
     try {
-        isLiked = await EstateLikes.findOneAndUpdate({ estateId }, {$push: { likes: userId }});
+        isLiked = await EstateLikes.findOneAndUpdate({ estateId }, {$push: { likes: userIdToken }});
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
     if(!isLiked) return next(new httpError('No estate found', 404));

@@ -22,6 +22,7 @@ const getUsersHandler = async (req, res, next) => {
     });
 };
 
+
 const getUserByIdHandler = async (req, res, next) => {
     const userId = req.params.id;
     let isUser, userEstates, userLikes;
@@ -99,7 +100,7 @@ const updateUserDataHandler = async (req, res, next) => {
     try {
         prevUserData = await User.findById(userIdToken);
         isUser = await User.findOneAndUpdate({_id: userIdToken}, updatedUser, {new: true});
-    } catch (err) { return new httpError('Something went wrong', 500) };
+    } catch (err) { return new httpError('Permission denied, you are not authorized', 401) };
 
     if(!isUser) return next(new httpError('Could not find the user', 404));
 
