@@ -13,7 +13,7 @@ const getEstatesHandler = async (req, res, next) => {
     let estatesData, estatesLikes;
     
     try {
-        estatesData = await Estate.find({}, 'address price title file email phone id owner')
+        estatesData = await Estate.find({}, 'city address price title file email phone id owner')
         estatesLikes = await EstateLikes.find({})
     } catch(err) { return next(new httpError('Something went wrong', 500)) }
     
