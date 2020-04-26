@@ -38,7 +38,7 @@ ${({theme}) => theme.media.desktop} {
 
 const MainNavigationLinks = () => {
 
-    const {userData, isLoggedIn, logout} = useContext(UserContext);
+    const {userData, token: [token,], logout} = useContext(UserContext);
     const {id} = userData;
 
     return ( 
@@ -53,33 +53,33 @@ const MainNavigationLinks = () => {
                 <StyledNavLink to="/users">Users</StyledNavLink>
             </li>
             {
-                id && isLoggedIn
-                ? (
-                    <PrivateLinksWrapper>
-                        <li>
-                            <StyledNavLink to="/estates/new">Add new estate</StyledNavLink>
-                        </li>
-                        <li>
-                            <StyledNavLink to={`/users/me/${id}`}>My Profile</StyledNavLink>
-                        </li>
-                        <li>
-                            <Logout onClick={() => logout(id)}>Logout</Logout>
-                        </li>
-                        <li>
-                            <UserAvatar />
-                        </li>
-                    </PrivateLinksWrapper>
-                ) 
-                : (
-                    <>
-                        <li>
-                            <StyledNavLink to="/login">Log in</StyledNavLink>
-                        </li>
-                        <li>
-                            <StyledNavLink to="/signup">Sign up</StyledNavLink>
-                        </li>
-                    </>
-                )
+                id && token
+                ?   (
+                        <PrivateLinksWrapper>
+                            <li>
+                                <StyledNavLink to="/estates/new">Add new estate</StyledNavLink>
+                            </li>
+                            <li>
+                                <StyledNavLink to={`/users/me/${id}`}>My Profile</StyledNavLink>
+                            </li>
+                            <li>
+                                <Logout onClick={() => logout()}>Logout</Logout>
+                            </li>
+                            <li>
+                                <UserAvatar />
+                            </li>
+                        </PrivateLinksWrapper>
+                    ) 
+                :   (
+                        <>
+                            <li>
+                                <StyledNavLink to="/login">Log in</StyledNavLink>
+                            </li>
+                            <li>
+                                <StyledNavLink to="/signup">Sign up</StyledNavLink>
+                            </li>
+                        </>
+                    )
             }
         </List>
      );

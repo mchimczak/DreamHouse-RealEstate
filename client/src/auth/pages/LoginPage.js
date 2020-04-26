@@ -10,20 +10,20 @@ import Center from '../../shared/ui/position/Center';
 import Loader from '../../shared/components/Loader/Loader';
 
 const LoginPage = () => {
-    const { login, isLoggedIn, userData, loading: [isLoading, ] } = useContext(UserContext);
+    const { login, token: [token,], userData, loading: [isLoading, ] } = useContext(UserContext);
 
     return (
         <Center>
                 { isLoading
-                    ? <Loader />
-                    :<Card title={'Login'}>
-                        {isLoggedIn && userData.id ? <Redirect to='/' /> : null}
-                            <Form
-                                submitAction={login}
-                                initState={loginInitState}
-                                validationSchema={loginValidationSchema} 
-                            /> 
-                    </Card>
+                    ?   <Loader />
+                    :   <Card title={'Login'}>
+                            {token && userData.id ? <Redirect to='/' /> : null}
+                                <Form
+                                    submitAction={login}
+                                    initState={loginInitState}
+                                    validationSchema={loginValidationSchema} 
+                                /> 
+                        </Card>
                 }
         </Center>
     )

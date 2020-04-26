@@ -12,7 +12,7 @@ import Loader from '../../shared/components/Loader/Loader';
 
 const Users = () => {
     const {userList: [, setUsersList]} = useContext(UserContext);
-    const {estatesData: [estates, dispatch]} = useContext(EstatesContext);
+    const {estatesData: [, dispatch]} = useContext(EstatesContext);
     const init = useRef(false);
     const {userList, estatesData} = useFetch('http://localhost:5000/users');
 
@@ -21,9 +21,8 @@ const Users = () => {
             init.current = false;
             dispatch(setEstates(estatesData));
             setUsersList(userList);
-        } else {
-            init.current = true;
-        }
+        } else init.current = true;
+        
     }, [userList, estatesData])
 
     return ( 

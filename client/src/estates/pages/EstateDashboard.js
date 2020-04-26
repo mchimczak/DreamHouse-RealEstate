@@ -10,15 +10,15 @@ import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
 
 const EstateDashboard = () => {
-    
     const estateId = useParams().estateId;
+
     const {removeEstate, editEstate} = useContext(EstatesContext);
     const {status: [, setStatus]} = useContext(UserContext);
+
     const [currentEstate, setCurrentEstate] = useState(null);
     const [isRedirect, setIsRedirect] = useState(false);
     const [isLoading, setIsLoading]= useState(true);
     const init = useRef(false);
-    const initRedirect = useRef(false);
 
     const fetchedEstate = useFetch(`http://localhost:5000/estates/${estateId}`);
 
@@ -30,6 +30,7 @@ const EstateDashboard = () => {
                 setIsLoading(false);
             });
     };
+    
     const removeCurrentEstate = (estateId) => {
         removeEstate(estateId);
         setCurrentEstate(false);
@@ -39,20 +40,15 @@ const EstateDashboard = () => {
     useEffect(() => {
         if(init.current === true) {
             init.current = false;
-            setCurrentEstate(fetchedEstate);
-            setIsLoading(false);
+            if(fetchedEstate && fetchedEstate.id) {
+                setCurrentEstate(fetchedEstate);
+                setIsLoading(false);
+            } else {
+                setIsRedirect(true);
+                setStatus('Sorry there is no such offer');
+            }
         } else init.current = true
     },[fetchedEstate])
-
-    useEffect(() => {
-        if(initRedirect.current && !currentEstate) {
-            initRedirect.current = false;
-            setStatus('Sorry there is no estate with that ID');
-            setIsRedirect(true);
-        } else initRedirect.current = true;
-
-        return () => setIsRedirect(false)
-    },[currentEstate])
 
 
     return ( 

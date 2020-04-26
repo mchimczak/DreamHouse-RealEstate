@@ -18,6 +18,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Divider from '@material-ui/core/Divider';
 
 
+const CardWrapper = styled.div`
+&:last-child {
+    ${({theme}) => theme.media.tablet} {
+        margin: ${({theme}) => theme.size.xlarge} auto;
+    }
+}
+`
 const StyledContentWrapper = styled(CardMedia)`
 display: flex;
 flex-direction: column;
@@ -53,23 +60,6 @@ ${({theme}) => theme.media.tablet} {
 const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;
 `
-const FormWrapper = styled.div`
-display: grid;
-z-index: 999;
-width: 90%;
-max-width: 900px;
-padding: 3rem 2rem;
-margin-top: 150px;
-border-radius: 3px;
-background-color: ${({theme}) => theme.colors.white};
-align-items: center;
-
-& > form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-`
 
 const EstateItemDetails = (props) => {
     const {isLoggedIn, userData} = useContext(UserContext);
@@ -103,6 +93,7 @@ const EstateItemDetails = (props) => {
 
     return ( 
         <>
+        <CardWrapper>
             <MyCard title={props.title} createdAt={createdAt}>
             <StyledMediaWrapper images={file}>
                 <Image url={mainImg} /> 
@@ -145,6 +136,7 @@ const EstateItemDetails = (props) => {
                     </StyledCardActions>
                 </StyledContentWrapper>
             </MyCard>
+            </CardWrapper>
             { isOpen && 
                 <Modal isOpen={isOpen} toggleModal={negateDeleteItem} >
                      { isDeleting 

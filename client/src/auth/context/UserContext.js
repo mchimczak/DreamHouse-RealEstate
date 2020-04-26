@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 export const UserContext = React.createContext();
@@ -10,8 +10,10 @@ export const UserContextProvider = (props) => {
     const [userData, setUserData] = useState({});
     const [usersList, setUsersList] = useState([]);
     const [token, setToken] = useState(false);
+    const [tokenTTL, setTokenTTL] = useState();
+    let logoutTimer;
 
-    const convertToFormData = (data) => {
+    const convertToFormData = useCallback((data) => {
         const formData = new FormData();
 
         const handleFilesArray = (filesArray) => {
@@ -27,46 +29,71 @@ export const UserContextProvider = (props) => {
         });
 
         return formData
-    };
+    },[]);
 
-    const register = async (user) => {
+
+    const handleSuccesAuthorization = useCallback((serverResponse) => {
+        const { user, message, token } = serverResponse;
+        setUserData(user);
+        setIsLoggedIn(true);
+        setStatus(message);
+        setToken(token);
+        const tokenExpirationDate = new Date( new Date().getTime() + 1000 * 60 * 60).toISOString();
+        setTokenTTL(tokenExpirationDate);
+        localStorage.setItem('user', JSON.stringify({ 
+            userId: user.id, 
+            token: token,
+            expiration: tokenExpirationDate
+        }));
+        return setIsLoading(false);
+    },[]);
+
+    const authUser = useCallback( async (token, expirationDate) => {
+        await axios({
+            method: 'post',
+            url: 'http://localhost:5000/login/auth',
+            headers: { Authorization: `Bearer ${token}` }
+        }).then( res => {
+            const { user, token } = res.data;
+            setUserData(user);
+            setIsLoggedIn(true);
+            setToken(token);
+            return localStorage.setItem('user', JSON.stringify({ 
+                userId: user.id, 
+                token: token,
+                expiration: expirationDate
+            }));
+        }).catch(err => setStatus(err.response.data.message), setIsLoading(false));
+    },[]);
+
+    const register = useCallback( async (user) => {
         setIsLoading(true);
         const formData = convertToFormData(user);
         await axios({
             method: 'post',
             url: 'http://localhost:5000/signup',
             data: formData
-        }).then( res => {
-            const { user, message, token } = res.data;
-            setUserData(user);
-            setIsLoggedIn(true);
-            setStatus(message);
-            setToken(token);
-            return setIsLoading(false);
+        }).then( res => { handleSuccesAuthorization(res.data)
         }).catch( err => setStatus(err.response.data.message), setIsLoading(false));
-    };
+    },[]);
 
-    const login = async (val) => {
+    const login = useCallback( async (val) => {
         setIsLoading(true);
         await axios.post('http://localhost:5000/login', {
             email: val.email,
             password: val.password
-        }).then( res => {
-            const { user, message, token } = res.data;
-            setUserData(user);
-            setIsLoggedIn(true);
-            setStatus(message);
-            setToken(token);
-            return setIsLoading(false);
+        }).then( res => { handleSuccesAuthorization(res.data)
         }).catch(err => setStatus(err.response.data.message), setIsLoading(false));
-    };
+    },[]);
 
-    const logout = (id) => {
-        setUserData(id === userData.id ? {} : userData)
+    const logout = useCallback(() => {
+        setStatus(`See you next time ${userData.name}`);
         setIsLoggedIn(false);
         setToken(false);
-        return setStatus(`See you next time ${userData.name}`);
-    };
+        setUserData({});
+        setTokenTTL(null);
+        return localStorage.removeItem('user');
+    },[userData]);
 
     const updateUser = async (id, updates) => {
         const formData = convertToFormData(updates);
@@ -84,6 +111,27 @@ export const UserContextProvider = (props) => {
             setUserData(res.data.user);
         }).catch(err => setStatus(err.response.data.message));
     };
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        if(storedUser && storedUser.token && new Date(storedUser.expiration) > new Date()) {
+            setTokenTTL(storedUser.expiration);
+            authUser(storedUser.token, storedUser.expiration)
+        }
+
+        return () => {
+            setToken(false)
+            setIsLoggedIn(false)
+        }
+    }, []);
+
+    useEffect(() => {
+        if(token && tokenTTL) {
+            const tokenRemainTTL = new Date(tokenTTL).getTime() - new Date().getTime();
+            logoutTimer = setTimeout(logout, tokenRemainTTL);
+        } else clearTimeout(logoutTimer)
+
+    }, [token, logout, tokenTTL]);
 
 
     const value = {

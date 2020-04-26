@@ -15,6 +15,10 @@ display: grid;
 grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 column-gap: 2rem;
 justify-content: center;
+
+&:last-child {
+    margin: ${({theme}) => theme.size.xlarge} auto;
+}
 `
 const StyledHeader = styled.h3`
 font-weight: 300;
