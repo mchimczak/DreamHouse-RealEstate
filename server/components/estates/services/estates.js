@@ -10,19 +10,25 @@ const User = require('../../users/models/user');
 
 
 const getEstatesHandler = async (req, res, next) => {
-    let estatesData, estatesLikes;
+    let estatesData, estatesLikes, estatePosts = [];
+
     const filters = {
         limit: parseInt(req.query.limit, 10) || 0,
-        sortBy: req.query.sortBy || '-createdAt'
+        sortBy: req.query.sortBy || '-createdAt',
+        skip: (req.query.page - 1) * req.query.limit || 0
     }
-    
+
     try {
+        allPosts = await Estate.countDocuments({});
+
+        if(allPosts < filters.skip) { filters.skip = 0 }
+
         estatesData = await Estate.find({}, 'city address price title file email phone id owner')
+                                    .limit(filters.limit)
+                                    .skip(filters.skip)
                                     .sort(filters.sortBy)
                                     .collation({ locale: 'en_US', numericOrdering: true })
-                                    .limit(filters.limit)
 
-        let estatePosts = [];
         estatesData.map(el => estatePosts.push(el.id));
         estatesLikes = await EstateLikes.find({ estateId: { "$in": [...estatePosts] } });
     } catch(err) { return next(new httpError('Something went wrong', 500)) }
@@ -31,7 +37,8 @@ const getEstatesHandler = async (req, res, next) => {
 
     return res.json({
         estatesData: estatesData.map(estate => estate.toObject({ getters: true})),
-        estatesLikes: estatesLikes.map(estateLikes => estateLikes.toObject({ getters: true}))
+        estatesLikes: estatesLikes.map(estateLikes => estateLikes.toObject({ getters: true})),
+        allPosts
     });
 };
 
