@@ -11,10 +11,20 @@ const User = require('../../users/models/user');
 
 const getEstatesHandler = async (req, res, next) => {
     let estatesData, estatesLikes;
+    const filters = {
+        limit: parseInt(req.query.limit, 10) || 0,
+        sortBy: req.query.sortBy || '-createdAt'
+    }
     
     try {
         estatesData = await Estate.find({}, 'city address price title file email phone id owner')
-        estatesLikes = await EstateLikes.find({})
+                                    .sort(filters.sortBy)
+                                    .collation({ locale: 'en_US', numericOrdering: true })
+                                    .limit(filters.limit)
+
+        let estatePosts = [];
+        estatesData.map(el => estatePosts.push(el.id));
+        estatesLikes = await EstateLikes.find({ estateId: { "$in": [...estatePosts] } });
     } catch(err) { return next(new httpError('Something went wrong', 500)) }
     
     if(!estatesData) return next(new httpError('No estates found', 404));
