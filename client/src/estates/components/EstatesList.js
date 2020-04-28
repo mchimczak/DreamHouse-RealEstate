@@ -13,11 +13,11 @@ const EstateItemsWrapper = styled.div`
 position: relative;
 display: grid;
 grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-column-gap: 2rem;
+gap: 2rem;
 justify-content: center;
 
 &:last-child {
-    margin: ${({theme}) => theme.size.xlarge} auto;
+    margin: 0 auto ${({theme}) => theme.size.xlarge} auto;
 }
 `
 const StyledHeader = styled.h3`

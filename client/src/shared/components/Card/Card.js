@@ -15,7 +15,7 @@ overflow-y: ${({scroll}) => scroll ? 'scroll !important' : null};
 cursor: default;
 
 ${({theme}) => theme.media.tablet} {
-    margin: ${({theme}) => theme.size.xlarge} auto 0 auto;
+    margin: 0 auto;
 }
 `
 const StyledHeader = styled.h4`

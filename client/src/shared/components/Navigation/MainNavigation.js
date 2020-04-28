@@ -28,7 +28,7 @@ const SideMenuBtn = styled.span`
 position: fixed;
 display: flex;
 align-items: center;
-border-radius: 3px;
+border-radius: 3px 0 0 3px;
 padding: ${({theme}) => theme.size.large};
 color: ${({theme}) => theme.colors.black};
 background-color: ${({theme}) => theme.colors.orange};

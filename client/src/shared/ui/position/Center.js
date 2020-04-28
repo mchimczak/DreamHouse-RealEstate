@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 const CenterWrapper = styled.div`
-display: contents;
+display: ${({cover}) => cover ? 'flex' : 'contents'};
 position: fixed;
 height: 100vh;
 width: 100vw;
@@ -21,7 +21,7 @@ ${({theme}) => theme.media.tablet} {
 
 const Center = (props) => {
     return ( 
-        <CenterWrapper>
+        <CenterWrapper cover={props.cover}>
             {props.children}
         </CenterWrapper>
      );

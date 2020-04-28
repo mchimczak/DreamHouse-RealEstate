@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 
 import {EstatesContext} from '../context/EstatesContext';
@@ -8,26 +8,29 @@ import { useFetch } from '../../shared/customHooks/useFetch';
 import EstatesList from '../components/EstatesList';
 import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
+import FilterData from '../../shared/components/FilterData/FilterData';
 
 const Estates = () => {
-    const init = useRef(false);
     const {estatesData: [estates, dispatch], estatesLikes: [estatesLikes, setEstatesLikes]} = useContext(EstatesContext);
-    const { estatesData, estatesLikes: userLikes } = useFetch('http://localhost:5000/estates');
+
+    const [sortByValue, setSortByValue] = useState('-createdAt');
+    const [limitValue, setLimitValue] = useState('10');
+    const { estatesData, estatesLikes: userLikes } = useFetch(`http://localhost:5000/estates?sortBy=${sortByValue}&limit=${limitValue}`);
 
     useEffect(() => {
-        if(init.current) {
-            init.current = false;
-            setEstatesLikes(userLikes);
-            dispatch(setEstates(estatesData));
-        } else init.current = true;
+        setEstatesLikes(userLikes);
+        dispatch(setEstates(estatesData));
     }, [estatesData, userLikes])
 
     return ( <>
         { estatesData && estatesLikes
             ? estates.length === 0 
-                ? <Center> <h3>No offers found, please try again later.</h3> </Center> 
-                : <EstatesList items={estatesData} />
-            : <Center> <Loader /> </Center> 
+                ?   <Center cover="true"> <h3>No offers found, please try again later.</h3> </Center> 
+                :   (<>
+                        <FilterData setSortByValue={setSortByValue} setLimitValue={setLimitValue} />
+                        <EstatesList items={estatesData} />
+                    </>)
+            : <Center cover="true"> <Loader /> </Center> 
         }
     </> );
 };

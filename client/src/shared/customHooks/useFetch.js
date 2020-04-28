@@ -15,7 +15,7 @@ export const useFetch = url => {
         axios.get(url)
             .then( result => {
                 if(isCurrent.current) {
-                    isCurrent.current = false;
+                    // isCurrent.current = false;
                     const {data} = result;
                     console.log(data);
                     setState({ data, loading: false })
