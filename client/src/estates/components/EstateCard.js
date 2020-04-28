@@ -104,7 +104,7 @@ const EstateCard = (props) => {
                 </Btn>
                 <CardActionsBlock>
                     { isUsers(isLoggedIn, userData) && <>
-                        <Btn small="true" title="Like estate" onClick={likeEstate}>
+                        <Btn small="true" title="Like this post" onClick={likeEstate}>
                             <Number>{likesNumber}</Number><FavoriteIcon />
                         </Btn>
                         { props.email 

@@ -22,6 +22,7 @@ const JoinSection = React.memo(() => {
                 to="/signup"
                 primary="true"
                 upc="true"
+                shadow="true"
                 title="Sign up"
                 >
                     Sign up

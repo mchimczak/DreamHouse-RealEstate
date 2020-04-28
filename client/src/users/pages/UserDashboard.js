@@ -1,15 +1,20 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import { useParams, Redirect } from 'react-router-dom';
+import styled from 'styled-components';
+
 import { useFetch } from '../../shared/customHooks/useFetch';
-
-
 import EstatesList from '../../estates/components/EstatesList';
 import { EstatesContext } from '../../estates/context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
 import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
 
+const EstatesContainer = styled.div`
+${({theme}) => theme.media.tablet} {
+    margin: 3rem 0;
+}
+`
 
 
 const UserDashboard = () => {
@@ -42,8 +47,10 @@ const UserDashboard = () => {
             { errorMsg && isRedirect
                 ? <Redirect to="/" />
                 : fetchedUserEstates
-                    ? <EstatesList items={fetchedUserEstates}/> 
-                    : <Center> <Loader/> </Center>
+                    ?   <EstatesContainer>
+                            <EstatesList items={fetchedUserEstates}/> 
+                        </EstatesContainer>
+                    :   <Center> <Loader/> </Center>
             }
     </> );
 };

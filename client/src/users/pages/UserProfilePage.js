@@ -13,6 +13,7 @@ gap: 2rem;
 
 ${({theme}) => theme.media.desktop} {
     grid-template-columns: 4fr 1fr;
+    margin: 3rem 0;
 }
 `
 

@@ -33,6 +33,7 @@ ${({theme}) => theme.media.tablet} {
     transform: translateX(0);
     box-shadow: none;
     color: ${({theme}) => theme.colors.black};
+    margin-top: 2rem;
 
     & div:nth-of-type(1) {
         margin-right: 2rem;
@@ -105,8 +106,8 @@ const FilterData = ({setSortByValue, setLimitValue}) => {
         </StyledIconWrapper>
         <StyledParamsWrapper isOpen={isOpen} >
             <StyledWrapper>
-                <label htmlFor="filter" >Filter by:</label>
-                <StyledSelect name=""  id="filterBy" onChange={handleSortByChange}>
+                <label htmlFor="filter" >Sort by:</label>
+                <StyledSelect name=""  id="SortBy" onChange={handleSortByChange}>
                     <option value="-createdAt">Date (newest)</option>
                     <option value="createdAt">Date (oldest)</option>
                     <option value="price">Price (cheapest)</option>
@@ -117,7 +118,7 @@ const FilterData = ({setSortByValue, setLimitValue}) => {
             </StyledWrapper>
             <StyledWrapper>
                 <label htmlFor="filter" >Show:</label>
-                <StyledSelect name=""  id="filterBy" onChange={handleLimitChange}>
+                <StyledSelect name=""  id="filter" onChange={handleLimitChange}>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>

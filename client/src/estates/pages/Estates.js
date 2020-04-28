@@ -9,18 +9,34 @@ import EstatesList from '../components/EstatesList';
 import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
 import FilterData from '../../shared/components/FilterData/FilterData';
+import Pagination from '../../shared/components/Pagination/Pagination';
 
 const Estates = () => {
     const {estatesData: [estates, dispatch], estatesLikes: [estatesLikes, setEstatesLikes]} = useContext(EstatesContext);
 
     const [sortByValue, setSortByValue] = useState('-createdAt');
     const [limitValue, setLimitValue] = useState('10');
-    const { estatesData, estatesLikes: userLikes } = useFetch(`http://localhost:5000/estates?sortBy=${sortByValue}&limit=${limitValue}`);
+    const [currentPage, setCurrentPage] = useState('1');
+    const { estatesData, estatesLikes: userLikes, allPosts } = useFetch(`http://localhost:5000/estates?sortBy=${sortByValue}&limit=${limitValue}&page=${currentPage}`);
 
     useEffect(() => {
         setEstatesLikes(userLikes);
         dispatch(setEstates(estatesData));
+
+        return () => {
+            setEstatesLikes([]);
+            dispatch(setEstates([]));
+        }
     }, [estatesData, userLikes])
+
+    useEffect(() => {
+        setCurrentPage('1');
+    }, [limitValue, sortByValue])
+
+    useEffect(() => {
+          window.scrollTo(0, 0);
+      }, [estatesData]);
+
 
     return ( <>
         { estatesData && estatesLikes
@@ -29,6 +45,7 @@ const Estates = () => {
                 :   (<>
                         <FilterData setSortByValue={setSortByValue} setLimitValue={setLimitValue} />
                         <EstatesList items={estatesData} />
+                        <Pagination totalPosts={allPosts} postsPerPage={limitValue} selectPage={setCurrentPage} />
                     </>)
             : <Center cover="true"> <Loader /> </Center> 
         }

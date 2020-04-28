@@ -30,9 +30,9 @@ const EndInfo = React.memo(() => {
                         to="/estates" 
                         primary="true"
                         title="View more"
-                        upc="true"
+                        shadow="true"
                     >
-                        View more !
+                        view more !
                     </Button>
                 </BtnBox>
                 <h4>...and find your DREAM HOUSE today.</h4>

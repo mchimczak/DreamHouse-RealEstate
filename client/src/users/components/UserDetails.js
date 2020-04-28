@@ -31,6 +31,10 @@ width: 100%;
 max-width: 400px;
 height: auto;
 margin: ${({theme}) => theme.size.xlarge} auto;
+
+${({theme}) => theme.media.desktop} {
+    margin: 0 auto;
+}
 `
 const StyledContentWrapper = styled(CardMedia)`
 display: flex;
