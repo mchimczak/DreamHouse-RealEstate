@@ -57,6 +57,11 @@ const EstateCard = (props) => {
     let likesNumber = 0;
     if(currentEstate) likesNumber = currentEstate.likes.length;
 
+    let didUserLiked = userData.id && currentEstate && currentEstate.likes.includes(userData.id)
+        ? { color: '#f53939' }
+        : null
+        
+
     const likeEstate = () => {
         if(isLoggedIn && userData.id) {
             const estateId = props.id;
@@ -105,7 +110,8 @@ const EstateCard = (props) => {
                 <CardActionsBlock>
                     { isUsers(isLoggedIn, userData) && <>
                         <Btn small="true" title="Like this post" onClick={likeEstate}>
-                            <Number>{likesNumber}</Number><FavoriteIcon />
+                            <Number>{likesNumber}</Number>
+                            <FavoriteIcon style={didUserLiked} />
                         </Btn>
                         { props.email 
                             ? (<Btn small="true" upc="true" title="E-mail user">

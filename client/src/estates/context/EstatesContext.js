@@ -1,7 +1,7 @@
 import React, { useReducer, useState, useContext } from 'react';
 import axios from 'axios';
 
-import { reducer, addEstate, removeEstate, editEstate } from './EstatesActions';
+import { reducer, removeEstate } from './EstatesActions';
 import { UserContext } from '../../auth/context/UserContext';
 
 export const EstatesContext = React.createContext();
@@ -22,7 +22,7 @@ export const EstatesContextProvider = (props) => {
         };
 
         Object.keys(data).map( field => {
-            data[field] instanceof FileList || data[field] instanceof Array
+            return data[field] instanceof FileList || data[field] instanceof Array
                 ? handleFilesArray(data[field])
                 : formData.append(field, data[field])
         });

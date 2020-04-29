@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import MainHeader from './MainHeader';
 import NavLinks from './NavLinks';
 import MobileNavigation from './MobileNavigation';
-import ListIcon from '@material-ui/icons/List';
-import CloseIcon from '@material-ui/icons/Close';
 
 const Nav = styled.nav`
 display: none;
@@ -24,25 +22,7 @@ border-right: 2px solid ${({theme}) => theme.colors.orange};
 const StyledLink = styled(Link)`
 color: ${({theme}) => theme.colors.white};
 `
-const SideMenuBtn = styled.span`
-position: fixed;
-display: flex;
-align-items: center;
-border-radius: 3px 0 0 3px;
-padding: ${({theme}) => theme.size.large};
-color: ${({theme}) => theme.colors.black};
-background-color: ${({theme}) => theme.colors.orange};
-width: fit-content;
-bottom: 50px;
-right: 0;
-max-height: 50px;
-text-align: right;
-z-index: 90;
 
-${({theme}) => theme.media.desktop} {
-    display: none;
-}
-`
 
 const MainNavigation = () => {
 
@@ -54,12 +34,6 @@ const MainNavigation = () => {
         <>
             <MainHeader>
                 <StyledLink to="/" ><Title>DreamHouse</Title></StyledLink>
-                <SideMenuBtn onClick={toggleSideMenu} isOpen={isOpen}>
-                    {isOpen 
-                        ? <CloseIcon style={{ fontSize: 32, zIndex: 999 }} /> 
-                        : <ListIcon style={{ fontSize: 32, zIndex: 999 }} />
-                    }
-                </SideMenuBtn>
                 <Nav>
                     <NavLinks />
                 </Nav>

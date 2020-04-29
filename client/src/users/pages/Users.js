@@ -23,7 +23,7 @@ const Users = () => {
             setUsersList(userList);
         } else init.current = true;
         
-    }, [userList, estatesData])
+    }, [userList, estatesData]);
 
     return ( 
         <> { userList && estatesData

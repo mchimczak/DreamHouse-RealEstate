@@ -41,8 +41,8 @@ const CardFields = (props) => {
                 <Typography variant="h6">
                     <FieldTitle>{title}:</FieldTitle> 
                     <FieldContent title={value}> 
-                    {value ? value : 'no info provided'} 
-                    { title in props.defaultUnits ? ` ${props.defaultUnits[title]}` : '' }
+                    { value ? value : 'no info provided' } 
+                    { value && title in props.defaultUnits ? ` ${props.defaultUnits[title]}` : '' }
                     </FieldContent>
                 </Typography>
             </CardContentInfoWrapper>

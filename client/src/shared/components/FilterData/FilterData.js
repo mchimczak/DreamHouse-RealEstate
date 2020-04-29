@@ -12,13 +12,12 @@ align-items: center;
 transition: .5s ease-in-out;
 transform: ${({isOpen}) => isOpen ? `translateX(0)` : `translateX(100vw)`} ;
 position: fixed;
-top: 70px;
+top: 0;
 z-index: 500;
 width: 100vw;
 padding: 2rem;
 background-color: ${({theme}) => theme.colors.black};
 left: 0;
-box-shadow: 1px 0px 4px #4a4a4a;
 color: ${({theme}) => theme.colors.white};
 
 ${({theme}) => theme.media.tablet} {
@@ -31,7 +30,6 @@ ${({theme}) => theme.media.tablet} {
     flex-direction: row;
     justify-content: flex-end;
     transform: translateX(0);
-    box-shadow: none;
     color: ${({theme}) => theme.colors.black};
     margin-top: 2rem;
 
@@ -57,7 +55,7 @@ const StyledSelect = styled.select`
 border: none;
 padding: .5rem 1rem;
 
-${({theme}) => theme.media.tablet} {
+${({theme}) => theme.media.desktop} {
     box-shadow: 1px 3px 4px #bbb;
     font-size: 14px;
 }
@@ -65,8 +63,9 @@ ${({theme}) => theme.media.tablet} {
 const StyledIconWrapper = styled.div`
 display: flex;
 position: fixed;
-top: 100px;
+top: 30px;
 right: 0;
+max-height: 50px;
 align-items: center;
 justify-content: center;
 padding: .5rem 1rem;
@@ -106,7 +105,7 @@ const FilterData = ({setSortByValue, setLimitValue}) => {
         </StyledIconWrapper>
         <StyledParamsWrapper isOpen={isOpen} >
             <StyledWrapper>
-                <label htmlFor="filter" >Sort by:</label>
+                <label htmlFor="sortBy" >Sort by:</label>
                 <StyledSelect name=""  id="SortBy" onChange={handleSortByChange}>
                     <option value="-createdAt">Date (newest)</option>
                     <option value="createdAt">Date (oldest)</option>
@@ -117,8 +116,8 @@ const FilterData = ({setSortByValue, setLimitValue}) => {
                 </StyledSelect>
             </StyledWrapper>
             <StyledWrapper>
-                <label htmlFor="filter" >Show:</label>
-                <StyledSelect name=""  id="filter" onChange={handleLimitChange}>
+                <label htmlFor="limit" >Show:</label>
+                <StyledSelect name=""  id="limit" onChange={handleLimitChange}>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>

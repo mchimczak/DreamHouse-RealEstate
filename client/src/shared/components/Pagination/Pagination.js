@@ -31,7 +31,6 @@ const Pagination = ({totalPosts, postsPerPage, selectPage}) => {
     }
     
     return (
-        <div>
             <PageWrapper> 
                 { pageNumbers.map( number => (
                     <PageBox key={number} onClick={() => selectPage(number)}>
@@ -39,7 +38,6 @@ const Pagination = ({totalPosts, postsPerPage, selectPage}) => {
                     </PageBox>
                 )) } 
             </PageWrapper>
-        </div>
     )
 };
 

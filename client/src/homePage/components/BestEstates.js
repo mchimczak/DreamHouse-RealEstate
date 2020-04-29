@@ -47,6 +47,11 @@ const BestEstates = () => {
     useEffect(() => {
         setBestEstate(bestThreeEstate);
         setEstatesLikes(mostLikedEstates);
+
+        return () => {
+            setEstatesLikes([]);
+            setBestEstate([]);
+        }
     },[mostLikedEstates, bestThreeEstate]);
 
     return ( 

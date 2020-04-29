@@ -27,11 +27,11 @@ const Estates = () => {
             setEstatesLikes([]);
             dispatch(setEstates([]));
         }
-    }, [estatesData, userLikes])
+    }, [estatesData, userLikes]);
 
     useEffect(() => {
         setCurrentPage('1');
-    }, [limitValue, sortByValue])
+    }, [limitValue, sortByValue]);
 
     useEffect(() => {
           window.scrollTo(0, 0);

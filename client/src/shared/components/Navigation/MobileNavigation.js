@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import Backdrop from '../../ui/layout/Backdrop';
 
-let Aside = styled.aside`
+import ListIcon from '@material-ui/icons/List';
+import CloseIcon from '@material-ui/icons/Close';
+
+const Aside = styled.aside`
 position: fixed;
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-color: ${({theme}) => theme.colors.black};
-background-color: ${({theme}) => theme.colors.orange};
+color: ${({theme}) => theme.colors.white};
+background-color: ${({theme}) => theme.colors.black};
 bottom: 0;
 right: 0;
 left: 0;
@@ -19,7 +22,7 @@ height: auto;
 padding: ${({theme}) => theme.size.medium} ${({theme}) => theme.size.medium};
 z-index: 100;
 transition: .5s ease-in-out;
-transform: ${({isOpen}) => isOpen ? '0' : 'translateY(300px)'};
+transform: ${({isOpen}) => isOpen ? '0' : 'translateY(100%)'};
 
 & ul {
     position: relative;
@@ -35,12 +38,48 @@ ${({theme}) => theme.media.desktop} {
     display: none;
 }
 `
+const Button = styled.span`
+display: flex;
+align-items: center;
+border-radius: 3px 0 0 3px;
+padding: .5rem 1rem;
+width: fit-content;
+max-height: 50px;
+z-index: 90;
+
+${({theme}) => theme.media.desktop} {
+    display: none;
+}
+`
+const OpenMenuBtn = styled(Button)`
+position: fixed;
+color: ${({theme}) => theme.colors.black};
+background-color: ${({theme}) => theme.colors.orange};
+bottom: 50px;
+right: 0;
+`
+const CloseMenuBtn = styled(Button)`
+position: absolute;
+top: 20px;
+right: 0;
+color: ${({theme}) => theme.colors.white};
+`
 
 const MobileNavigation = (props) => {
     const content = (
         <div onClick={props.toggleSideMenu}>
             <Backdrop isOpen={props.isOpen}/>
+            { !props.isOpen && 
+                <OpenMenuBtn onClick={() => props.toggleSideMenu}>
+                    <ListIcon style={{ fontSize: 32, zIndex: 999 }} />
+                </OpenMenuBtn>
+            }
             <Aside isOpen={props.isOpen}>
+                { props.isOpen &&   
+                    <CloseMenuBtn onClick={() => props.toggleSideMenu}>
+                        <CloseIcon style={{ fontSize: 32, zIndex: 999 }} />
+                    </CloseMenuBtn> 
+                }
                 {props.children}
             </Aside>
         </div>
