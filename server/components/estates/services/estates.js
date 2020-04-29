@@ -160,7 +160,7 @@ const likeEstateHandler = async(req, res, next) => {
 
     if(!isLiked) return next(new httpError('No estate found', 404));
 
-    return res.status(200).json({ message: 'You liked that'});
+    return res.status(200).json({ message: 'You liked that post'});
 }
 
 
