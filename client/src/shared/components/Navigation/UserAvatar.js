@@ -3,7 +3,7 @@ import { UserContext } from '../../../auth/context/UserContext';
 
 import Avatar from '@material-ui/core/Avatar';
 
-const UserAvatar = (props) => {
+const UserAvatar = () => {
     const {isLoggedIn, userData} = useContext(UserContext);
 
     const initials = [...userData.name[0]].toString().toUpperCase();

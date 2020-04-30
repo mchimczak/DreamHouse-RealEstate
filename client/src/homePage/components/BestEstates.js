@@ -1,5 +1,4 @@
 import React, {useContext, useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import {EstatesContext} from '../../estates/context/EstatesContext';
@@ -16,20 +15,30 @@ height: auto;
 padding-bottom: 1rem;
 
 & > div {
+    &:not(:first-of-type) {
+        margin-left: 10px;
+    }
+
     flex-shrink: 0;
     margin: 0;
-    margin-left: 10px;
+    max-width: 300px;
 }
 
 ${({theme}) => theme.media.tablet} {
-    display: grid;
+    & > div {
+        max-width: 450px;
+    }
+}
+${({theme}) => theme.media.desktop} {
     grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    display: grid;
     gap: 2rem;
     height: auto;
     overflow: hidden;
-
-    & > div {
-        margin: 0;
+    
+    & > div:not(:first-of-type) {
+        margin-left: 0;
+        max-width: unset;
     }
 }
 `
@@ -68,8 +77,3 @@ const BestEstates = () => {
 }
  
 export default BestEstates;
-
-BestEstates.propTypes = {
-    bestThreeEstate: PropTypes.array,
-    mostLikedEstates: PropTypes.array,
-}

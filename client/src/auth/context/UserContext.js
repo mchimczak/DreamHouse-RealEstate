@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 export const UserContext = React.createContext();
@@ -95,7 +96,7 @@ export const UserContextProvider = (props) => {
         return localStorage.removeItem('user');
     },[userData]);
 
-    const updateUser = async (id, updates) => {
+    const updateUser = useCallback(async (id, updates) => {
         const formData = convertToFormData(updates);
         formData.append('id', userData.id);
          
@@ -110,7 +111,7 @@ export const UserContextProvider = (props) => {
             setStatus(res.data.message);
             setUserData(res.data.user);
         }).catch(err => setStatus(err.response.data.message));
-    };
+    },[userData, token]);
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -153,3 +154,7 @@ export const UserContextProvider = (props) => {
         </UserContext.Provider>
     )
 };
+
+UserContextProvider.propTypes = {
+    children: PropTypes.any.isRequired
+  };

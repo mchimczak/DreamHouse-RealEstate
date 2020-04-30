@@ -6,18 +6,14 @@ import BestEstates from '../components/BestEstates';
 import JoinSection from '../components/JoinSection';
 import EndInfo from '../components/EndInfo';
 
-
-const HomePage = () => {
-
-    return ( 
-        <>
-            <HeroSection />
-            <Info />
-            <JoinSection />
-            <BestEstates />
-            <EndInfo/>
-        </>
-     );
-}
+const HomePage = React.memo(() => ( 
+    <>
+        <HeroSection />
+        <Info />
+        <JoinSection />
+        <BestEstates />
+        <EndInfo/>
+    </>
+),[]);
  
 export default HomePage;

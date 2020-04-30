@@ -3,12 +3,15 @@ import { Redirect } from 'react-router-dom';
 
 import { EstatesContext } from '../context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
+
 import Form from '../../shared/components/Form/Form';
 import estateValidationSchema from '../components/Form/EstateValidationSchema';
 import addEstateInitState from '../components/Form/addEstate/addEstateInitState';
+
+import Card from '../../shared/components/Card/Card';
 import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
-import Card from '../../shared/components/Card/Card';
+import Wrapper from '../../shared/components/Wrapper/Wrapper';
 
 const AddEstate = () => {
     const { addEstate } = useContext(EstatesContext);
@@ -38,17 +41,19 @@ const AddEstate = () => {
 
     return (
         <> 
-            {isRedirect ? <Redirect to="/estates" /> : null}
+            { isRedirect ? <Redirect to="/estates" /> : null }
             { isLoading
-                ? <Center> <Loader /> </Center>
-                : <Card title="Add new estate">
-                    <Form 
-                        submitAction={createEstate}
-                        validationSchema={estateValidationSchema}
-                        initState={addEstateInitState}
-                        fileUpload={{name: 'images', multiple: true}}
-                    />
-                </Card>
+                ?   <Center> <Loader /> </Center>
+                :   <Wrapper>
+                        <Card title="Add new estate">
+                            <Form 
+                                submitAction={createEstate}
+                                validationSchema={estateValidationSchema}
+                                initState={addEstateInitState}
+                                fileUpload={{name: 'images', multiple: true}}
+                            />
+                        </Card>
+                    </Wrapper>
             }
         </>
      );

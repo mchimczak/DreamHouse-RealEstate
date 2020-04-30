@@ -11,9 +11,8 @@ import CardFields from '../../shared/components/Card/CardFields';
 import Btn from '../../shared/components/Button/Button';
 import Image from '../../shared/components/ImageContainer/Image';
 
-import CardContent from '@material-ui/core/CardContent';
+import { CardContent, Divider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import Divider from '@material-ui/core/Divider';
 
 const StyledMediaWrapper = styled.div`
 display: grid;
@@ -77,7 +76,7 @@ const EstateCard = (props) => {
     const showFields = {
         city: (props.city),
         address: props.address,
-        price: (props.price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        price: (props.price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
     };
 
     const isUsers = useCallback((login, user) => {
@@ -104,7 +103,7 @@ const EstateCard = (props) => {
                     <CardFields data={showFields} />
             </CardContent>
             <CardActionsWrapper>
-                <Btn primary="true" upc="true" small="true" as={Link} to={`/estates/${props.id}`}>
+                <Btn primary="true" shadow="true" upc="true" small="true" as={Link} to={`/estates/${props.id}`}>
                     View details
                 </Btn>
                 <CardActionsBlock>
@@ -143,5 +142,6 @@ EstateCard.propTypes = {
     price: PropTypes.string.isRequired,
     owner: PropTypes.string.isRequired,
     phone: PropTypes.string,
-    email: PropTypes.string
+    email: PropTypes.string,
+    file: PropTypes.arrayOf(PropTypes.string)
 }

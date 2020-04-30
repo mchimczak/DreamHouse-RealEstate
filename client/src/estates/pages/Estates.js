@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 
 import {EstatesContext} from '../context/EstatesContext';
 import { setEstates } from '../../estates/context/EstatesActions';
@@ -42,19 +41,14 @@ const Estates = () => {
         { estatesData && estatesLikes
             ? estates.length === 0 
                 ?   <Center cover="true"> <h3>No offers found, please try again later.</h3> </Center> 
-                :   (<>
+                :   <>
                         <FilterData setSortByValue={setSortByValue} setLimitValue={setLimitValue} />
                         <EstatesList items={estatesData} />
                         <Pagination totalPosts={allPosts} postsPerPage={limitValue} selectPage={setCurrentPage} />
-                    </>)
+                    </>
             : <Center cover="true"> <Loader /> </Center> 
         }
     </> );
 };
  
 export default Estates;
-
-Estates.propTypes = {
-    estatesData: PropTypes.arrayOf(PropTypes.object),
-    userLikes: PropTypes.arrayOf(PropTypes.object),
-}

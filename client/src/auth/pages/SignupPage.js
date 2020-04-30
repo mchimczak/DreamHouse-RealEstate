@@ -1,6 +1,5 @@
-import React, {useContext} from 'react';
+import React, { useContext, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import { UserContext } from '../context/UserContext';
 import Form from '../../shared/components/Form/Form';
@@ -12,7 +11,7 @@ import Loader from '../../shared/components/Loader/Loader';
 
 const SignUpPage = () => {
     const { register, isLoggedIn, userData, loading: [isLoading, ] } = useContext(UserContext);
-    const createNewUser = (user) => register(user);
+    const createNewUser = useCallback((user) => register(user),[]);
 
     return (
         <Center>
@@ -33,10 +32,3 @@ const SignUpPage = () => {
 }
  
 export default SignUpPage;
-
-SignUpPage.propTypes = {
-    isLoggedIn: PropTypes.bool,
-    loading: PropTypes.bool,
-    userData: PropTypes.object,
-    register: PropTypes.func
-}

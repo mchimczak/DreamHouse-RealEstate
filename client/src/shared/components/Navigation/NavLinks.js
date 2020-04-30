@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import {UserContext} from '../../../auth/context/UserContext';
@@ -36,13 +37,13 @@ ${({theme}) => theme.media.desktop} {
 }
 `
 
-const MainNavigationLinks = () => {
+const MainNavigationLinks = (props) => {
 
     const {userData, token: [token,], logout} = useContext(UserContext);
     const {id} = userData;
 
     return ( 
-        <List>
+        <List onClick={props.toggleSideMenu}>
             <li>
                 <StyledNavLink to="/">Home</StyledNavLink>
             </li>
@@ -86,3 +87,7 @@ const MainNavigationLinks = () => {
 }
  
 export default MainNavigationLinks;
+
+MainNavigationLinks.propTypes = {
+    toggleModal: PropTypes.func
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const PageWrapper = styled.ul`
@@ -31,14 +32,20 @@ const Pagination = ({totalPosts, postsPerPage, selectPage}) => {
     }
     
     return (
-            <PageWrapper> 
-                { pageNumbers.map( number => (
-                    <PageBox key={number} onClick={() => selectPage(number)}>
-                        {number}
-                    </PageBox>
-                )) } 
-            </PageWrapper>
+        <PageWrapper> 
+            { pageNumbers.map( number => (
+                <PageBox key={number} onClick={() => selectPage(number)}>
+                    {number}
+                </PageBox>
+            )) } 
+        </PageWrapper>
     )
 };
 
 export default Pagination;
+
+Pagination.propTypes = {
+    totalPosts: PropTypes.number.isRequired,
+    postsPerPage: PropTypes.string.isRequired,
+    selectPage: PropTypes.func.isRequired
+  };

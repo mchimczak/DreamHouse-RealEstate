@@ -24,6 +24,10 @@ box-shadow: ${props => props.shadow ? '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px
     box-shadow: inset 0px 1px 9px #7d7d7d94;
 }
 
+:hover {
+ box-shadow: ${({as}) => as ? 'none' : null};
+}
+
 :disabled {
     background-color: ${props => props.theme.colors.grey};
     cursor: initial;
@@ -53,6 +57,14 @@ const Btn = (props) => {
 export default Btn;
 
 Btn.propTypes = {
+    children: PropTypes.any.isRequired,
     primary: PropTypes.string,
-    upc: PropTypes.string
+    upc: PropTypes.string,
+    small: PropTypes.string,
+    onClick: PropTypes.func,
+    as: PropTypes.object,
+    to: PropTypes.string,
+    disabled: PropTypes.bool,
+    title: PropTypes.string,
+    shadow: PropTypes.string
 }

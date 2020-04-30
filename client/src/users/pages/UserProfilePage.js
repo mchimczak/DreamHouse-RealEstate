@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import {UserContext} from '../../auth/context/UserContext';
@@ -29,8 +28,3 @@ const UserProfilePage = () => {
 }
  
 export default UserProfilePage;
-
-UserDashboard.propTypes = {
-    userData: PropTypes.object,
-    updateUser: PropTypes.func
-}

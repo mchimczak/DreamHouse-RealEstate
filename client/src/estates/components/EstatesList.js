@@ -31,16 +31,16 @@ const EstatesList = ({items}) => {
 
     return (
         <EstateItemsWrapper>
-            {items.length !== 0 
-                ? items.map(item => <EstateCard key={item.id} {...item} /> )
-                : isLoggedIn && userData.id === userId
-                    ?   <Center>
-                            <StyledHeader>It's so empty here...</StyledHeader>
-                            <Button primary="yes" upc="true" title="Add your first offer">
-                                <Link to='/estates/new'>Create your first offer</Link>
-                            </Button>
-                        </Center>
-                    :   <Center><Loader/></Center>
+            {   items.length !== 0 
+                    ? items.map(item => <EstateCard key={item.id} {...item} /> )
+                    : isLoggedIn && userData.id === userId
+                        ?   <Center>
+                                <StyledHeader>It's so empty here...</StyledHeader>
+                                <Button primary="yes" upc="true" shadow='true' title="Add your first offer">
+                                    <Link to='/estates/new'>Create your first offer</Link>
+                                </Button>
+                            </Center>
+                        :   <Center><Loader/></Center>
             }
         </EstateItemsWrapper>
      );

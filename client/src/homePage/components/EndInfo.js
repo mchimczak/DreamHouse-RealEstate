@@ -32,7 +32,7 @@ const EndInfo = React.memo(() => {
                         title="View more"
                         shadow="true"
                     >
-                        view more !
+                        view more
                     </Button>
                 </BtnBox>
                 <h4>...and find your DREAM HOUSE today.</h4>

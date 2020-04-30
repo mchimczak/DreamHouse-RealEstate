@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Backdrop from '../../ui/layout/Backdrop';
 
@@ -67,25 +68,31 @@ color: ${({theme}) => theme.colors.white};
 
 const MobileNavigation = (props) => {
     const content = (
-        <div onClick={props.toggleSideMenu}>
-            <Backdrop isOpen={props.isOpen}/>
-            { !props.isOpen && 
-                <OpenMenuBtn onClick={() => props.toggleSideMenu}>
-                    <ListIcon style={{ fontSize: 32, zIndex: 999 }} />
-                </OpenMenuBtn>
-            }
+        <>
+            <Backdrop isOpen={props.isOpen} onClick={props.toggleSideMenu} />
+                { !props.isOpen && 
+                    <OpenMenuBtn onClick={props.toggleSideMenu}>
+                        <ListIcon style={{ fontSize: 32, zIndex: 999 }} />
+                    </OpenMenuBtn>
+                }
             <Aside isOpen={props.isOpen}>
                 { props.isOpen &&   
-                    <CloseMenuBtn onClick={() => props.toggleSideMenu}>
+                    <CloseMenuBtn onClick={props.toggleSideMenu}>
                         <CloseIcon style={{ fontSize: 32, zIndex: 999 }} />
                     </CloseMenuBtn> 
                 }
                 {props.children}
             </Aside>
-        </div>
+        </>
      );
 
      return ReactDOM.createPortal(content, document.getElementById('sideMenu'));
-}
+};
  
 export default MobileNavigation;
+
+MobileNavigation.propTypes = {
+    children: PropTypes.any.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    toggleSideMenu: PropTypes.func.isRequired
+  };

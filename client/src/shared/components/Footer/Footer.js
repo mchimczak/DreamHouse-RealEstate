@@ -22,14 +22,14 @@ const FooterContentParagraph = styled.p`
 margin: 0;
 `
 
-const Footer = () => {
-    return ( 
-        <FooterWrapper>
-            <FooterContentWrapper>
-                <FooterContentParagraph>DreamHouse <sup><small>2020</small></sup> </FooterContentParagraph>
-            </FooterContentWrapper>
-        </FooterWrapper>
-     );
-}
+const Footer = React.memo(() => ( 
+    <FooterWrapper>
+        <FooterContentWrapper>
+            <FooterContentParagraph>
+                DreamHouse <sup><small>2020</small></sup>
+            </FooterContentParagraph>
+        </FooterContentWrapper>
+    </FooterWrapper>
+),[]);
  
 export default Footer;

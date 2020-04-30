@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const CenterWrapper = styled.div`
@@ -19,12 +20,15 @@ ${({theme}) => theme.media.tablet} {
 }
 `
 
-const Center = (props) => {
-    return ( 
+const Center = (props) => ( 
         <CenterWrapper cover={props.cover}>
             {props.children}
         </CenterWrapper>
-     );
-}
+);
  
 export default Center;
+
+Center.propTypes = {
+    children: PropTypes.node.isRequired,
+    cover: PropTypes.string
+  };

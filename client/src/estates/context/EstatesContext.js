@@ -1,4 +1,5 @@
-import React, { useReducer, useState, useContext } from 'react';
+import React, { useReducer, useState, useContext, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 
 import { reducer, removeEstate } from './EstatesActions';
@@ -12,7 +13,7 @@ export const EstatesContextProvider = (props) => {
     const [estatesLikes, setEstatesLikes]= useState([]);
     const {status: [, setStatus], token: [token, ]} = useContext(UserContext);
 
-    const convertToFormData = (data) => {
+    const convertToFormData = useCallback((data) => {
         const formData = new FormData();
 
         const handleFilesArray = (filesArray) => {
@@ -28,9 +29,9 @@ export const EstatesContextProvider = (props) => {
         });
 
         return formData
-    };
+    },[]);
     
-    const startAddEstate = async(newEstate) => {
+    const startAddEstate = useCallback(async(newEstate) => {
         const formData = convertToFormData(newEstate);
 
         await axios({
@@ -43,18 +44,18 @@ export const EstatesContextProvider = (props) => {
         }).then((res) => {
             setStatus(res.data.message);
         }).catch( err => setStatus(err.response.data.message));
-    };
+    },[token]);
 
-    const startRemoveEstate = async (estateId) => {
+    const startRemoveEstate = useCallback(async(estateId) => {
         await axios.delete(`http://localhost:5000/estates/${estateId}`, {
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) => {
             setStatus(res.data.message);
             dispatch(removeEstate(estateId))
         }).catch( err => setStatus(err.response.data.message));
-    };
+    },[token]);
 
-    const startEditEstate = async(id, updates) => {
+    const startEditEstate = useCallback(async(id, updates) => {
         const newData = convertToFormData(updates);
         newData.append('id', id);
 
@@ -71,9 +72,9 @@ export const EstatesContextProvider = (props) => {
         }).catch( err => setStatus(err.response.data.message));
 
         return newEstate;
-    };
+    },[token]);
 
-    const addLike = async(estateId, userId) => {
+    const addLike = useCallback(async(estateId, userId) => {
         await axios({
             method: 'post',
             url: `http://localhost:5000/estates/${estateId}/like`, 
@@ -92,7 +93,7 @@ export const EstatesContextProvider = (props) => {
             setEstatesLikes(updatedList);
             setStatus(res.data.message);
         }).catch( err => setStatus(err.response.data.message));
-    };
+    },[token, estatesLikes]);
 
     const value = {
         estatesData: [state, dispatch],
@@ -111,3 +112,6 @@ export const EstatesContextProvider = (props) => {
 
 };
 
+EstatesContextProvider.propTypes = {
+    children: PropTypes.any.isRequired
+  };

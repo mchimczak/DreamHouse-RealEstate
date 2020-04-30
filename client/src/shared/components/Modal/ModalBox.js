@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Box = styled.div`
@@ -28,3 +29,9 @@ const ModalBox = (props) => {
 }
  
 export default ModalBox;
+
+ModalBox.propTypes = {
+    children: PropTypes.node.isRequired,
+    size: PropTypes.string,
+    title: PropTypes.string,
+};

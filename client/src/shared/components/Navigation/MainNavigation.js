@@ -40,7 +40,7 @@ const MainNavigation = () => {
             </MainHeader>
 
             <MobileNavigation isOpen={isOpen} toggleSideMenu={toggleSideMenu}>
-                <NavLinks/>
+                <NavLinks toggleSideMenu={toggleSideMenu} />
             </MobileNavigation>
         </>
      );

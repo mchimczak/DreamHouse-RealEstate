@@ -66,6 +66,12 @@ const MyForm = props => {
 
     const SUPPORTED_FORMAT = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
 
+
+    useEffect(() => {
+        const inputs = document.querySelectorAll("input");
+        inputs[0].focus()
+    },[]);
+
     useEffect(() => {
         if(!pickedFiles || pickedFiles.length === 0) return;
 
@@ -129,11 +135,18 @@ const MyForm = props => {
                     </>
             }
             <StyledImgPrevWrapper grid={fileUpload && fileUpload.multiple}>
-                    { imgPrev && !errors['file'] && imgPrev.map( img => (
-                        SUPPORTED_FORMAT.includes(img.type) && <StyledImgPrev src={img.data} key={img.data} alt={img.data} />
-                     )) }
+                { imgPrev && !errors['file'] && imgPrev.map( img => (
+                    SUPPORTED_FORMAT.includes(img.type) && 
+                    <StyledImgPrev src={img.data} key={img.data} alt={img.data} />
+                )) }
             </StyledImgPrevWrapper>
-            <StyledButton type="submit" disabled={isSubmitting} isValid={dirty && Object.keys(errors).length === 0}>Submit</StyledButton>
+            <StyledButton 
+                type="submit" 
+                disabled={isSubmitting} 
+                isValid={dirty && Object.keys(errors).length === 0}
+            >
+                Submit
+            </StyledButton>
         </StyledForm>
     );
 };
@@ -151,25 +164,14 @@ const MyEnhancedForm = withFormik({
     }
 })(MyForm);
 
-
+export default MyEnhancedForm;
 
 MyEnhancedForm.propTypes = {
     submitAction: PropTypes.func.isRequired,
     validationSchema: PropTypes.any.isRequired,
-    initState: PropTypes.object,
-}
-
-MyEnhancedForm.defaultProps = {
-    initState: {
-        title: '',
-        description: '',
-        city: '',
-        address: '',
-        area: '',
-        price: '',
-        rooms: '',
-        year: '',
-    },
-}
-
-export default MyEnhancedForm;
+    initState: PropTypes.object.isRequired,
+    fileUpload: PropTypes.shape({
+        multiple: PropTypes.bool,
+        name: PropTypes.string
+    })
+};

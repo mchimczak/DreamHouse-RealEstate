@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const BackdropWrapper = styled.div`
@@ -19,3 +20,8 @@ const Backdrop = (props) => (
 );
  
 export default Backdrop;
+
+Backdrop.propTypes = {
+        isOpen: PropTypes.bool.isRequired,
+        onClick: PropTypes.func.isRequired
+};

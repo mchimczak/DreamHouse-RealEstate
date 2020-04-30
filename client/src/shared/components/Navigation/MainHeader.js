@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Header = styled.header`
@@ -24,3 +25,7 @@ const MainHeader = (props) => {
 }
  
 export default MainHeader;
+
+MainHeader.propTypes = {
+    children: PropTypes.node.isRequired
+  };

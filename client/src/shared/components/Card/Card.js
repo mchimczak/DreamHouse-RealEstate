@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Card from '@material-ui/core/Card';
@@ -54,3 +55,13 @@ const CardTemplate = (props) => {
 }
  
 export default CardTemplate;
+
+CardTemplate.propTypes = {
+    children: PropTypes.node.isRequired,
+    title: PropTypes.string.isRequired,
+    modal: PropTypes.string,
+    small: PropTypes.string,
+    fixed: PropTypes.string,
+    scroll: PropTypes.string,
+    createdAt: PropTypes.string,
+};

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Backdrop from '../../ui/layout/Backdrop';
@@ -30,3 +31,9 @@ const Modal = (props) => {
 };
  
 export default Modal;
+
+Modal.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    children: PropTypes.any.isRequired,
+    toggleModal: PropTypes.func.isRequired
+};

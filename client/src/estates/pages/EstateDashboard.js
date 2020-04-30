@@ -1,6 +1,5 @@
 import React, {useContext, useState, useEffect, useRef} from 'react';
 import { useParams, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import { EstatesContext } from '../context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
@@ -8,6 +7,7 @@ import EstateItemDetails from '../components/EstateItemDetails';
 import { useFetch } from '../../shared/customHooks/useFetch';
 import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
+import { useCallback } from 'react';
 
 const EstateDashboard = () => {
     const estateId = useParams().estateId;
@@ -22,20 +22,20 @@ const EstateDashboard = () => {
 
     const fetchedEstate = useFetch(`http://localhost:5000/estates/${estateId}`);
 
-    const editCurrentEstate = async(id, updates) => {
+    const editCurrentEstate = useCallback(async(id, updates) => {
         setIsLoading(true);
         await editEstate(id, updates)
             .then(res => {
                 setCurrentEstate(res);
                 setIsLoading(false);
             });
-    };
+    },[]);
     
-    const removeCurrentEstate = (estateId) => {
+    const removeCurrentEstate = useCallback((estateId) => {
         removeEstate(estateId);
         setCurrentEstate(false);
         setIsRedirect(true);
-    };
+    },[]);
 
     useEffect(() => {
         if(init.current === true) {
@@ -54,7 +54,7 @@ const EstateDashboard = () => {
     return ( 
         <> {
             currentEstate && !isLoading
-            ? <EstateItemDetails key={currentEstate.id} removeCurrentEstate ={removeCurrentEstate} editCurrentEstate={editCurrentEstate} {...currentEstate} />
+            ? <EstateItemDetails key={currentEstate.id} removeCurrentEstate={removeCurrentEstate} editCurrentEstate={editCurrentEstate} {...currentEstate} />
             : isRedirect 
                 ? <Redirect to="/" /> 
                 : <Center> <Loader /> </Center>
@@ -63,7 +63,3 @@ const EstateDashboard = () => {
 };
  
 export default EstateDashboard;
-
-EstateDashboard.propTypes = {
-    fetchedEstate: PropTypes.object
-}

@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { EstatesContext } from '../../estates/context/EstatesContext';
-
-import Card from '@material-ui/core/Card';
-import Avatar from '@material-ui/core/Avatar';
-import CardHeader from '@material-ui/core/CardHeader';
-
+import { UserContext } from '../../auth/context/UserContext';
 import Button from '../../shared/components/Button/Button';
+
+import {Card, Avatar, CardHeader} from '@material-ui/core';
 
 const CardActionsWrapper = styled.div`
 display: grid;
@@ -18,13 +16,14 @@ padding: 1rem;
 
 const UserCard = ({ id, name, createdAt, file }) => {
     const {estatesData: [estatesData]} = useContext(EstatesContext);
+    const { userData } = useContext(UserContext);
     const initials = [...name[0]].toString().toUpperCase();
 
     let estates = 0;
     estatesData.map( el => el.owner === id ? estates++ : null );
 
     const avatar = file && file.length !== 0 
-        ? <Avatar alt="Remy Sharp" src={`http://localhost:5000/${file[0]}`} />
+        ? <Avatar alt="user profile picture" src={`http://localhost:5000/${file[0]}`} />
         : <Avatar aria-label="user">{initials}</Avatar>
 
     return (
@@ -35,19 +34,22 @@ const UserCard = ({ id, name, createdAt, file }) => {
                 title={name}
                 subheader={`Joined: ${createdAt}`}
             />
-            {
-                estates > 0 
-                ?   <CardActionsWrapper>
-                        <Button primary="true" small="true" upc="true" as={Link} to={`/users/${id}`}>
-                            View {estates} {estates === 1 ? 'offer' : 'offers'}
+            <CardActionsWrapper>
+                { 
+                    userData && userData.id == id
+                    ?   <Button small="true" upc="true" as={Link} to={`/users/me/${id}`}>
+                            View your profile
                         </Button>
-                    </CardActionsWrapper>
-                :   <CardActionsWrapper>
-                        <Button primary="true" small="true" upc="true" disabled={true}>
-                            View offer
-                        </Button>
-                    </CardActionsWrapper>
-            }
+
+                    : estates > 0 
+                        ?   <Button primary="true" shadow="true" small="true" upc="true" as={Link} to={`/users/${id}`}>
+                                View {estates} {estates === 1 ? 'offer' : 'offers'}
+                            </Button>
+                        :   <Button primary="true" small="true" upc="true" disabled={true}>
+                                View offer
+                            </Button>
+                }
+            </CardActionsWrapper>
         </Card>
     )
 };
@@ -55,13 +57,12 @@ const UserCard = ({ id, name, createdAt, file }) => {
 export default UserCard;
 
 UserCard.propTypes = {
-    id: PropTypes.string,
-    name: PropTypes.string,
-    createdAt: PropTypes.string,
-    file: PropTypes.arrayOf(PropTypes.string)
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    file: PropTypes.arrayOf(PropTypes.string).isRequired
 }
 
 UserCard.defaultProps = {
-    estates: 0,
-    createdAt: 'We dont know'
+    estates: 0
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Form = styled.form`
@@ -11,12 +12,14 @@ justify-content: space-between;
 }
 `
 
-const FormWrapper = (props) => {
-    return ( 
-        <Form>
-            {props.children}
-        </Form>
-     );
-}
+const FormWrapper = (props) => ( 
+    <Form>
+        {props.children}
+    </Form>
+);
  
 export default FormWrapper;
+
+FormWrapper.propTypes = {
+    children: PropTypes.node.isRequired,
+};

@@ -46,32 +46,33 @@ flex-wrap: wrap;
 
 const UserDetails = ({user, updateUser}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const toggleModal = () => setIsOpen(prevState => !prevState);
-
+    
     const { id, createdAt, file, email, password, name, phone} = user;
     const publicInfo = { name, email, phone };
     const editableUserInfo = { password, name, phone };
+    
+    const initials = new String([...user.name[0]]).toUpperCase();
+    const avatar = file && file.length !== 0 
+    ? <Avatar alt="User profile picture" src={`http://localhost:5000/${file[0]}`} />
+    : <Avatar aria-label="user">{initials}</Avatar>
+    
+    const toggleModal = () => setIsOpen(prevState => !prevState);
 
     const startUpdateUser = async (updates) => {
         await updateUser(id, updates);
         setIsOpen(false);
     };
 
-    const initials = new String([...user.name[0]]).toUpperCase();
-    const avatar = file && file.length !== 0 
-    ? <Avatar alt="User profile picture" src={`http://localhost:5000/${file[0]}`} />
-    : <Avatar aria-label="user">{initials}</Avatar>
-
     return ( 
         <CardWrapper>
             <StyledCard>
                 <StyledContentWrapper>
-                <CardHeader
-                    color="primary"
-                    avatar={ avatar }
-                    title={'Your profile dashboard'}
-                    subheader={`Joined: ${createdAt}`}
-                />
+                    <CardHeader
+                        color="primary"
+                        avatar={ avatar }
+                        title={'Your profile dashboard'}
+                        subheader={`Joined: ${createdAt}`}
+                    />
                     <CardContent>
                         <CardFields data={publicInfo} />
                     </CardContent>
@@ -102,6 +103,14 @@ const UserDetails = ({user, updateUser}) => {
 export default UserDetails;
 
 UserDetails.propTypes = {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.shape({
+        id: PropTypes.string,
+        createdAt: PropTypes.string,
+        file: PropTypes.arrayOf(PropTypes.string),
+        email: PropTypes.string,
+        password: PropTypes.string,
+        name: PropTypes.string,
+        phone: PropTypes.string
+    }).isRequired,
     updateUser: PropTypes.func.isRequired
 }

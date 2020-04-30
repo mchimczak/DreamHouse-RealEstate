@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import { UserContext } from '../../auth/context/UserContext';
@@ -12,10 +13,8 @@ import ModalBox from '../../shared/components/Modal/ModalBox';
 import Button from '../../shared/components/Button/Button';
 import Image from '../../shared/components/ImageContainer/Image';
 
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Divider from '@material-ui/core/Divider';
+import { CardActions, CardContent, CardMedia, Divider } from '@material-ui/core'
+import { useCallback } from 'react';
 
 
 const CardWrapper = styled.div`
@@ -63,33 +62,35 @@ flex-wrap: wrap;
 
 const EstateItemDetails = (props) => {
     const {isLoggedIn, userData} = useContext(UserContext);
-
     const [isOpen, setIsOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
-    const toggleModal = () => setIsOpen(prevState => !prevState);
 
     const { id, file, email, phone, owner, createdAt, editCurrentEstate, removeCurrentEstate, ...estateInfo} = props;
     const {title, ...displayedInfo} = estateInfo;
     const ESTATE_INIT_INFO = estateInfo;
     const [mainImg, ...photos] = file;
     const gallery = photos.map( photo => <Image url={photo} key={photo} /> );
+    
+    const toggleModal = () => setIsOpen(prevState => !prevState);
 
-
-    const removeEstateItem = () => {
+    const removeEstateItem = useCallback(() => {
         setIsDeleting(true);
         toggleModal();
-    };
-    const confirmDeleteItem = () => {
+    },[]);
+
+    const confirmDeleteItem = useCallback(() => {
         removeCurrentEstate(id);
-    };
-    const negateDeleteItem = () => {
+    },[id, removeCurrentEstate]);
+
+    const negateDeleteItem = useCallback(() => {
         setIsDeleting(false);
         toggleModal();
-    };
-    const editEstateItem = async (updates) => {
-        editCurrentEstate(id, updates);
+    },[]);
+
+    const editEstateItem = useCallback(async (updates) => {
+        await editCurrentEstate(id, updates);
         toggleModal();
-    };
+    },[id, editCurrentEstate]);
 
     return ( 
         <>
@@ -97,11 +98,11 @@ const EstateItemDetails = (props) => {
             <MyCard title={props.title} createdAt={createdAt}>
             <StyledMediaWrapper images={file}>
                 <Image url={mainImg} /> 
-                { props.file && 
-                    <StyledMediaAsideWrapper images={file}>
-                        {gallery}
-                    </StyledMediaAsideWrapper>
-                }
+                    { props.file && 
+                        <StyledMediaAsideWrapper images={file}>
+                            {gallery}
+                        </StyledMediaAsideWrapper>
+                    }
                 </StyledMediaWrapper>
                 <Divider light />
                 <StyledContentWrapper>
@@ -112,7 +113,7 @@ const EstateItemDetails = (props) => {
                     </CardContent>
                     <Divider light />
                     <StyledCardActions>
-                        { (!isLoggedIn || (isLoggedIn && userData.id !== owner))
+                        { ( !isLoggedIn || (isLoggedIn && userData.id !== owner) )
                             ?   <>
                                     <Button primary="yes" small="true" upc="true" title="E-mail User">
                                         <a href={`mailto:${email}`}>E-mail</a>
@@ -160,3 +161,16 @@ const EstateItemDetails = (props) => {
 };
  
 export default EstateItemDetails;
+
+EstateItemDetails.propTypes = {
+    editCurrentEstate: PropTypes.func,
+    removeCurrentEstate: PropTypes.func,
+    id: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    address: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    owner: PropTypes.string.isRequired,
+    phone: PropTypes.string,
+    file: PropTypes.arrayOf(PropTypes.string)
+}
