@@ -20,7 +20,7 @@ const EstateDashboard = () => {
     const [isLoading, setIsLoading]= useState(true);
     const init = useRef(false);
 
-    const fetchedEstate = useFetch(`http://localhost:5000/estates/${estateId}`);
+    const fetchedEstate = useFetch(`${process.env.REACT_APP_BACKEND_URL}estates/${estateId}`);
 
     const editCurrentEstate = useCallback(async(id, updates) => {
         setIsLoading(true);

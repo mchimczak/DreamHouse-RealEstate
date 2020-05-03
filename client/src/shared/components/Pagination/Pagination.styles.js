@@ -12,7 +12,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 padding: 1rem 2rem;
-border: 1px solid #d6d6d6;
+border: 1px solid ${({active}) => active ? '#333' : '#d6d6d6'};
 width: 40px;
 height: 40px;
 background-color: ${({active}) => active ? '#333' : null};
@@ -25,7 +25,8 @@ margin: ${({active}) => active ? '0 1rem' : null};
 &:hover {
     background-color: ${({active}) => active ? null : '#565656'};
     color: ${({theme}) => theme.colors.white};
-    transform: scale(1.1);
+    border ${({active}) => active ? null : '#565656'};
+    transform: ${({active}) => active ? null : 'scale(1.02)' };
     margin: ${({active}) => active ? null : '0 .5rem'};
 }
 `

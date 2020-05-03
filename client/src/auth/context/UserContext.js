@@ -56,7 +56,7 @@ export const UserContextProvider = (props) => {
 
         await axios({
             method: 'post',
-            url: 'http://localhost:5000/login/auth',
+            url: `${process.env.REACT_APP_BACKEND_URL}login/auth`,
             headers: { Authorization: `Bearer ${token}` }
         }).then( res => {
             const { user, token } = res.data;
@@ -78,7 +78,7 @@ export const UserContextProvider = (props) => {
         const formData = convertToFormData(user);
         await axios({
             method: 'post',
-            url: 'http://localhost:5000/signup',
+            url: `${process.env.REACT_APP_BACKEND_URL}signup`,
             data: formData
         }).then( res => { handleSuccesAuthorization(res.data)
         }).catch( err => setStatus(err.response.data.message), setIsLoading(false));
@@ -88,7 +88,7 @@ export const UserContextProvider = (props) => {
         if(!credentials || typeof credentials !== 'object') return 
 
         setIsLoading(true);
-        await axios.post('http://localhost:5000/login', {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}login`, {
             email: credentials.email,
             password: credentials.password
         }).then( res => { handleSuccesAuthorization(res.data)
@@ -111,7 +111,7 @@ export const UserContextProvider = (props) => {
          
         await axios({
             method: 'post',
-            url: `http://localhost:5000/users/me/${id}`, 
+            url: `${process.env.REACT_APP_BACKEND_URL}users/me/${id}`, 
             data: formData,
             headers: {
                 Authorization: `Bearer ${token}`

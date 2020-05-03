@@ -40,7 +40,7 @@ export const EstatesContextProvider = (props) => {
 
         await axios({
              method: 'post',
-             url: 'http://localhost:5000/estates/new',
+             url: `${process.env.REACT_APP_BACKEND_URL}estates/new`,
              data: formData,
              headers: {
                 Authorization: `Bearer ${token}`
@@ -53,7 +53,7 @@ export const EstatesContextProvider = (props) => {
     const startRemoveEstate = useCallback(async(estateId) => {
         if(!estateId || typeof estateId !== 'string') return 
 
-        await axios.delete(`http://localhost:5000/estates/${estateId}`, {
+        await axios.delete(`${process.env.REACT_APP_BACKEND_URL}estates/${estateId}`, {
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) => {
             setStatus(res.data.message);
@@ -69,7 +69,7 @@ export const EstatesContextProvider = (props) => {
 
         const newEstate = await axios({
             method: 'post',
-            url: `http://localhost:5000/estates/${id}`,
+            url: `${process.env.REACT_APP_BACKEND_URL}estates/${id}`,
             data: newData,
             headers: {
                 Authorization: `Bearer ${token}`
@@ -87,7 +87,7 @@ export const EstatesContextProvider = (props) => {
 
         await axios({
             method: 'post',
-            url: `http://localhost:5000/estates/${estateId}/like`, 
+            url: `${process.env.REACT_APP_BACKEND_URL}estates/${estateId}/like`, 
             data: {estateId}, 
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) => {

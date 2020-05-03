@@ -20,7 +20,7 @@ const UserDashboard = () => {
     const [isRedirect, setIsRedirect] = useState(false);
 
     const userId = useParams().userId;
-    const { userEstates, userLikes, errorMsg }  = useFetch(`http://localhost:5000/users/${userId}`);
+    const { userEstates, userLikes, errorMsg }  = useFetch(`${process.env.REACT_APP_BACKEND_URL}users/${userId}`);
 
     useEffect(() => {
         if(errorMsg) {

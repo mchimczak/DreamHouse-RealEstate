@@ -1,4 +1,3 @@
-// const { v4: uuid } = require('uuid');
 const fs = require('fs');
 const moment = require('moment');
 const mongoose = require('mongoose');
@@ -15,15 +14,17 @@ const getEstatesHandler = async (req, res, next) => {
     const filters = {
         limit: parseInt(req.query.limit, 10) || 0,
         sortBy: req.query.sortBy || '-createdAt',
-        skip: (req.query.page - 1) * req.query.limit || 0
+        skip: (req.query.page - 1) * req.query.limit || 0,
+        text: req.query.text || undefined
     }
+    const filterQuery = filters.text ? {title: new RegExp(`${filters.text}`, "gi")} : null
 
     try {
         allPosts = await Estate.countDocuments({});
 
         if(allPosts < filters.skip) { filters.skip = 0 }
 
-        estatesData = await Estate.find({}, 'city address price title file email phone id owner')
+        estatesData = await Estate.find(filterQuery || {}, 'city address price title file email phone id owner')
                                     .limit(filters.limit)
                                     .skip(filters.skip)
                                     .sort(filters.sortBy)

@@ -22,7 +22,7 @@ const Estates = () => {
         estatesData,
         estatesLikes: userLikes,
         allPosts 
-        } = useFetch(`http://localhost:5000/estates?sortBy=${sortByValue}&limit=${limitValue}&page=${currentPage}&text=${searchText}`);
+        } = useFetch(`${process.env.REACT_APP_BACKEND_URL}estates?sortBy=${sortByValue}&limit=${limitValue}&page=${currentPage}&text=${searchText}`);
 
     useEffect(() => {
         setEstatesLikes(userLikes);

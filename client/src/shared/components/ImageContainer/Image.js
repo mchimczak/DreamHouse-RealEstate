@@ -5,7 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 
 const Image = ({url}) => {
     const imageUrl = url
-        ? `http://localhost:5000/${url}`
+        ? `${process.env.REACT_APP_BACKEND_URL}${url}`
         : noImg
 
     const style = url

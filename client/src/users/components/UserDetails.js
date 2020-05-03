@@ -15,13 +15,13 @@ import { CardWrapper, StyledCard, StyledContentWrapper, StyledCardActions } from
 const UserDetails = ({user, updateUser}) => {
     const [isOpen, setIsOpen] = useState(false);
     
-    const { id, createdAt, file, email, password, name, phone} = user;
+    const { id, createdAt, file, email, name, phone} = user;
     const publicInfo = { name, email, phone };
-    const editableUserInfo = { password, name, phone };
+    const editableUserInfo = { name, password: '', phone };
     
-    const initials = new String([...user.name[0]]).toUpperCase();
+    const initials = name.charAt(0).toUpperCase();
     const avatar = file && file.length !== 0 
-    ? <Avatar alt="User profile picture" src={`http://localhost:5000/${file[0]}`} />
+    ? <Avatar alt="User profile picture" src={`${process.env.REACT_APP_BACKEND_URL}${file[0]}`} />
     : <Avatar aria-label="user">{initials}</Avatar>
     
     const toggleModal = () => setIsOpen(prevState => !prevState);

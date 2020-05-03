@@ -19,7 +19,7 @@ const UserCard = ({ id, name, createdAt, file }) => {
     
     const initials = name.charAt(0).toUpperCase();
     const avatar = file && file.length !== 0 
-        ? <Avatar alt="user profile picture" src={`http://localhost:5000/${file[0]}`} />
+        ? <Avatar alt="user profile picture" src={`${process.env.REACT_APP_BACKEND_URL}${file[0]}`} />
         : <Avatar aria-label="user">{initials}</Avatar>
 
     return (

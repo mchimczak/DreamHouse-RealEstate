@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-
+//UTILS
 import { UserContextProvider } from './auth/context/UserContext';
 import { EstatesContextProvider } from './estates/context/EstatesContext';
-
-//Pages
 import Main from './shared/ui/layout/Main';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import Layout from './shared/ui/layout/Layout';
 import PrivateRoute from './routes/privateRoutes/PrivateRoute';
-import HomePage from './homePage/pages/HomePage';
-import Users from './users/pages/Users';
-import Estates from './estates/pages/Estates';
-import UserDashboard from './users/pages/UserDashboard';
-import EstateDashboard from './estates/pages/EstateDashboard';
-import AddEstate from './estates/pages/AddEstate';
-import SignUpPage from './auth/pages/SignupPage';
-import UserProfilePage from './users/pages/UserProfilePage';
-import LoginPage from './auth/pages/LoginPage';
 import InfoStatus from './shared/components/InfoStatus/InfoStatus';
 import Footer from './shared/components/Footer/Footer';
 import ScrollTop from './routes/ScrollTop';
+import Center from './shared/ui/position/Center';
+import Loader from './shared/components/Loader/Loader';
+//PAGES
+const HomePage = React.lazy(() => import('./homePage/pages/HomePage'));
+const Users = React.lazy(() => import('./users/pages/Users'));
+const Estates = React.lazy(() => import('./estates/pages/Estates'));
+const UserDashboard = React.lazy(() => import('./users/pages/UserDashboard'));
+const EstateDashboard = React.lazy(() => import('./estates/pages/EstateDashboard'));
+const UserProfilePage = React.lazy(() => import('./users/pages/UserProfilePage'));
+const AddEstate = React.lazy(() => import('./estates/pages/AddEstate'));
+const SignUpPage = React.lazy(() => import('./auth/pages/SignupPage'));
+const LoginPage = React.lazy(() => import('./auth/pages/LoginPage'));
 
 function App() {
   return (
@@ -30,53 +31,56 @@ function App() {
         <BrowserRouter>
         <ScrollTop>
           <MainNavigation />
-          <Main>
-            <InfoStatus />
-            <Switch>
+          <Suspense fallback={<Center><Loader/></Center>}>
+            <Main>
+              <InfoStatus />
+              <Switch>
 
-              <Route exact path="/">
-                <HomePage />
-              </Route> 
+                <Route exact path="/">
+                  <HomePage />
+                </Route> 
 
-              <Route path="/users" exact>
-                <Users />
-              </Route>
+                <Route path="/users" exact>
+                  <Users />
+                </Route>
 
-              <Route path="/users/:userId" exact>
-                <UserDashboard />
-              </Route>
+                <Route path="/users/:userId" exact>
+                  <UserDashboard />
+                </Route>
 
-              <PrivateRoute
-                path="/users/me/:userId"
-                component={UserProfilePage} 
-              />
+                <PrivateRoute
+                  path="/users/me/:userId"
+                  component={UserProfilePage} 
+                />
 
-              <PrivateRoute 
-              path="/estates/new"
-              component={AddEstate} 
-              exact />
+                <PrivateRoute 
+                  path="/estates/new"
+                  component={AddEstate} 
+                  exact 
+                />
 
-              <Route path="/estates/:estateId" exact>
-                <EstateDashboard />
-              </Route>
+                <Route path="/estates/:estateId" exact>
+                  <EstateDashboard />
+                </Route>
 
-              <Route path="/estates" exact>
-                <Estates />
-              </Route>
+                <Route path="/estates" exact>
+                  <Estates />
+                </Route>
 
-              <Route path="/signup">
-                <SignUpPage />
-              </Route>
+                <Route path="/signup">
+                  <SignUpPage />
+                </Route>
 
-              <Route path="/login">
-                <LoginPage />
-              </Route>
+                <Route path="/login">
+                  <LoginPage />
+                </Route>
 
 
-              <Redirect to="/"/>
+                <Redirect to="/"/>
 
-            </Switch>
-          </Main>
+              </Switch>
+            </Main>
+          </Suspense>
           <Footer />
           </ScrollTop>
         </BrowserRouter>

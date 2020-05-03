@@ -11,7 +11,7 @@ import Loader from '../../shared/components/Loader/Loader';
 const Users = () => {
     const {estatesData: [, dispatch]} = useContext(EstatesContext);
     const init = useRef(false);
-    const {userList, estatesData} = useFetch('http://localhost:5000/users');
+    const {userList, estatesData} = useFetch(`${process.env.REACT_APP_BACKEND_URL}users`);
 
     useEffect(() => {
         if(init.current) {

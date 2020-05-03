@@ -16,7 +16,7 @@ const BestEstates = () => {
     const {estatesLikes: [, setEstatesLikes]} = useContext(EstatesContext);
     const [bestEstate, setBestEstate] = useState([])
 
-    const {bestThreeEstate, mostLikedEstates} = useFetch('http://localhost:5000/');
+    const {bestThreeEstate, mostLikedEstates} = useFetch(`${process.env.REACT_APP_BACKEND_URL}`);
 
     useEffect(() => {
         setBestEstate(bestThreeEstate);

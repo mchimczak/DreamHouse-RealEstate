@@ -92,11 +92,19 @@ const addNewUserHandler = async (req, res, next) => {
 
 const updateUserDataHandler = async (req, res, next) => {
     let {id, ...updatedUser} = req.body;
-    let isUser, prevUserData;
+    let isUser, prevUserData, hashedPassword;
     const userIdToken = req.authUser.userId;
 
     if(req.files && req.files.length !== 0) { updatedUser = {...updatedUser, file: req.files[0].path} };
 
+    if(updatedUser.password && updatedUser.password.length !== 0) {
+        try {
+            hashedPassword = await bcrypt.hash(updatedUser.password, 10)
+        } catch (err) { return next(new httpError('Something went wrong, please try again later', 500)) }
+    
+        updatedUser.password = hashedPassword;
+    } else delete updatedUser.password
+    
     try {
         prevUserData = await User.findById(userIdToken);
         isUser = await User.findOneAndUpdate({_id: userIdToken}, updatedUser, {new: true});
