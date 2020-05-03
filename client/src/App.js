@@ -50,10 +50,6 @@ function App() {
                 path="/users/me/:userId"
                 component={UserProfilePage} 
               />
-              
-              <Route path="/estates" exact>
-                <Estates />
-              </Route>
 
               <PrivateRoute 
               path="/estates/new"
@@ -62,6 +58,10 @@ function App() {
 
               <Route path="/estates/:estateId" exact>
                 <EstateDashboard />
+              </Route>
+
+              <Route path="/estates" exact>
+                <Estates />
               </Route>
 
               <Route path="/signup">

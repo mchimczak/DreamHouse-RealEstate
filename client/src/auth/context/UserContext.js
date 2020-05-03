@@ -15,6 +15,8 @@ export const UserContextProvider = (props) => {
     let logoutTimer;
 
     const convertToFormData = useCallback((data) => {
+        if(data.length = 0) return;
+
         const formData = new FormData();
 
         const handleFilesArray = (filesArray) => {
@@ -50,6 +52,8 @@ export const UserContextProvider = (props) => {
     },[]);
 
     const authUser = useCallback( async (token, expirationDate) => {
+        if(!token || !expirationDate) return setStatus('Authentication failed')
+
         await axios({
             method: 'post',
             url: 'http://localhost:5000/login/auth',
@@ -64,10 +68,12 @@ export const UserContextProvider = (props) => {
                 token: token,
                 expiration: expirationDate
             }));
-        }).catch(err => setStatus(err.response.data.message), setIsLoading(false));
+        }).catch(err => setStatus(err.response.data.message), setIsLoggedIn(false));
     },[]);
 
     const register = useCallback( async (user) => {
+        if(!user || typeof user !== 'object') return 
+
         setIsLoading(true);
         const formData = convertToFormData(user);
         await axios({
@@ -78,11 +84,13 @@ export const UserContextProvider = (props) => {
         }).catch( err => setStatus(err.response.data.message), setIsLoading(false));
     },[]);
 
-    const login = useCallback( async (val) => {
+    const login = useCallback( async (credentials) => {
+        if(!credentials || typeof credentials !== 'object') return 
+
         setIsLoading(true);
         await axios.post('http://localhost:5000/login', {
-            email: val.email,
-            password: val.password
+            email: credentials.email,
+            password: credentials.password
         }).then( res => { handleSuccesAuthorization(res.data)
         }).catch(err => setStatus(err.response.data.message), setIsLoading(false));
     },[]);
@@ -97,6 +105,7 @@ export const UserContextProvider = (props) => {
     },[userData]);
 
     const updateUser = useCallback(async (id, updates) => {
+        if(!id || !userData || typeof updates !== 'object') return 
         const formData = convertToFormData(updates);
         formData.append('id', userData.id);
          

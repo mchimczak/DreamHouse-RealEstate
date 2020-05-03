@@ -7,45 +7,10 @@ import { useFetch } from '../../shared/customHooks/useFetch';
 import Section from '../../shared/components/Section/Section';
 import EstateCard from '../../estates/components/EstateCard';
 import Loader from '../../shared/components/Loader/Loader';
+import { EstatesWrapperStyles, BestEstatesHeaderStyles } from './styles/HomePage.styles';
 
-const EstatesWrapper = styled.div`
-display: flex;
-overflow-x: scroll;
-height: auto;
-padding-bottom: 1rem;
-
-& > div {
-    &:not(:first-of-type) {
-        margin-left: 10px;
-    }
-
-    flex-shrink: 0;
-    margin: 0;
-    max-width: 300px;
-}
-
-${({theme}) => theme.media.tablet} {
-    & > div {
-        max-width: 450px;
-    }
-}
-${({theme}) => theme.media.desktop} {
-    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
-    display: grid;
-    gap: 2rem;
-    height: auto;
-    overflow: hidden;
-    
-    & > div:not(:first-of-type) {
-        margin-left: 0;
-        max-width: unset;
-    }
-}
-`
-const BestEstatesHeader = styled.h4`
-text-transform: uppercase;
-font-weight: ${({theme}) => theme.font.thin};
-`
+const EstatesWrapper = styled.div`${EstatesWrapperStyles}`;
+const BestEstatesHeader = styled.h4`${BestEstatesHeaderStyles}`;
 
 const BestEstates = () => {
     const {estatesLikes: [, setEstatesLikes]} = useContext(EstatesContext);

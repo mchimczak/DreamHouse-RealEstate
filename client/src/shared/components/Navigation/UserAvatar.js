@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 const UserAvatar = () => {
     const {isLoggedIn, userData} = useContext(UserContext);
 
-    const initials = [...userData.name[0]].toString().toUpperCase();
+    const initials = [...userData.name][0].toUpperCase();
 
     const avatar = userData.file && userData.file.length !== 0 
     ? <Avatar alt="Remy Sharp" src={`http://localhost:5000/${userData.file[0]}`} />

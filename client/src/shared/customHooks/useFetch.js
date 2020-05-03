@@ -14,11 +14,13 @@ export const useFetch = url => {
         setState({ data: state.data, loading: true});
         axios.get(url)
             .then( result => {
+                console.log(result.data);
                 if(isCurrent.current) {
                     const {data} = result;
                     setState({ data, loading: false })
                 }
             }).catch( err => {
+                console.log(err);
                 setState({ 
                     data: {
                         errorStatus: err.response.status,

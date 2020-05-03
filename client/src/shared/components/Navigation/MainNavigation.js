@@ -25,15 +25,16 @@ color: ${({theme}) => theme.colors.white};
 
 
 const MainNavigation = () => {
-
     const [isOpen, setIsOpen] = useState(false);
-
+    
     const toggleSideMenu = () => setIsOpen(isOpen => !isOpen);
 
     return ( 
         <>
             <MainHeader>
-                <StyledLink to="/" ><Title>DreamHouse</Title></StyledLink>
+                <StyledLink to="/" >
+                    <Title>DreamHouse</Title>
+                </StyledLink>
                 <Nav>
                     <NavLinks />
                 </Nav>

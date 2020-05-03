@@ -14,6 +14,8 @@ export const EstatesContextProvider = (props) => {
     const {status: [, setStatus], token: [token, ]} = useContext(UserContext);
 
     const convertToFormData = useCallback((data) => {
+        if(data.length = 0) return;
+
         const formData = new FormData();
 
         const handleFilesArray = (filesArray) => {
@@ -32,6 +34,8 @@ export const EstatesContextProvider = (props) => {
     },[]);
     
     const startAddEstate = useCallback(async(newEstate) => {
+        if(!newEstate || typeof newEstate !== 'object') return 
+
         const formData = convertToFormData(newEstate);
 
         await axios({
@@ -47,6 +51,8 @@ export const EstatesContextProvider = (props) => {
     },[token]);
 
     const startRemoveEstate = useCallback(async(estateId) => {
+        if(!estateId || typeof estateId !== 'string') return 
+
         await axios.delete(`http://localhost:5000/estates/${estateId}`, {
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) => {
@@ -56,6 +62,8 @@ export const EstatesContextProvider = (props) => {
     },[token]);
 
     const startEditEstate = useCallback(async(id, updates) => {
+        if(!id || typeof id !== 'string' || !updates || typeof updates !== 'object') return
+
         const newData = convertToFormData(updates);
         newData.append('id', id);
 
@@ -75,6 +83,8 @@ export const EstatesContextProvider = (props) => {
     },[token]);
 
     const addLike = useCallback(async(estateId, userId) => {
+        if(!estateId || typeof estateId !== 'string' || !userId || typeof userId !== 'string') return
+
         await axios({
             method: 'post',
             url: `http://localhost:5000/estates/${estateId}/like`, 
@@ -83,10 +93,10 @@ export const EstatesContextProvider = (props) => {
         }).then((res) => {
             const updatedList = estatesLikes.map(estate => {
                 if (estate.estateId === estateId) {
-                return {
-                    ...estate,
-                    likes: [...estate.likes, userId]
-                };
+                    return {
+                        ...estate,
+                        likes: [...estate.likes, userId]
+                    };
                 } else return {...estate};
             });
     

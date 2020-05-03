@@ -1,48 +1,16 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import Modal from '../../shared/components/Modal/Modal';
 import Form from '../../shared/components/Form/Form';
 import updateUserValidationSchema from '../../auth/components/userProfile/onUpdateUserValidationSchema';
-
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
-import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
-
 import Button from '../../shared/components/Button/Button';
 import CardFields from '../../shared/components/Card/CardFields';
 import FormCard from '../../shared/components/Card/Card';
 
-const CardWrapper = styled.div`
-grid-row: 1;
-${({theme}) => theme.media.tablet} {
-    grid-column: 2;
-}
-`
-const StyledCard = styled(Card)`
-position: sticky;
-top: 50px;
-width: 100%;
-max-width: 400px;
-height: auto;
-margin: ${({theme}) => theme.size.xlarge} auto;
+import {CardContent, CardHeader, Avatar, Divider} from '@material-ui/core';
+import { CardWrapper, StyledCard, StyledContentWrapper, StyledCardActions } from './styles/UserComponents.style';
 
-${({theme}) => theme.media.desktop} {
-    margin: 0 auto;
-}
-`
-const StyledContentWrapper = styled(CardMedia)`
-display: flex;
-flex-direction: column;
-`
-const StyledCardActions = styled(CardActions)`
-flex-wrap: wrap;
-`
 
 const UserDetails = ({user, updateUser}) => {
     const [isOpen, setIsOpen] = useState(false);

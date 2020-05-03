@@ -9,6 +9,7 @@ import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
 import FilterData from '../../shared/components/FilterData/FilterData';
 import Pagination from '../../shared/components/Pagination/Pagination';
+import SearchBar from '../../shared/components/SearchBar/SearchBar';
 
 const Estates = () => {
     const {estatesData: [estates, dispatch], estatesLikes: [estatesLikes, setEstatesLikes]} = useContext(EstatesContext);
@@ -16,7 +17,12 @@ const Estates = () => {
     const [sortByValue, setSortByValue] = useState('-createdAt');
     const [limitValue, setLimitValue] = useState('10');
     const [currentPage, setCurrentPage] = useState('1');
-    const { estatesData, estatesLikes: userLikes, allPosts } = useFetch(`http://localhost:5000/estates?sortBy=${sortByValue}&limit=${limitValue}&page=${currentPage}`);
+    const [searchText, setSearchText] = useState('');
+    const { 
+        estatesData,
+        estatesLikes: userLikes,
+        allPosts 
+        } = useFetch(`http://localhost:5000/estates?sortBy=${sortByValue}&limit=${limitValue}&page=${currentPage}&text=${searchText}`);
 
     useEffect(() => {
         setEstatesLikes(userLikes);
@@ -33,18 +39,31 @@ const Estates = () => {
     }, [limitValue, sortByValue]);
 
     useEffect(() => {
-          window.scrollTo(0, 0);
-      }, [estatesData]);
-
-
+        window.scrollTo(0, 0);
+    }, [estatesData]);
+    
     return ( <>
         { estatesData && estatesLikes
             ? estates.length === 0 
-                ?   <Center cover="true"> <h3>No offers found, please try again later.</h3> </Center> 
+                ?   <>
+                        <SearchBar inputChangeHandler={setSearchText} />
+                        <Center cover="true" flow="column" >
+                            <p>No posts found.</p>
+                        </Center>
+                    </>
                 :   <>
+                        <SearchBar inputChangeHandler={setSearchText}/>
                         <FilterData setSortByValue={setSortByValue} setLimitValue={setLimitValue} />
                         <EstatesList items={estatesData} />
-                        <Pagination totalPosts={allPosts} postsPerPage={limitValue} selectPage={setCurrentPage} />
+                        {
+                            ( estatesData.length >= limitValue || +currentPage > 1 )
+                            && <Pagination 
+                                    totalPosts={allPosts} 
+                                    postsPerPage={limitValue} 
+                                    selectPage={setCurrentPage} 
+                                    currentPage={currentPage}
+                                />
+                        }
                     </>
             : <Center cover="true"> <Loader /> </Center> 
         }

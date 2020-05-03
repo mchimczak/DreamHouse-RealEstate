@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const CenterWrapper = styled.div`
 display: ${({cover}) => cover ? 'flex' : 'contents'};
+flex-direction: ${({flow}) => flow ? flow : null};
 position: fixed;
 height: 100vh;
 width: 100vw;
@@ -21,7 +22,7 @@ ${({theme}) => theme.media.tablet} {
 `
 
 const Center = (props) => ( 
-        <CenterWrapper cover={props.cover}>
+        <CenterWrapper cover={props.cover} flow={props.flow}>
             {props.children}
         </CenterWrapper>
 );

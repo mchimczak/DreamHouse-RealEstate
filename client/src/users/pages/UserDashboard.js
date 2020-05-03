@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import { useParams, Redirect } from 'react-router-dom';
-import styled from 'styled-components';
 
 import { EstatesContext } from '../../estates/context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
@@ -9,11 +8,7 @@ import EstatesList from '../../estates/components/EstatesList';
 import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
 
-const EstatesContainer = styled.div`
-${({theme}) => theme.media.tablet} {
-    margin: 3rem 0;
-}
-`
+import { EstatesContainer } from '../components/styles/UserComponents.style';
 
 
 const UserDashboard = () => {

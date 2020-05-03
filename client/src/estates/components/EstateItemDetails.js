@@ -1,6 +1,5 @@
-import React, {useState, useContext} from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import { UserContext } from '../../auth/context/UserContext';
 
@@ -13,52 +12,9 @@ import ModalBox from '../../shared/components/Modal/ModalBox';
 import Button from '../../shared/components/Button/Button';
 import Image from '../../shared/components/ImageContainer/Image';
 
-import { CardActions, CardContent, CardMedia, Divider } from '@material-ui/core'
-import { useCallback } from 'react';
+import { CardWrapper, StyledContentWrapper, StyledMediaWrapper, StyledMediaAsideWrapper, CardContentInfoWrapper, StyledCardActions, materialUIElements } from './styles/EstatesComponents.styles';
+const { CardContent, Divider } = materialUIElements;
 
-
-const CardWrapper = styled.div`
-&:last-child {
-    ${({theme}) => theme.media.tablet} {
-        margin: ${({theme}) => theme.size.xlarge} auto;
-    }
-}
-`
-const StyledContentWrapper = styled(CardMedia)`
-display: flex;
-flex-direction: column;
-`
-const StyledMediaWrapper = styled.div`
-display: grid;
-grid-template: ${({images}) => images.length >= 2 ? '2fr 1fr / auto' : '1fr' };
-gap: .5rem;
-height: auto;
-width: 100%;
-margin: 2rem 0;
-`
-const StyledMediaAsideWrapper = styled.div`
-display: ${({images}) => images.length >= 2 ? 'grid' : 'none' };
-grid-template: auto / 1fr 1fr 1fr;
-gap: .5rem;
-`
-const CardContentInfoWrapper = styled.div`
-display: flex;
-flex-direction: column;
-gap: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
-
-& > div:first-child {
-    grid-column: 1 / 3;
-    margin-bottom: 1rem;
-}
-
-${({theme}) => theme.media.tablet} {
-    display: grid;
-    grid-template-columns: auto auto;
-}
-`
-const StyledCardActions = styled(CardActions)`
-flex-wrap: wrap;
-`
 
 const EstateItemDetails = (props) => {
     const {isLoggedIn, userData} = useContext(UserContext);

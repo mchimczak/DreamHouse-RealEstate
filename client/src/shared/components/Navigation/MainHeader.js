@@ -16,13 +16,11 @@ z-index: 300;
 `
 
 
-const MainHeader = (props) => {
-    return ( 
-        <Header>
-            {props.children}
-        </Header>
-     );
-}
+const MainHeader = (props) => ( 
+    <Header>
+        {props.children}
+    </Header>
+);
  
 export default MainHeader;
 

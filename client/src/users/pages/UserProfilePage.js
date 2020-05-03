@@ -1,20 +1,10 @@
 import React, {useContext} from 'react';
-import styled from 'styled-components';
 
 import {UserContext} from '../../auth/context/UserContext';
 import UserDashboard from './UserDashboard';
 import UserDetails from '../components/UserDetails';
 
-const UserProfileWrapper = styled.div`
-display: grid;
-grid-template-columns: auto;
-gap: 2rem;
-
-${({theme}) => theme.media.desktop} {
-    grid-template-columns: 4fr 1fr;
-    margin: 3rem 0;
-}
-`
+import { UserProfileWrapper } from '../components/styles/UserComponents.style';
 
 const UserProfilePage = () => {
     const {userData, updateUser} = useContext(UserContext);

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useParams, Link } from "react-router-dom";
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
 import {UserContext} from '../../auth/context/UserContext';
 import EstateCard from './EstateCard';
@@ -9,20 +8,7 @@ import Button from '../../shared/components/Button/Button';
 import Center from '../../shared/ui/position/Center';
 import Loader from '../../shared/components/Loader/Loader';
 
-const EstateItemsWrapper = styled.div`
-position: relative;
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-gap: 2rem;
-justify-content: center;
-
-&:last-child {
-    margin: 0 auto ${({theme}) => theme.size.xlarge} auto;
-}
-`
-const StyledHeader = styled.h3`
-font-weight: 300;
-`
+import  { EstateItemsWrapper, StyledHeader } from './styles/EstatesComponents.styles';
 
 const EstatesList = ({items}) => {
 
