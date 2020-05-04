@@ -46,13 +46,13 @@ const Estates = () => {
         { estatesData && estatesLikes
             ? estates.length === 0 
                 ?   <>
-                        <SearchBar inputChangeHandler={setSearchText} />
+                        <SearchBar inputChangeHandler={setSearchText} results={estatesData.length} />
                         <Center cover="true" flow="column" >
                             <p>No posts found.</p>
                         </Center>
                     </>
                 :   <>
-                        <SearchBar inputChangeHandler={setSearchText}/>
+                        <SearchBar inputChangeHandler={setSearchText} results={estatesData.length} />
                         <FilterData setSortByValue={setSortByValue} setLimitValue={setLimitValue} />
                         <EstatesList items={estatesData} />
                         {

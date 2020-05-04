@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { SearchBarWrapper, TextInput } from './SearchBar.styles';
+import { SearchBarWrapper, TextInput, Results } from './SearchBar.styles';
 import Button from '../Button/Button';
 
-const SearchBar = ({ inputChangeHandler }) => {
+const SearchBar = ({ inputChangeHandler, results }) => {
     const [value, setValue] = useState('');
 
     const debounce = useCallback((fn, delay) => {
@@ -29,6 +29,8 @@ const SearchBar = ({ inputChangeHandler }) => {
         setValue('');
     },[])
 
+    console.log(results);
+
     return ( 
         <SearchBarWrapper>
             <TextInput 
@@ -37,9 +39,19 @@ const SearchBar = ({ inputChangeHandler }) => {
                 placeholder="Search"
                 onChange={onInputChangeHanlder}
             />
-            <Button small="true" disabled={value ? false : true} onClick={handlerClear}>
-                Reset
-            </Button>
+            {
+                value && value.length !== 0 &&
+                <>
+                <Button 
+                    small="true" 
+                    disabled={value ? false : true} 
+                    onClick={handlerClear}
+                >
+                    Reset
+                </Button>
+                <Results>{results} matches found</Results>
+                </>
+            }
         </SearchBarWrapper>
      );
 }
@@ -48,4 +60,5 @@ export default SearchBar;
 
 SearchBar.propTypes = {
     inputChangeHandler: PropTypes.func.isRequired,
+    results: PropTypes.number.isRequired
   };

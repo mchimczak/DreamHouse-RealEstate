@@ -27,3 +27,4 @@ node_modules/
 ../server/node_modules/
 server/uploads/images/
 client/.env.production
+client/build/
