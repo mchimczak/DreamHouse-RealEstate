@@ -5,7 +5,7 @@ import UserCard from './UserCard';
 import Center from '../../shared/ui/position/Center';
 import { UserListWrapper } from './styles/UserComponents.style';
 
-const UsersList = ({users}) => ( 
+const UsersList = React.memo(({users}) => ( 
     <UserListWrapper>
         {
             users.length === 0
@@ -13,7 +13,7 @@ const UsersList = ({users}) => (
                 : users.map( user => <UserCard key={user.id} {...user} /> )
         }
     </UserListWrapper>
-);
+));
  
 export default UsersList;
 

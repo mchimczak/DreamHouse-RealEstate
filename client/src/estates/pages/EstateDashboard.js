@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect, useRef} from 'react';
+import React, {useContext, useState, useEffect, useRef, useCallback} from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 
 import { EstatesContext } from '../context/EstatesContext';
@@ -7,7 +7,6 @@ import EstateItemDetails from '../components/EstateItemDetails';
 import { useFetch } from '../../shared/customHooks/useFetch';
 import Loader from '../../shared/components/Loader/Loader';
 import Center from '../../shared/ui/position/Center';
-import { useCallback } from 'react';
 
 const EstateDashboard = () => {
     const estateId = useParams().estateId;
@@ -45,7 +44,7 @@ const EstateDashboard = () => {
                 setIsLoading(false);
             } else {
                 setIsRedirect(true);
-                setStatus('Sorry there is no such offer');
+                setStatus('Sorry, we could not found that post');
             }
         } else init.current = true
     },[fetchedEstate])
@@ -54,10 +53,15 @@ const EstateDashboard = () => {
     return ( 
         <> {
             currentEstate && !isLoading
-            ? <EstateItemDetails key={currentEstate.id} removeCurrentEstate={removeCurrentEstate} editCurrentEstate={editCurrentEstate} {...currentEstate} />
+            ? <EstateItemDetails 
+                    key={currentEstate.id} 
+                    removeCurrentEstate={removeCurrentEstate} 
+                    editCurrentEstate={editCurrentEstate} 
+                    {...currentEstate} 
+                />
             : isRedirect 
                 ? <Redirect to="/" /> 
-                : <Center> <Loader /> </Center>
+                : <Center cover="true"> <Loader /> </Center>
         } </>
      );
 };

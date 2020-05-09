@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { FiltersWrapper, StyledParamsWrapper, StyledWrapper, StyledSelect, IconWrapper, materialUIElements } from './FilterData.styles';
-const { SearchRoundedIcon, CloseIcon } = materialUIElements;
+import { FiltersWrapper, StyledParamsWrapper, StyledWrapper, StyledSelect, OpenIconWrapper, CloseIconWrapper, materialUIElements } from './FilterData.styles';
+const { FilterListIcon, CloseIcon } = materialUIElements;
 
-const FilterData = ({setSortByValue, setLimitValue}) => {
+const FilterData = React.memo(({setSortByValue, setLimitValue}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleSortByChange = useCallback((e) => {
@@ -16,6 +16,7 @@ const FilterData = ({setSortByValue, setLimitValue}) => {
     },[setLimitValue]);
 
     return (
+        <>
         <FiltersWrapper isOpen={isOpen}>
             <StyledParamsWrapper isOpen={isOpen} >
             <StyledWrapper>
@@ -37,22 +38,23 @@ const FilterData = ({setSortByValue, setLimitValue}) => {
                     <option value="30">30</option>
                 </StyledSelect>
             </StyledWrapper>
+            <CloseIconWrapper isOpen={isOpen}>
+                <CloseIcon 
+                    style={{ fontSize: 32, color: '#f9f9f9', zIndex: 999 }} 
+                    onClick={() => setIsOpen(!isOpen)} 
+                />
+            </CloseIconWrapper>
         </StyledParamsWrapper>
-        <IconWrapper isOpen={isOpen} >
-                { isOpen 
-                    ?   <CloseIcon 
-                            style={{ fontSize: 32, color: '#f9f9f9', zIndex: 999 }} 
-                            onClick={() => setIsOpen(!isOpen)} 
-                        />
-                    :  <SearchRoundedIcon 
-                            style={{ fontSize: 32, color: '#f9f9f9', zIndex: 999 }} 
-                            onClick={() => setIsOpen(!isOpen)} 
-                        />
-                }
-            </IconWrapper>
         </FiltersWrapper>
+        <OpenIconWrapper isOpen={isOpen} onClick={() => setIsOpen(!isOpen)}> 
+            <FilterListIcon 
+                style={{ fontSize: 32, color: '#333', zIndex: 999 }} 
+                onClick={() => setIsOpen(!isOpen)} 
+            />
+        </OpenIconWrapper>
+        </>
      );
-}
+});
  
 export default FilterData;
 

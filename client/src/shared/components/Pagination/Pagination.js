@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import { PageWrapper, PageBox, NextPrevBox} from './Pagination.styles';
 
 const Pagination = ({totalPosts, postsPerPage, currentPage, selectPage}) => {
-  const pageNumbers = [];
+  let pageNumbers = [];
   let pagesPattern = null;
   
-  for( let i = 1; i <= Math.ceil(totalPosts / +postsPerPage); i++) {
-      pageNumbers.push(i);
+  for ( let i = 1; i <= Math.ceil(totalPosts / +postsPerPage); i++) {
+    pageNumbers.push(i);
   }
+
+  if (totalPosts <= +postsPerPage) selectPage('1');
 
   let pages = pageNumbers.length;
   switch (true) {
@@ -24,7 +26,7 @@ const Pagination = ({totalPosts, postsPerPage, currentPage, selectPage}) => {
         break;
       default:
         pagesPattern = [1, "...", +currentPage - 1, +currentPage, +currentPage + 1, "...", pages];
-    }
+  }
 
   const changePage = (page) => {
       if(page === '...') return 
@@ -68,5 +70,6 @@ export default Pagination;
 Pagination.propTypes = {
     totalPosts: PropTypes.number.isRequired,
     postsPerPage: PropTypes.string.isRequired,
+    currentPage: PropTypes.string.isRequired,
     selectPage: PropTypes.func.isRequired
   };

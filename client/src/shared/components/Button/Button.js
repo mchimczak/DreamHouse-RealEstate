@@ -15,6 +15,7 @@ const Btn = (props) => {
             to={props.to}
             disabled={props.disabled}
             title={props.title}
+            square={props.square}
             shadow={props.shadow}
         >
             {props.children}

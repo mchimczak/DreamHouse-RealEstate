@@ -9,19 +9,16 @@ margin-right: 1rem;
 
 export const CardContentInfoWrapper = styled.div`
 display: grid;
-gap: .5rem;
+margin-top: .5rem;
 justify-content: space-between;
 grid-template-columns: auto;
 align-items: baseline;
 
-& > h6 {
+& > p {
     display: grid;
     grid-template-columns: 70px auto;
-    gap: 4rem;
+    gap: 2rem;
     font-size: 12px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
 
     & span::first-letter {
         text-transform: uppercase;
@@ -30,7 +27,11 @@ align-items: baseline;
 `
 
 export const FieldContent = styled.span`
-white-space: normal;
+white-space: ${({nowrap}) => nowrap ? 'nowrap' : 'normal' };
+overflow: ${({nowrap}) => nowrap ? 'hidden' : null };
+overflow-wrap: ${({nowrap}) => nowrap ? 'break-word' : 'break-word' };
+text-overflow: ${({nowrap}) => nowrap ? 'ellipsis' : null };
+
 `
 
 export const materialUIElements = {

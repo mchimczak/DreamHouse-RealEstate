@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { UserContext } from '../../auth/context/UserContext';
 
 import Modal from '../../shared/components/Modal/Modal';
+import ScrollTop from '../../routes/ScrollTop';
 import Form from '../../shared/components/Form/Form';
 import estateValidationSchema from './Form/EstateValidationSchema';
 import MyCard from '../../shared/components/Card/Card';
@@ -51,14 +52,13 @@ const EstateItemDetails = (props) => {
     return ( 
         <>
         <CardWrapper>
-            <MyCard title={props.title} createdAt={createdAt}>
+            <MyCard title={props.title} createdAt={createdAt} wrap="true">
             <StyledMediaWrapper images={file}>
                 <Image url={mainImg} /> 
                     { props.file && 
                         <StyledMediaAsideWrapper images={file}>
                             {gallery}
-                        </StyledMediaAsideWrapper>
-                    }
+                        </StyledMediaAsideWrapper> }
                 </StyledMediaWrapper>
                 <Divider light />
                 <StyledContentWrapper>
@@ -80,38 +80,36 @@ const EstateItemDetails = (props) => {
                                             </Button>
                                         :   <Button primary="yes" small="true" upc="true" disabled={true}>
                                                 <span>Tel</span>
-                                            </Button>
-                                    }
+                                            </Button>}
                                 </>
                             :   <>
                                     <Button onClick={toggleModal} small="true" upc="true" title="Edit estate info"
                                     >edit</Button>
                                     <Button onClick={removeEstateItem} primary="yes"small="true" upc="true" title="Delete estate card"
                                     >delete</Button>
-                                </>
-                        }
+                                </> }
                     </StyledCardActions>
                 </StyledContentWrapper>
             </MyCard>
             </CardWrapper>
             { isOpen && 
-                <Modal isOpen={isOpen} toggleModal={negateDeleteItem} >
-                     { isDeleting 
-                        ?   <ModalBox size='small' title='Delete post?'>
-                                <Button primary="yest" onClick={confirmDeleteItem}>Yes</Button>
-                                <Button onClick={negateDeleteItem}>No</Button>
-                            </ModalBox>
-                        :   <MyCard title="Edit post" modal="true" scroll="true">
-                                <Form 
-                                    submitAction={editEstateItem}
-                                    initState={ESTATE_INIT_INFO}
-                                    validationSchema={estateValidationSchema}
-                                    fileUpload={{name: 'images', multiple: true}}
-                                />
-                            </MyCard>
-                     }
-                </Modal>
-            }
+                <ScrollTop>
+                    <Modal isOpen={isOpen} toggleModal={negateDeleteItem} >
+                        { isDeleting 
+                            ?   <ModalBox size='small' title='Delete post?'>
+                                    <Button primary="yest" onClick={confirmDeleteItem}>Yes</Button>
+                                    <Button onClick={negateDeleteItem}>No</Button>
+                                </ModalBox>
+                            :   <MyCard title="Edit post" modal="true" fixed="true" scroll="true" close={negateDeleteItem}>
+                                    <Form 
+                                        submitAction={editEstateItem}
+                                        initState={ESTATE_INIT_INFO}
+                                        validationSchema={estateValidationSchema}
+                                        fileUpload={{name: 'images', multiple: true}}
+                                    />
+                                </MyCard> }
+                    </Modal>
+                </ScrollTop> }
         </>
      );
 };

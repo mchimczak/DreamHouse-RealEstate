@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { SearchBarWrapper, TextInput, Results } from './SearchBar.styles';
 import Button from '../Button/Button';
+import { SearchBarWrapper, TextInput, Results, OpenIconWrapper, CloseIconWrapper, materialUIElements } from './SearchBar.styles';
+const { SearchRoundedIcon, CloseIcon } = materialUIElements;
 
-const SearchBar = ({ inputChangeHandler, results }) => {
+const SearchBar = React.memo(({ inputChangeHandler, results }) => {
     const [value, setValue] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
 
     const debounce = useCallback((fn, delay) => {
         let timeoutId;
@@ -20,6 +22,7 @@ const SearchBar = ({ inputChangeHandler, results }) => {
     ,[]);
 
     const onInputChangeHanlder = useCallback(({ target: { value } }) => {
+        value = value.replace(/[^A-Z0-9]/ig, "");
         handleDebounce(value);
         setValue(value);
     },[]);
@@ -27,34 +30,44 @@ const SearchBar = ({ inputChangeHandler, results }) => {
     const handlerClear = useCallback(() => {
         inputChangeHandler('');
         setValue('');
-    },[])
+    },[]);
 
-    console.log(results);
-
-    return ( 
-        <SearchBarWrapper>
-            <TextInput 
-                type="text"
-                value={value}
-                placeholder="Search"
-                onChange={onInputChangeHanlder}
-            />
-            {
-                value && value.length !== 0 &&
-                <>
+    return (
+        <> 
+            <SearchBarWrapper isOpen={isOpen} >
+                <TextInput 
+                    type="text"
+                    value={value}
+                    placeholder="Search posts"
+                    onChange={onInputChangeHanlder}
+                    disabled={results === 0}
+                />
                 <Button 
-                    small="true" 
-                    disabled={value ? false : true} 
+                    small="true"
+                    shadow="true"
+                    square="true"
+                    disabled={value && value.length !== 0 ? false : true} 
                     onClick={handlerClear}
                 >
-                    Reset
+                    clear
                 </Button>
-                <Results>{results} matches found</Results>
-                </>
-            }
-        </SearchBarWrapper>
+                { value && value.length !== 0 && <Results>{results} matches found</Results> }
+                <CloseIconWrapper isOpen={isOpen}>
+                    <CloseIcon 
+                        style={{ fontSize: 32, color: '#f9f9f9', zIndex: 999 }} 
+                        onClick={() => setIsOpen(!isOpen)} 
+                    />
+                </CloseIconWrapper>
+            </SearchBarWrapper>
+            <OpenIconWrapper isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} > 
+                <SearchRoundedIcon 
+                    style={{ fontSize: 32, color: '#333', zIndex: 999 }} 
+                    onClick={() => setIsOpen(!isOpen)} 
+                />
+            </OpenIconWrapper>
+        </>
      );
-}
+});
  
 export default SearchBar;
 

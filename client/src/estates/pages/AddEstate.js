@@ -43,7 +43,7 @@ const AddEstate = () => {
         <> 
             { isRedirect ? <Redirect to="/estates" /> : null }
             { isLoading
-                ?   <Center> <Loader /> </Center>
+                ?   <Center cover="true"> <Loader /> </Center>
                 :   <Wrapper>
                         <Card title="Add new estate">
                             <Form 

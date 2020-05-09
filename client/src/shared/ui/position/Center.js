@@ -22,9 +22,9 @@ ${({theme}) => theme.media.tablet} {
 `
 
 const Center = (props) => ( 
-        <CenterWrapper cover={props.cover} flow={props.flow}>
-            {props.children}
-        </CenterWrapper>
+    <CenterWrapper cover={props.cover} flow={props.flow}>
+        {props.children}
+    </CenterWrapper>
 );
  
 export default Center;

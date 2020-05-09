@@ -10,10 +10,10 @@ import CardFields from '../../shared/components/Card/CardFields';
 import Btn from '../../shared/components/Button/Button';
 import Image from '../../shared/components/ImageContainer/Image';
 
-import { EstateCardMediaWrapper as StyledMediaWrapper, EstateCardMediaAsideWrapper as StyledMediaAsideWrapper, CardActionsWrapper, CardActionsBlock, Number, materialUIElements } from './styles/EstatesComponents.styles';
+import { EstateCardMediaWrapper as StyledMediaWrapper, CardActionsWrapper, CardActionsBlock, Number, materialUIElements } from './styles/EstatesComponents.styles';
 const { Divider, CardContent, FavoriteIcon } = materialUIElements;
 
-const EstateCard = (props) => {
+const EstateCard = React.memo((props) => {
     const {isLoggedIn, userData, status: [, setStatus]} = useContext(UserContext);
     const {estatesLikes: [estatesLikes, ], addLike} = useContext(EstatesContext);
     
@@ -22,12 +22,17 @@ const EstateCard = (props) => {
     let likesNumber = 0;
     if(currentEstate) likesNumber = currentEstate.likes.length;
 
-    let didUserLiked = userData.id && currentEstate && currentEstate.likes.includes(userData.id)
+    let didUserLike = userData.id && currentEstate && currentEstate.likes.includes(userData.id)
         ? { color: '#f53939' }
         : null
-        
 
-    const likeEstate = () => {
+    const showFields = {
+        city: props.city,
+        address: props.address,
+        price: props.price.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+    };
+
+    const likeEstate = useCallback(() => {
         if(isLoggedIn && userData.id) {
             const estateId = props.id;
             const userId = userData.id;
@@ -37,13 +42,7 @@ const EstateCard = (props) => {
                 :  addLike(estateId, userId);
 
         } else setStatus('You have to be logged in to like posts');
-    };
-
-    const showFields = {
-        city: (props.city),
-        address: props.address,
-        price: (props.price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
-    };
+    },[isLoggedIn, userData.id, props.id]);
 
     const isUsers = useCallback((login, user) => {
         if(!!login === false) return true
@@ -51,22 +50,14 @@ const EstateCard = (props) => {
         else return false
     },[props.owner]);
 
-    const [mainImg, ...photos] = props.file;
-    const gallery = photos.map( photo => <Image url={photo} key={photo} /> )
-
-    return ( 
+    return (
         <MyCard title={props.title}>
             <StyledMediaWrapper images={props.file}>
-                <Image url={mainImg} />
-                { props.file && 
-                    <StyledMediaAsideWrapper images={props.file}>
-                        {gallery}
-                    </StyledMediaAsideWrapper>
-                }
+                <Image url={props.file[0]} />
             </StyledMediaWrapper>
             <Divider light />
             <CardContent>
-                    <CardFields data={showFields} />
+                    <CardFields data={showFields}  nowrap="true"/>
             </CardContent>
             <CardActionsWrapper>
                 <Btn primary="true" shadow="true" upc="true" small="true" as={Link} to={`/estates/${props.id}`}>
@@ -78,7 +69,7 @@ const EstateCard = (props) => {
                             <>
                                 <Btn small="true" title="Like this post" onClick={likeEstate}>
                                     <Number>{likesNumber}</Number>
-                                    <FavoriteIcon style={didUserLiked} />
+                                    <FavoriteIcon style={didUserLike} />
                                 </Btn>
                                 {   props.email 
                                         ?   <Btn small="true" upc="true" title="E-mail user">
@@ -86,24 +77,21 @@ const EstateCard = (props) => {
                                             </Btn>
                                         :   <Btn small="true" upc="true" disabled={true}>
                                                 email
-                                            </Btn>
-
-                                }
+                                            </Btn> }
                                 {   props.phone 
                                         ?   <Btn small="true" upc="true" title="Call user">
                                                 <a href={'tel:' + props.phone}>tel</a>
                                             </Btn>
                                         :   <Btn small="true" upc="true" disabled>
                                                 tel
-                                            </Btn>
-                                }
+                                            </Btn> }
                             </> 
                     }
                 </CardActionsBlock>
             </CardActionsWrapper>
         </MyCard>
      );
-}
+});
  
 export default EstateCard;
 

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import CloseIcon from '@material-ui/icons/Close';
 
 
@@ -12,18 +12,20 @@ align-items: center;
 top: 0;
 left: 0;
 height: auto;
+min-height: 150px;
 width: 100vw;
-z-index: 500;
+z-index: 400;
 padding: 2rem;
 background-color: ${({theme}) => theme.colors.black};
-transform: ${({isOpen}) => isOpen ? `translateX(0)` : `translateX(100vw)`} ;
+transform: ${({isOpen}) => isOpen ? `translateX(0)` : `translateX(100%)`} ;
 transition: .5s ease-in-out;
 
 ${({theme}) => theme.media.tablet} {
     position: relative;
     grid-template-columns: auto auto;
-    width: auto;
-    padding: 2rem 0;
+    width: fit-content;
+    min-height: unset;
+    padding: 0;
     top: auto;
     background-color: transparent;
     flex-direction: row;
@@ -59,7 +61,7 @@ export const StyledParamsWrapper = styled.div`${StyledParamsWrapperStyles}`
 
 export const StyledWrapper = styled.div`
 display: grid;
-grid-template-columns: 60px 1fr;
+grid-template-columns: 60px calc(100% - 60px - 1rem);
 gap: 1rem;
 align-items: center;
 min-width: 100px;
@@ -82,27 +84,43 @@ ${({theme}) => theme.media.desktop} {
 `
 
 const StyledIconWrapper = css`
-display: flex;
-position: ${({isOpen}) => isOpen ? 'absolute' : 'fixed'};
-top: 30px;
-right: 0;
-max-height: 50px;
+height: 50px;
 align-items: center;
 justify-content: center;
 padding: .5rem 1rem;
-background-color: ${({theme}) => theme.colors.black};
+right: 0;
 z-index: 501;
 border-radius: 3px 0 0 3px;
-transform: ${({isOpen}) => isOpen ? null : 'translateX(-100vw)'};
+transition: .5s ease-in;
 
 ${({theme}) => theme.media.tablet} {
     display: none;
 }
 `
 
+export const OpenIconWrapper = styled.div`
+${StyledIconWrapper}
+display: ${({isOpen}) => isOpen ? 'none' : 'flex'};
+background-color: ${({theme}) => theme.colors.orange};
+position: fixed;
+padding-left: 5rem;
+bottom: 0;
+right: 15px;
+z-index: 95;
+`
+
+export const CloseIconWrapper = styled.div`
+${StyledIconWrapper}
+position: absolute;
+background-color: ${({theme}) => theme.colors.black};
+display: flex;
+top: 50%;
+transform: translateY(-50%);
+`
+
 export const IconWrapper = styled.div`${StyledIconWrapper}`
 
 // MATERIAL UI ELEMENTS
 export const materialUIElements = {
-    SearchRoundedIcon, CloseIcon
+    FilterListIcon, CloseIcon
 };

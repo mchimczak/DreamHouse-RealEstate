@@ -42,7 +42,7 @@ const UserDashboard = () => {
         {   errorMsg && isRedirect
                 ? <Redirect to="/" />
                 : fetchedUserEstates
-                    ?   <EstatesContainer>
+                    ?  <EstatesContainer>
                             <EstatesList items={fetchedUserEstates}/> 
                         </EstatesContainer>
                     :   <Center> <Loader/> </Center>

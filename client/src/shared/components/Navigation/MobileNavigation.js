@@ -21,7 +21,7 @@ left: 0;
 width: 100vw;
 height: auto;
 padding: ${({theme}) => theme.size.medium} ${({theme}) => theme.size.medium};
-z-index: 100;
+z-index: 460;
 transition: .5s ease-in-out;
 transform: ${({isOpen}) => isOpen ? '0' : 'translateY(100%)'};
 
@@ -46,23 +46,28 @@ border-radius: 3px 0 0 3px;
 padding: .5rem 1rem;
 width: fit-content;
 max-height: 50px;
-z-index: 90;
+z-index: 40;
 
 ${({theme}) => theme.media.desktop} {
     display: none;
 }
 `
 const OpenMenuBtn = styled(Button)`
+display: flex;
+justify-content: center;
+width: 100vw;
+height: 50px;
 position: fixed;
 color: ${({theme}) => theme.colors.black};
 background-color: ${({theme}) => theme.colors.orange};
-bottom: 50px;
+bottom: 0;
 right: 0;
+left: 0;
 `
 const CloseMenuBtn = styled(Button)`
 position: absolute;
 top: 20px;
-right: 0;
+right: 20px;
 color: ${({theme}) => theme.colors.white};
 `
 
@@ -78,7 +83,7 @@ const MobileNavigation = (props) => {
             <Aside isOpen={props.isOpen}>
                 { props.isOpen &&   
                     <CloseMenuBtn onClick={props.toggleSideMenu}>
-                        <CloseIcon style={{ fontSize: 32, zIndex: 999 }} />
+                        <CloseIcon style={{ fontSize: 26, zIndex: 999 }} />
                     </CloseMenuBtn> 
                 }
                 {props.children}

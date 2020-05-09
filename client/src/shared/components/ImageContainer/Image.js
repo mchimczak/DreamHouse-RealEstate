@@ -13,13 +13,12 @@ const Image = ({url}) => {
         : { height: '100%', maxHeight: '300px', objectFit: 'contain' }
 
     return (
-        <div> 
-            <CardMedia 
+        <CardMedia 
             component='img' 
             image={imageUrl}
             style={style}
-            />
-        </div>
+            onError={(e) => e.target.src = noImg}
+        />
      );
 }
  

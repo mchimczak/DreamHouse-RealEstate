@@ -12,6 +12,9 @@ right: 0;
 bottom: 0;
 z-index: 100;
 `
+
+export const StatusWrapper = styled.div`${StatusWrapperStyles}`;
+
 export const StatusInfo = styled.p`
 margin: 0 auto;
 `

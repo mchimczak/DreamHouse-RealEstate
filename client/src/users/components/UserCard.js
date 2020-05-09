@@ -10,15 +10,15 @@ import {Card, Avatar, CardHeader} from '@material-ui/core';
 import { CardActionsWrapper } from './styles/UserComponents.style';
 
 
-const UserCard = ({ id, name, createdAt, file }) => {
+const UserCard = React.memo(({ id, name, createdAt, file }) => {
     const {estatesData: [estatesData]} = useContext(EstatesContext);
     const { userData } = useContext(UserContext);
     
     let estates = 0;
     estatesData.map( el => el.owner === id ? estates++ : null );
-    
+
     const initials = name.charAt(0).toUpperCase();
-    const avatar = file && file.length !== 0 
+    const avatar = file && file[0] 
         ? <Avatar alt="user profile picture" src={`${process.env.REACT_APP_BACKEND_URL}${file[0]}`} />
         : <Avatar aria-label="user">{initials}</Avatar>
 
@@ -47,7 +47,7 @@ const UserCard = ({ id, name, createdAt, file }) => {
             </CardActionsWrapper>
         </Card>
     )
-};
+});
  
 export default UserCard;
 

@@ -4,11 +4,26 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
 const SUPPORTED_FORMAT = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
 
 const userValidationSchema = yup.object().shape({
-    name: yup.string().trim().required('Name is required'),
-    phone: yup.string().min(9, 'Phone number should contains 9 digits').max(9, 'Phone number should contains 9 digits').matches(phoneRegExp, 'Phone number is not valid').trim(),
-    password: yup.string().min(6, 'This filed should contain at least 6 characters').trim(),
-    file: yup.array().of(yup.mixed().test('type', "Unsupported file format", value => value && SUPPORTED_FORMAT.includes(value.type) ))
-    .max(1, 'Please select only 1 image')
+    name: yup
+        .string()
+        .min(2, 'Please provide at least 2 characters')
+        .max(15, 'Limit excedeed. Please provide max 25 characters')
+        .trim()
+        .required('Name is required'),
+    phone: yup
+        .string()
+        .min(9, 'Phone number should contains 9 digits')
+        .max(9, 'Phone number should contains 9 digits')
+        .matches(phoneRegExp, 'Phone number is not valid')
+        .trim(),
+    password: yup
+        .string()
+        .min(6, 'This filed should contain at least 6 characters')
+        .trim(),
+    file: yup
+        .array()
+        .of(yup.mixed().test('type', "Unsupported file format", value => value && SUPPORTED_FORMAT.includes(value.type) ))
+        .max(1, 'Please select only 1 image')
 });
 
 export default userValidationSchema;

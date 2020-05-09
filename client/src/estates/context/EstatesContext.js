@@ -91,17 +91,14 @@ export const EstatesContextProvider = (props) => {
             data: {estateId}, 
             headers: { Authorization: `Bearer ${token}` }
         }).then((res) => {
+            const { estateLikes, message } = res.data;
             const updatedList = estatesLikes.map(estate => {
-                if (estate.estateId === estateId) {
-                    return {
-                        ...estate,
-                        likes: [...estate.likes, userId]
-                    };
-                } else return {...estate};
+                return estate.estateId === estateId 
+                ?   { ...estate, likes: [...estateLikes.likes] }
+                :   { ...estate }
             });
-    
             setEstatesLikes(updatedList);
-            setStatus(res.data.message);
+            setStatus(message);
         }).catch( err => setStatus(err.response.data.message));
     },[token, estatesLikes]);
 

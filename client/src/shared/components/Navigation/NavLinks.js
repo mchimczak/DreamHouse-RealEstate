@@ -15,12 +15,18 @@ align-items: center;
 
 & li {
     padding: .5rem;
+    margin-top: .5rem;
+
+    ${({theme}) => theme.media.desktop} {
+        margin-top: 0;
+    }
 }
 `
 const StyledNavLink = styled(NavLink)`
 color: inherit;
 text-decoration: none;
 font-weight: ${({theme}) => theme.font.thin};
+font-size: 1.6rem;
 `
 const Logout = styled.span`
 cursor: pointer;

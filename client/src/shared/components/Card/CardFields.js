@@ -8,9 +8,9 @@ const CardFields = (props) => {
     return ( <>
         { Object.entries(props.data).map(([title, value]) => (
             <CardContentInfoWrapper key={title}>
-                <Typography variant="h6">
+                <Typography>
                     <FieldTitle>{title}:</FieldTitle> 
-                    <FieldContent title={value}> 
+                    <FieldContent nowrap={props.nowrap}> 
                     { value ? value : '- - -' } 
                     { value && title in props.defaultUnits ? `${props.defaultUnits[title]}` : null }
                     </FieldContent>

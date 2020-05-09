@@ -26,30 +26,30 @@ ${({theme}) => theme.media.tablet} {
 `
 
 export const StyledHeader = styled.h3`
+margin: 0;
 font-weight: 300;
+text-align: center;
+
+${({theme}) => theme.media.tablet} {
+    margin: 1rem auto;
+}
 `
 
 //ESTATE CARD COMPONENT
 const StyledMediaWrapperStyles = css`
 display: grid;
-grid-template: ${({images}) => images.length >= 2 ? 'auto / 3fr 1fr;' : '1fr' };
+// grid-template: ${({images}) => images.length >= 2 ? 'auto / 3fr 1fr;' : '1fr' };
+grid-template: 1fr /1fr };
 gap: .5rem;
 height: 200px;
 width: 100%;
 overflow: hidden;
 margin: 1rem 0;
-${({theme}) => theme.media.tablet} {
-    height: 300px;
-}
+// ${({theme}) => theme.media.tablet} {
+//     height: 300px;
+// }
 `
 export const EstateCardMediaWrapper = styled.div`${StyledMediaWrapperStyles}`;
-
-const StyledMediaAsideWrapperStyles = css`
-display: ${({images}) => images.length >= 2 ? 'grid' : 'none' };
-grid-template: 1fr 1fr 1fr / auto;
-gap: .5rem;
-`
-export const EstateCardMediaAsideWrapper = styled.div`${StyledMediaAsideWrapperStyles}`;
 
 export const CardActionsWrapper = styled.div`
 display: grid;
@@ -71,6 +71,7 @@ margin-right: 1rem;
 //ESTATE ITEM DETAILS COMPONENT
 export const CardWrapper = styled.div`
 &:last-child {
+    margin: 4rem auto;
     ${({theme}) => theme.media.tablet} {
         margin: ${({theme}) => theme.size.xlarge} auto;
     }
@@ -84,9 +85,9 @@ flex-direction: column;
 
 const EstateDetailsMediaWrapper = css`
 display: grid;
-grid-template: ${({images}) => images.length >= 2 ? '2fr 1fr / auto' : '1fr' };
+grid-template: ${({images}) => images.length >= 2 ? '2fr 1fr / auto' : '1fr /auto' };
 gap: .5rem;
-height: auto;
+height: ${({images}) => images.length >= 2 ? 'auto' : '300px'};
 width: 100%;
 margin: 2rem 0;
 `
@@ -94,7 +95,7 @@ export const StyledMediaWrapper = styled.div`${EstateDetailsMediaWrapper}`;
 
 const EstateDetailsMediaAsideWrapper = css`
 display: ${({images}) => images.length >= 2 ? 'grid' : 'none' };
-grid-template: auto / 1fr 1fr 1fr;
+grid-template: 150px / repeat(auto-fit, minmax(30%, 1fr));
 gap: .5rem;
 `
 export const StyledMediaAsideWrapper = styled.div`${EstateDetailsMediaAsideWrapper}`
@@ -102,16 +103,26 @@ export const StyledMediaAsideWrapper = styled.div`${EstateDetailsMediaAsideWrapp
 export const CardContentInfoWrapper = styled.div`
 display: flex;
 flex-direction: column;
-gap: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
 
 & > div:first-child {
-    grid-column: 1 / 3;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 1rem;
+
+    & > p {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 ${({theme}) => theme.media.tablet} {
     display: grid;
     grid-template-columns: auto auto;
+    gap: ${({theme}) => theme.size.small} ${({theme}) => theme.size.medium};
+
+    & > div:first-child {
+        grid-column: 1 / 3;
+    }
 }
 `
 

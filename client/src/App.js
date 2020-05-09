@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 //UTILS
 import { UserContextProvider } from './auth/context/UserContext';
 import { EstatesContextProvider } from './estates/context/EstatesContext';
@@ -22,6 +22,7 @@ const UserProfilePage = React.lazy(() => import('./users/pages/UserProfilePage')
 const AddEstate = React.lazy(() => import('./estates/pages/AddEstate'));
 const SignUpPage = React.lazy(() => import('./auth/pages/SignupPage'));
 const LoginPage = React.lazy(() => import('./auth/pages/LoginPage'));
+const Route404 = React.lazy(() => import('./routes/404/Route404'));
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
         <BrowserRouter>
         <ScrollTop>
           <MainNavigation />
-          <Suspense fallback={<Center><Loader/></Center>}>
+          <Suspense fallback={<Center cover="true"><Loader/></Center>}>
             <Main>
               <InfoStatus />
               <Switch>
@@ -75,8 +76,7 @@ function App() {
                   <LoginPage />
                 </Route>
 
-
-                <Redirect to="/"/>
+                <Route404 />
 
               </Switch>
             </Main>

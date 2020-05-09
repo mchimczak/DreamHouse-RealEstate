@@ -12,7 +12,7 @@ bottom: 0;
 width: 100vw;
 height: 100%;
 background-color: #00000091;
-z-index: 50;
+z-index: 450;
 `
 
 const Backdrop = (props) => ( 

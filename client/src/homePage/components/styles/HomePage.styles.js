@@ -61,7 +61,7 @@ width: 30px;
 height: 30px;
 transform: rotate(45deg);
 background-color: ${({theme}) => theme.colors.lightgrey};
-z-index: 45;
+z-index: 30;
 `
 
 export const InfoContentWrapperStyles = css`
@@ -79,6 +79,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+padding: 0 2rem;
 
 & > img {
     width: 64px;
@@ -123,6 +124,7 @@ ${({theme}) => theme.media.desktop} {
 export const BestEstatesHeaderStyles = css`
 text-transform: uppercase;
 font-weight: ${({theme}) => theme.font.thin};
+text-align: center;
 `
 
 export const JoinSectionWrapper = styled.div`

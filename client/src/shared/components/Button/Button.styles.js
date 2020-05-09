@@ -6,7 +6,7 @@ justify-content: center;
 align-items: center;
 height: ${({small}) => small ? '30px' : 'auto'};
 padding: ${props => props.small ? `.5rem 1rem` : `${props.theme.size.medium} ${props.theme.size.medium}`};
-border-radius: 3px;
+border-radius: ${({square}) => square ? '0' : '3px'};
 background-color: ${props => props.primary ? props.theme.colors.orange : props.theme.colors.black};
 color: ${({theme}) => theme.colors.white};
 text-transform: ${({upc}) => upc ? 'uppercase' : 'none'};
@@ -27,6 +27,7 @@ box-shadow: ${props => props.shadow ? '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px
 
 :disabled {
     background-color: ${props => props.theme.colors.grey};
+    box-shadow: none;
     cursor: initial;
 }
 

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import Modal from '../../shared/components/Modal/Modal';
+import ScrollTop from '../../routes/ScrollTop';
 import Form from '../../shared/components/Form/Form';
 import updateUserValidationSchema from '../../auth/components/userProfile/onUpdateUserValidationSchema';
 import Button from '../../shared/components/Button/Button';
@@ -52,17 +53,26 @@ const UserDetails = ({user, updateUser}) => {
                     </StyledCardActions>
                 </StyledContentWrapper>
             </StyledCard>
-            { isOpen && 
-                <Modal isOpen={isOpen} toggleModal={toggleModal} >
-                    <FormCard title="Edit profile" modal="true" small="true" fixed="true">
-                        <Form 
-                            submitAction={startUpdateUser}
-                            initState={editableUserInfo}
-                            validationSchema={updateUserValidationSchema}
-                            fileUpload={{name: 'avatar', multiple: false}}
-                        />
-                    </FormCard>
-                </Modal>
+            { isOpen &&
+                <ScrollTop>
+                    <Modal isOpen={isOpen} toggleModal={toggleModal} >
+                        <FormCard 
+                            title="Edit profile" 
+                            modal="true" 
+                            small="true" 
+                            fixed="true" 
+                            scroll="true"
+                            close={toggleModal}
+                        >
+                            <Form 
+                                submitAction={startUpdateUser}
+                                initState={editableUserInfo}
+                                validationSchema={updateUserValidationSchema}
+                                fileUpload={{name: 'avatar', multiple: false}}
+                            />
+                        </FormCard>
+                    </Modal>
+                </ScrollTop> 
             }
         </CardWrapper>
      );

@@ -13,18 +13,20 @@ const LoginPage = () => {
     const { login, token: [token,], userData, loading: [isLoading, ] } = useContext(UserContext);
 
     return (
-        <Center>
-                { isLoading
-                    ?   <Loader />
-                    :   <Card title={'Login'}>
-                            {token && userData.id ? <Redirect to='/' /> : null}
-                                <Form
-                                    submitAction={login}
-                                    initState={loginInitState}
-                                    validationSchema={loginValidationSchema} 
-                                /> 
-                        </Card>
-                }
+        <Center cover="true">
+            { isLoading
+                ?   <Loader />
+                :   <Card title={'Login'}>
+
+                        { token && userData.id && <Redirect to='/' /> }
+
+                        <Form
+                            submitAction={login}
+                            initState={loginInitState}
+                            validationSchema={loginValidationSchema} 
+                        /> 
+                    </Card>
+            }
         </Center>
     )
 };
