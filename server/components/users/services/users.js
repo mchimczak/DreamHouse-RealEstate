@@ -53,7 +53,7 @@ const addNewUserHandler = async (req, res, next) => {
     let isUser, newUser, hashedPassword, token, avatarImg;
 
     avatarImg = files && files[0] 
-        ? files[0].path
+        ? files[0]
         : []
 
     try {
@@ -95,7 +95,7 @@ const updateUserDataHandler = async (req, res, next) => {
     let isUser, prevUserData, hashedPassword;
     const userIdToken = req.authUser.userId;
 
-    if(req.files && req.files.length !== 0) { updatedUser = {...updatedUser, file: req.files[0].path} };
+    if(req.files && req.files.length !== 0) { updatedUser = {...updatedUser, file: req.files[0]} };
 
     if(updatedUser.password && updatedUser.password.length !== 0) {
         try {
