@@ -29,9 +29,9 @@ const getUserByIdHandler = async (req, res, next) => {
 
     try {
         isUser = await User.findById(userId)
-    } catch (err) { return next(new httpError('Something went wrong', 500)) }
+    } catch (err) { return next(new httpError('User not found', 500)) }
 
-    if(!isUser) return next(new httpError('No user found', 404));
+    if(!isUser) return next(new httpError('User not found', 404));
 
     try {
         userEstates = await Estate.find({ owner: userId});

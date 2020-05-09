@@ -1,3 +1,4 @@
+'use strict'
 const fs = require('fs');
 const moment = require('moment');
 const mongoose = require('mongoose');
@@ -9,26 +10,33 @@ const User = require('../../users/models/user');
 
 
 const getEstatesHandler = async (req, res, next) => {
-    let estatesData, estatesLikes, estatePosts = [];
+    let allPosts, estatesData, estatesLikes, estatePosts = [];
 
     const filters = {
-        limit: parseInt(req.query.limit, 10) || 0,
+        limit: +req.query.limit || 0,
         sortBy: req.query.sortBy || '-createdAt',
         skip: (req.query.page - 1) * req.query.limit || 0,
         text: req.query.text || undefined
     }
-    const filterQuery = filters.text ? {title: new RegExp(`${filters.text}`, "gi")} : null
 
+    const modelKeys = Object.keys(Estate.schema.paths);
+    const normalizeSortBy = filters.sortBy.replace(/^-/, '');
+    if(!modelKeys.includes(normalizeSortBy)) return next(new httpError('Invalid query params', 500))
+    
     try {
         allPosts = await Estate.countDocuments({});
-
         if(allPosts < filters.skip) { filters.skip = 0 }
-
+        
+        const filterQuery = filters.text ? {title: new RegExp(`${filters.text}`, "gi")} : null
+        if(filterQuery) { filters.skip = 0 }
+        
         estatesData = await Estate.find(filterQuery || {}, 'city address price title file email phone id owner')
                                     .limit(filters.limit)
                                     .skip(filters.skip)
                                     .sort(filters.sortBy)
                                     .collation({ locale: 'en_US', numericOrdering: true })
+
+        if(filterQuery) { allPosts = estatesData.length }
 
         estatesData.map(el => estatePosts.push(el.id));
         estatesLikes = await EstateLikes.find({ estateId: { "$in": [...estatePosts] } });
@@ -156,12 +164,12 @@ const likeEstateHandler = async(req, res, next) => {
     let isLiked;
 
     try {
-        isLiked = await EstateLikes.findOneAndUpdate({ estateId }, {$push: { likes: userIdToken }});
+        isLiked = await EstateLikes.findOneAndUpdate({ estateId }, {$addToSet: { likes: userIdToken }}, { new: true});
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
     if(!isLiked) return next(new httpError('No estate found', 404));
 
-    return res.status(200).json({ message: 'You liked that post'});
+    return res.json({ estateLikes: isLiked, message: 'You liked that post'});
 }
 
 
