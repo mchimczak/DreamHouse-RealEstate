@@ -44,7 +44,13 @@ app.use((req,res, next) => {
 });
 
 app.use((error, req, res, next) => {
-    const handleCancelUploadImg = file => fs.unlink(file.path, err => console.log(err));
+    const handleCancelUploadImg = file => {
+        console.log(file);
+        if(file.path) {
+            fs.unlink(file.path, err => console.log(err))
+        } else fs.unlink(file, err => console.log(err))
+    };
+
     if(req.files) {
         let files = req.files;
         files.forEach(file => handleCancelUploadImg(file))

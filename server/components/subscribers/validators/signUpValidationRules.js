@@ -6,6 +6,6 @@ module.exports = signUpValidationRules = () => {
         body('password').isString().isLength({ min: 6 }),
         body('name').isLength({ min: 2 }).isString(),
         body('phone').optional({checkFalsy: true}).isLength({ min: 9, max: 9 }),
-        check('files.file').isArray().optional({checkFalsy: true})
+        check('files').isArray().optional({checkFalsy: true})
     ]
 };

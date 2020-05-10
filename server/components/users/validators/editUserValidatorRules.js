@@ -6,6 +6,6 @@ module.exports = editUserValidationRules = () => {
         body('password').trim().isString().isLength({ min: 6 }).optional({ checkFalsy: true}),
         body('name').trim().isLength({ min: 2 }).isString(),
         body('phone').optional({checkFalsy: true}).trim().isLength({ min: 9, max: 9}),
-        check('files.file').isArray().optional({checkFalsy: true})
+        check('files').isArray().optional({checkFalsy: true})
     ]
 };

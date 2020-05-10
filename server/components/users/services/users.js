@@ -1,4 +1,6 @@
 const fs = require('fs');
+const fsPromise = fs.promises;
+const path = require('path');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -119,7 +121,19 @@ const updateUserDataHandler = async (req, res, next) => {
     };
 
     if(prevUserData.file[0] !== isUser.file[0]) {
-        prevUserData.file.forEach( file => fs.unlink(file, err => err && console.log(err)))
+        try {
+            prevUserData.file.forEach( file => fs.unlink(file, err => err && console.log(err)))
+            const rootFolder = 'uploads/images'
+            const fileLink = prevUserData.file[0]
+            const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'))
+            const splitDir = fileDir.split('/');
+            console.log(fileDir);
+            if(!splitDir.includes(id) && fileDir !== rootFolder && fs.existsSync(fileDir)) {
+                console.log('remove');
+                fsPromise.rmdir(fileDir, { recursive: true})
+            }
+        } catch (err) { return new httpError('Something went wrong', 500) }
+
     };
 
     res.json({ user: isUser.toObject({ getters: true}), message: 'Your profile was updated successfully' });

@@ -29,7 +29,7 @@ const upload = multer({
     }
 });
 
-const fileUpload = upload.array('file', 1);
+const fileUpload = upload.array('file', 4);
 
 const imgUpload = (req, res, next) => {
     fileUpload(req, res, function (err) {
@@ -43,20 +43,20 @@ const imgUpload = (req, res, next) => {
 const resizeFile = async (req, res, next) => {
     if(!req.files) return next();
 
-    const userId = req.body.id || uuid();
+    const estateId = req.body.id || uuid();
     const images = [];
 
     await Promise.all( 
         req.files.map( async file => {
             const extension = ALLOWED_MIME_TYPE[file.mimetype];
             const newFilename = uuid() + '.' + extension;
-            const imgDirectory = `uploads/images/users/${userId}`;
+            const imgDirectory = `uploads/images/estates/${estateId}`;
 
             await fsPromise.mkdir(imgDirectory, { recursive: true })
                 .catch(() => console.log('error'))
 
             sharp(file.buffer)
-                .resize(50, 50)
+                .resize(640, 320)
                 .toFile(path.join( imgDirectory, `${newFilename}`), (err, info) => {
                     if(err) {
                         fsPromise.rmdir(imgDirectory, { recursive: true})
@@ -64,7 +64,7 @@ const resizeFile = async (req, res, next) => {
                     }
                 })
 
-            images.push(`uploads/images/users/${userId}/${newFilename}`)
+            images.push(`${imgDirectory}/${newFilename}`)
         }) 
     );
     req.files = images;
