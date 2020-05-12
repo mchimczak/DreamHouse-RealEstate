@@ -15,7 +15,7 @@ const UserProfilePage = () => {
     return ( 
         <UserProfileWrapper>
             <Suspense fallback={<Center cover="true"><Loader/></Center>}>
-                <UserDashboard />
+                <UserDashboard isUser={!!userData} />
                 <UserDetails user={userData} updateUser={updateUser} />
             </Suspense>
         </UserProfileWrapper>

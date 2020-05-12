@@ -134,7 +134,7 @@ const MyForm = props => {
                         </StyledFieldWrapper>
                     </>
             }
-            <StyledImgPrevWrapper grid={fileUpload && fileUpload.multiple}>
+            <StyledImgPrevWrapper grid={fileUpload && fileUpload.multiple && imgPrev.length > 1 }>
                 { imgPrev && !errors['file'] && imgPrev.map( img => (
                     SUPPORTED_FORMAT.includes(img.type) && 
                     <StyledImgPrev src={img.data} key={img.data} alt={img.data} />

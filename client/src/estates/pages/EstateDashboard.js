@@ -25,9 +25,9 @@ const EstateDashboard = () => {
         setIsLoading(true);
         await editEstate(id, updates)
             .then(res => {
-                setCurrentEstate(res);
+                if (res) setCurrentEstate(res);
                 setIsLoading(false);
-            });
+            })
     },[]);
     
     const removeCurrentEstate = useCallback((estateId) => {

@@ -77,7 +77,10 @@ export const EstatesContextProvider = (props) => {
         }).then((res) => {
             setStatus(res.data.message);
             return res.data.estate
-        }).catch( err => setStatus(err.response.data.message));
+        }).catch(err => {
+            setStatus(err.response.data.message)
+            return null
+        });
 
         return newEstate;
     },[token]);

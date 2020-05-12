@@ -8,7 +8,7 @@ const estateValidationSchema = yup.object().shape({
         title: yup
                 .string()
                 .min(5, `Title should contain at least 5 characters`)
-                .max(25, 'Limit excedeed. Please provide max 25 characters')
+                .max(50, 'Limit excedeed. Please provide max 50 characters')
                 .trim()
                 .matches(allowedChars, 'Invalid input')
                 .required('Title is required'),
@@ -21,14 +21,14 @@ const estateValidationSchema = yup.object().shape({
         city: yup
                 .string()
                 .min(3, 'City should contain at least 3 characters')
-                .max(25, 'Limit excedeed. Please provide max 25 characters')
+                .max(50, 'Limit excedeed. Please provide max 50 characters')
                 .matches(allowedChars, 'Invalid input')
                 .trim()
                 .required('City name is required'),
         address: yup
                 .string()
                 .min(5, 'Address should contain at least 5 characters')
-                .max(25, 'Limit excedeed. Please provide max 25 characters')
+                .max(50, 'Limit excedeed. Please provide max 50 characters')
                 .matches(allowedChars, 'Invalid input')
                 .trim()
                 .required('Address is required'),

@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
+import PropTypes from 'prop-types';
 import { useParams, Redirect } from 'react-router-dom';
 
 import { EstatesContext } from '../../estates/context/EstatesContext';
@@ -11,7 +12,7 @@ import Center from '../../shared/ui/position/Center';
 import { EstatesContainer } from '../components/styles/UserComponents.style';
 
 
-const UserDashboard = () => {
+const UserDashboard = ({isUser}) => {
     const {estatesLikes: [, setEstatesLikes]} = useContext(EstatesContext);
     const {status: [, setStatus]} = useContext(UserContext);
 
@@ -42,7 +43,7 @@ const UserDashboard = () => {
         {   errorMsg && isRedirect
                 ? <Redirect to="/" />
                 : fetchedUserEstates
-                    ?  <EstatesContainer>
+                    ?  <EstatesContainer isUser={isUser} >
                             <EstatesList items={fetchedUserEstates}/> 
                         </EstatesContainer>
                     :   <Center> <Loader/> </Center>
@@ -52,3 +53,7 @@ const UserDashboard = () => {
 };
  
 export default UserDashboard;
+
+UserDashboard.propTypes = {
+    isUser: PropTypes.bool
+  };

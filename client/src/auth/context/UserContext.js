@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
@@ -12,7 +12,20 @@ export const UserContextProvider = (props) => {
     const [usersList, setUsersList] = useState([]);
     const [token, setToken] = useState(false);
     const [tokenTTL, setTokenTTL] = useState();
+    const isOffline = useRef(false);
     let logoutTimer;
+
+    const handleConnectionChange = useCallback(() => {
+        const connection = navigator.onLine ? 'online' : 'offline'
+        if(connection === 'offline' && isOffline.current === false) {
+            setStatus('Internet connection is lost');
+            isOffline.current = true;
+        }
+        if(connection === 'online' && isOffline.current === true){
+            setStatus('Internet connection established');
+            isOffline.current = false;
+        }
+    },[]);
 
     const convertToFormData = useCallback((data) => {
         if(data.length = 0) return;
@@ -33,7 +46,6 @@ export const UserContextProvider = (props) => {
 
         return formData
     },[]);
-
 
     const handleSuccesAuthorization = useCallback((serverResponse) => {
         const { user, message, token } = serverResponse;
@@ -121,6 +133,16 @@ export const UserContextProvider = (props) => {
             setUserData(res.data.user);
         }).catch(err => setStatus(err.response.data.message));
     },[userData, token]);
+
+    useEffect(() => {
+        window.addEventListener('online', handleConnectionChange);
+        window.addEventListener('offline', handleConnectionChange);
+
+        return () => {
+            window.removeEventListener('online', handleConnectionChange);
+            window.removeEventListener('offline', handleConnectionChange);
+        }
+    },[])
 
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('user'));

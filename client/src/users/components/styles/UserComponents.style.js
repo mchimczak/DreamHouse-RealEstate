@@ -44,7 +44,7 @@ flex-wrap: wrap;
 
 export const EstatesContainer = styled.div`
 ${({theme}) => theme.media.tablet} {
-    margin: 3rem 0;
+    margin: ${({isUser}) => isUser ? '0' : '3rem 0'} ;
 }
 `
 

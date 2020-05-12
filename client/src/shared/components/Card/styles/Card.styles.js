@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import Card from '@material-ui/core/Card';
 import Divider from '@material-ui/core/Divider';

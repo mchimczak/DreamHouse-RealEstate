@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 //UTILS
+import  ErrorBoundary from './shared/components/ErrorBoundary/ErrorBoundary';
 import { UserContextProvider } from './auth/context/UserContext';
 import { EstatesContextProvider } from './estates/context/EstatesContext';
 import Main from './shared/ui/layout/Main';
@@ -27,65 +28,67 @@ const Route404 = React.lazy(() => import('./routes/404/Route404'));
 function App() {
   return (
     <Layout>
-      <UserContextProvider>
-      <EstatesContextProvider>
-        <BrowserRouter>
-        <ScrollTop>
-          <MainNavigation />
-          <Suspense fallback={<Center cover="true"><Loader/></Center>}>
-            <Main>
-              <InfoStatus />
-              <Switch>
+      <ErrorBoundary>
+        <UserContextProvider>
+        <EstatesContextProvider>
+          <BrowserRouter>
+          <ScrollTop>
+            <MainNavigation />
+            <Suspense fallback={<Center cover="true"><Loader/></Center>}>
+              <Main>
+                <InfoStatus />
+                <Switch>
 
-                <Route exact path="/">
-                  <HomePage />
-                </Route> 
+                  <Route exact path="/">
+                    <HomePage />
+                  </Route> 
 
-                <Route path="/users" exact>
-                  <Users />
-                </Route>
+                  <Route path="/users" exact>
+                    <Users />
+                  </Route>
 
-                <Route path="/users/:userId" exact>
-                  <UserDashboard />
-                </Route>
+                  <Route path="/users/:userId" exact>
+                    <UserDashboard />
+                  </Route>
 
-                <PrivateRoute
-                  path="/users/me/:userId"
-                  component={UserProfilePage} 
-                />
+                  <PrivateRoute
+                    path="/users/me/:userId"
+                    component={UserProfilePage} 
+                  />
 
-                <PrivateRoute 
-                  path="/estates/new"
-                  component={AddEstate} 
-                  exact 
-                />
+                  <PrivateRoute 
+                    path="/estates/new"
+                    component={AddEstate} 
+                    exact 
+                  />
 
-                <Route path="/estates/:estateId" exact>
-                  <EstateDashboard />
-                </Route>
+                  <Route path="/estates/:estateId" exact>
+                    <EstateDashboard />
+                  </Route>
 
-                <Route path="/estates" exact>
-                  <Estates />
-                </Route>
+                  <Route path="/estates" exact>
+                    <Estates />
+                  </Route>
 
-                <Route path="/signup">
-                  <SignUpPage />
-                </Route>
+                  <Route path="/signup">
+                    <SignUpPage />
+                  </Route>
 
-                <Route path="/login">
-                  <LoginPage />
-                </Route>
+                  <Route path="/login">
+                    <LoginPage />
+                  </Route>
 
-                <Route404 />
+                  <Route404 />
 
-              </Switch>
-            </Main>
-          </Suspense>
-          <Footer />
-          </ScrollTop>
-        </BrowserRouter>
-      </EstatesContextProvider>
-      </UserContextProvider>
+                </Switch>
+              </Main>
+            </Suspense>
+            <Footer />
+            </ScrollTop>
+          </BrowserRouter>
+        </EstatesContextProvider>
+        </UserContextProvider>
+      </ErrorBoundary>
     </Layout>
   )
 };
