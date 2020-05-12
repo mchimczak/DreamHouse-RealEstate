@@ -85,6 +85,7 @@ flex-direction: column;
 
 const EstateDetailsMediaWrapper = css`
 display: grid;
+position: relative;
 grid-template: ${({images}) => images.length >= 2 ? '2fr 1fr / auto' : '1fr /auto' };
 gap: .5rem;
 height: ${({images}) => images.length >= 2 ? 'auto' : '300px'};
@@ -94,7 +95,7 @@ margin: 2rem 0;
 export const StyledMediaWrapper = styled.div`${EstateDetailsMediaWrapper}`;
 
 const EstateDetailsMediaAsideWrapper = css`
-display: ${({images}) => images.length >= 2 ? 'grid' : 'none' };
+display: ${({images}) => images.length >= 1 ? 'grid' : 'none' };
 grid-template: 150px / repeat(auto-fit, minmax(30%, 1fr));
 gap: .5rem;
 `
@@ -124,6 +125,14 @@ ${({theme}) => theme.media.tablet} {
         grid-column: 1 / 3;
     }
 }
+`
+
+export const ViewGalleryButtonWrapper = styled.div`
+display: flex;
+align-items: center;
+justify-content: flex-end;
+position: absolute;
+right: 0;
 `
 
 export const StyledCardActions = styled(CardActions)`

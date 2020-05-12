@@ -12,8 +12,9 @@ import CardFields from '../../shared/components/Card/CardFields';
 import ModalBox from '../../shared/components/Modal/ModalBox';
 import Button from '../../shared/components/Button/Button';
 import Image from '../../shared/components/ImageContainer/Image';
+import ImageGallery from '../../shared/components/ImageGallery/ImageGallery';
 
-import { CardWrapper, StyledContentWrapper, StyledMediaWrapper, StyledMediaAsideWrapper, CardContentInfoWrapper, StyledCardActions, materialUIElements } from './styles/EstatesComponents.styles';
+import { CardWrapper, StyledContentWrapper, ViewGalleryButtonWrapper, StyledMediaWrapper, StyledMediaAsideWrapper, CardContentInfoWrapper, StyledCardActions, materialUIElements } from './styles/EstatesComponents.styles';
 const { CardContent, Divider } = materialUIElements;
 
 
@@ -21,14 +22,22 @@ const EstateItemDetails = (props) => {
     const {isLoggedIn, userData} = useContext(UserContext);
     const [isOpen, setIsOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
     const { id, file, email, phone, owner, createdAt, editCurrentEstate, removeCurrentEstate, ...estateInfo} = props;
     const {title, ...displayedInfo} = estateInfo;
     const ESTATE_INIT_INFO = estateInfo;
     const [mainImg, ...photos] = file;
-    const gallery = photos.map( photo => <Image url={photo} key={photo} /> );
     
     const toggleModal = () => setIsOpen(prevState => !prevState);
+
+    const openGallery = useCallback(() => {
+        setIsGalleryOpen(true);
+    },[]);
+
+    const closeGallery = useCallback(() => {
+        setIsGalleryOpen(false);
+    },[]);
 
     const removeEstateItem = useCallback(() => {
         setIsDeleting(true);
@@ -54,12 +63,23 @@ const EstateItemDetails = (props) => {
         <CardWrapper>
             <MyCard title={props.title} createdAt={createdAt} wrap="true">
             <StyledMediaWrapper images={file}>
-                <Image url={mainImg} /> 
-                    { props.file && 
-                        <StyledMediaAsideWrapper images={file}>
-                            {gallery}
-                        </StyledMediaAsideWrapper> }
-                </StyledMediaWrapper>
+                <Image url={mainImg}  onClick={openGallery}/> 
+                    { mainImg && <>
+                        <ViewGalleryButtonWrapper>
+                            <Button small="true" onClick={openGallery}>View gallery</Button>
+                        </ViewGalleryButtonWrapper>
+                        { photos.length !== 0 && 
+                            <StyledMediaAsideWrapper images={photos}>
+                                { photos.map( photo => (
+                                    <Image 
+                                        key={photo} 
+                                        url={photo} 
+                                        onClick={openGallery}
+                                    /> 
+                                ))}
+                            </StyledMediaAsideWrapper>} 
+                    </> }
+            </StyledMediaWrapper>
                 <Divider light />
                 <StyledContentWrapper>
                     <CardContent>
@@ -110,6 +130,9 @@ const EstateItemDetails = (props) => {
                                 </MyCard> }
                     </Modal>
                 </ScrollTop> }
+            { isGalleryOpen && file.length !== 0 &&
+                <ImageGallery images={file} handleClose={closeGallery}/>
+            }
         </>
      );
 };
