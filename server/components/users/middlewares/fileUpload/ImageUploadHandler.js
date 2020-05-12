@@ -66,7 +66,7 @@ const resizeFile = async (req, res, next) => {
                         new httpError(`File upload crushed, please try again later`, 500)
                     ))
 
-            images.push(`uploads/images/users/${userId}/${newFilename}`)
+            return images.push(`uploads/images/users/${userId}/${newFilename}`)
         }) 
     )
     

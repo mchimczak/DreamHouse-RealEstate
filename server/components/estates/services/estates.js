@@ -129,22 +129,22 @@ const editEstateHandler = async(req, res, next) => {
 
     if(!isUpdated) return next(new httpError('No estate found', 404));
 
-    if(removePrevImg && prevEstateFiles && prevEstateFiles !== files) {
+    if(removePrevImg && prevEstateFiles && prevEstateFiles.length !== 0 && prevEstateFiles !== files) {
         try {
+
             prevEstateFiles.forEach( file => {
                 if (file.path && fs.existsSync(file.path)) {
-                    fs.unlink(file.path, (err) => err && console.log('elo'))
+                    return fs.unlink(file.path, (err) => err && console.log('elo'))
                 } else if (typeof file === 'string' && fs.existsSync(file)) {
-                    fs.unlink(file, (err) => err && console.log('helo'))
+                    return fs.unlink(file, (err) => err && console.log('helo'))
                 } else return 
-            })
+            });
 
-            const rootFolder = 'uploads/images'
-            const fileLink = prevEstateFiles[0]
-            const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'))
-            const splitDir = fileDir.split('/');
+            const rootFolder = 'uploads/images/estates';
+            const fileLink = prevEstateFiles[0];
+            const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'));
 
-            if(!splitDir.includes(id) && fileDir !== rootFolder && fs.existsSync(fileDir)) {
+            if(!fileDir.includes(id) && fileDir.includes(rootFolder) && fileDir !== rootFolder && fs.existsSync(fileDir)) {
                 fsPromise.rmdir(fileDir, { recursive: true})
             }
         } catch (err) { return new httpError('Something went wrong', 500) }
@@ -171,18 +171,29 @@ const deleteEstateHandler = async(req, res, next) => {
 
     if(!isDeleted) return next(new httpError('No estate found', 404));
 
-    try {
-        imagesToRemove = isDeleted.file;
-        imagesToRemove.forEach(file => fs.unlink(file, err => err && console.log(err)));
-        const rootFolder = 'uploads/images'
-        const fileLink = imagesToRemove[0]
-        const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'));
+    imagesToRemove = isDeleted.file;
 
-        if(fileDir !== rootFolder && fs.existsSync(fileDir)) {
-            fsPromise.rmdir(fileDir, { recursive: true })
-        }
+    if(imagesToRemove && imagesToRemove.length !== 0) {
+        try {
 
-    } catch (err) { return new httpError('Something went wrong', 500) }
+            imagesToRemove.forEach( file => {
+                if (file.path && fs.existsSync(file.path)) {
+                    return fs.unlink(file.path, (err) => err && console.log(err))
+                } else if (typeof file === 'string' && fs.existsSync(file)) {
+                    return fs.unlink(file, (err) => err && console.log(err))
+                } else return 
+            });
+
+            const rootFolder = 'uploads/images/estates';
+            const fileLink = imagesToRemove[0];
+            const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'));
+
+            if(fileDir !== rootFolder && fileDir.includes(rootFolder) && fs.existsSync(fileDir)) {
+                fsPromise.rmdir(fileDir, { recursive: true })
+            }
+
+        } catch (err) { return new httpError('Something went wrong', 500) }
+    }
 
     res.status(200).json({ message: 'Post deleted successfully'});
 };

@@ -43,7 +43,7 @@ const imgUpload = (req, res, next) => {
 };
 
 const resizeFile = async (req, res, next) => {
-    if(!req.files) return next();
+    if(!req.files || req.files.length === 0) return next();
 
     const estateId = req.body.id || uuid();
     const images = [];
@@ -65,8 +65,8 @@ const resizeFile = async (req, res, next) => {
                 .then(async(metadata) => {
 
                     const imgSizes = metadata.height > metadata.width
-                        ? { a: 720, b: 960 }
-                        : { a: 960, b: 720 }
+                        ? { a: 320, b: 640 }
+                        : { a: 640, b: 320 }
 
                     return newImage
                         .resize(imgSizes.a, imgSizes.b)
@@ -76,7 +76,7 @@ const resizeFile = async (req, res, next) => {
                             ))
                 })
 
-            images.push(`${imgDirectory}/${newFilename}`)
+            return images.push(`${imgDirectory}/${newFilename}`)
         }) 
     )
 
