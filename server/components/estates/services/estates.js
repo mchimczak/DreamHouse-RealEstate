@@ -1,5 +1,6 @@
 'use strict'
 const fs = require('fs');
+const fsPromise = fs.promises;
 const moment = require('moment');
 const mongoose = require('mongoose');
 
@@ -69,16 +70,15 @@ const getEstateByIdHandler = async(req, res, next) => {
 const addNewEstateHandler = async(req, res, next) => {
     const userIdToken = req.authUser.userId;
 
-    const files = req.files;
-    let user, estateImages;
-    if(files) estateImages = files.map( img => img.path );
+    const files = req.files || [];
+    let user;
     
     const timeStamp = new Date();
     const newEstate = new Estate ({
         createdAt: moment(timeStamp).format('YYYY-MM-DD'),
         ...req.body,
         owner: userIdToken,
-        file: estateImages
+        file: files
     });
     const newEstateLikes = new EstateLikes({
         estateId: newEstate.id,
@@ -109,11 +109,10 @@ const editEstateHandler = async(req, res, next) => {
     let { id, ...updates } = req.body;
     const files = req.files;
 
-    let isUpdated, estateImages, prevEstateFiles, prevEstateData, removePrevImg = false;
+    let isUpdated, prevEstateFiles, prevEstateData, removePrevImg = false;
 
     if(files && files.length !== 0) {
-        estateImages = files.map( img => img.path );
-        updates = {...updates, file: estateImages};
+        updates = {...updates, file: files};
         removePrevImg = true;
     }
 
@@ -130,9 +129,30 @@ const editEstateHandler = async(req, res, next) => {
 
     if(!isUpdated) return next(new httpError('No estate found', 404));
 
-    if(removePrevImg) prevEstateFiles.forEach( file => fs.unlink(file, err => err && console.log(err)));
+    if(removePrevImg && prevEstateFiles && prevEstateFiles !== files) {
+        try {
+            prevEstateFiles.forEach( file => {
+                if (file.path && fs.existsSync(file.path)) {
+                    fs.unlink(file.path, (err) => err && console.log('elo'))
+                } else if (typeof file === 'string' && fs.existsSync(file)) {
+                    fs.unlink(file, (err) => err && console.log('helo'))
+                } else return 
+            })
 
-    return res.json({ estate: isUpdated.toObject({ getters: true}) , message: 'Your post was updated successfully' });
+            const rootFolder = 'uploads/images'
+            const fileLink = prevEstateFiles[0]
+            const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'))
+            const splitDir = fileDir.split('/');
+
+            if(!splitDir.includes(id) && fileDir !== rootFolder && fs.existsSync(fileDir)) {
+                fsPromise.rmdir(fileDir, { recursive: true})
+            }
+        } catch (err) { return new httpError('Something went wrong', 500) }
+    }
+
+    if(res.headersSent) next()
+
+    res.json({ estate: isUpdated.toObject({ getters: true}) , message: 'Your post was updated successfully' });
 };
 
 
@@ -151,10 +171,20 @@ const deleteEstateHandler = async(req, res, next) => {
 
     if(!isDeleted) return next(new httpError('No estate found', 404));
 
-    imagesToRemove = isDeleted.file;
-    imagesToRemove.forEach(file => fs.unlink(file, err => err && console.log(err)));
+    try {
+        imagesToRemove = isDeleted.file;
+        imagesToRemove.forEach(file => fs.unlink(file, err => err && console.log(err)));
+        const rootFolder = 'uploads/images'
+        const fileLink = imagesToRemove[0]
+        const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'));
 
-    return res.status(200).json({ message: 'Post deleted successfully'});
+        if(fileDir !== rootFolder && fs.existsSync(fileDir)) {
+            fsPromise.rmdir(fileDir, { recursive: true })
+        }
+
+    } catch (err) { return new httpError('Something went wrong', 500) }
+
+    res.status(200).json({ message: 'Post deleted successfully'});
 };
 
 

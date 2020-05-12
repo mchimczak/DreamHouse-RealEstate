@@ -45,18 +45,21 @@ app.use((req,res, next) => {
 
 app.use((error, req, res, next) => {
     const handleCancelUploadImg = file => {
-        console.log(file);
-        if(file.path) {
+        if(file.path && fs.existsSync(file.path)) {
             fs.unlink(file.path, err => console.log(err))
-        } else fs.unlink(file, err => console.log(err))
+        } else if(typeof file === 'string' && fs.existsSync(file)) {
+            fs.unlink(file, err => console.log(err))
+        } else return
     };
 
-    if(req.files) {
+    if(req.files && req.files.length !== 0) {
         let files = req.files;
         files.forEach(file => handleCancelUploadImg(file))
     };
 
-    if(res.headerSent) return next(error);
+    if (res.headersSent) {
+        return next(error);
+    }
 
     res.status(error.code || 500);
     res.json({message: error.message || 'An error occurred!'});

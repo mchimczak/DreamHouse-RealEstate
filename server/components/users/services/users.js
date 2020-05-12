@@ -120,21 +120,28 @@ const updateUserDataHandler = async (req, res, next) => {
         } catch (err) { return new httpError('Something went wrong', 500) }
     };
 
-    if(prevUserData.file[0] !== isUser.file[0]) {
+    if(prevUserData.file && prevUserData.file[0] !== isUser.file[0]) {
         try {
-            prevUserData.file.forEach( file => fs.unlink(file, err => err && console.log(err)))
+            prevUserData.file.forEach( file => {
+                if (file.path && fs.existsSync(file.path)) {
+                    fs.unlink(file.path, err => err && console.log(err))
+                } else if (typeof file === 'string' && fs.existsSync(file)) {
+                    fs.unlink(file, err => err && console.log(err))
+                } else return 
+            })
             const rootFolder = 'uploads/images'
             const fileLink = prevUserData.file[0]
             const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'))
             const splitDir = fileDir.split('/');
-            console.log(fileDir);
+            
             if(!splitDir.includes(id) && fileDir !== rootFolder && fs.existsSync(fileDir)) {
-                console.log('remove');
                 fsPromise.rmdir(fileDir, { recursive: true})
             }
-        } catch (err) { return new httpError('Something went wrong', 500) }
 
-    };
+        } catch (err) { return next(new httpError('Something went wrong', 500)) }
+    }
+
+    if(res.headersSent) next()
 
     res.json({ user: isUser.toObject({ getters: true}), message: 'Your profile was updated successfully' });
 };

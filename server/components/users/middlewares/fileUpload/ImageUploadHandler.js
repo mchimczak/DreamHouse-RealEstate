@@ -1,3 +1,5 @@
+'use strict'
+
 const multer = require('multer');
 const fs = require('fs');
 const { v4: uuid } = require('uuid');
@@ -14,7 +16,7 @@ const ALLOWED_MIME_TYPE = {
     'image/png': 'png',
 };
 
-const fileSizeLimit = 1024 * 1024 * 0.5;
+const fileSizeLimit = 1024 * 1024;
 
 const upload = multer({
     limits: {
@@ -34,7 +36,7 @@ const fileUpload = upload.array('file', 1);
 const imgUpload = (req, res, next) => {
     fileUpload(req, res, function (err) {
         if (err && err.code === "LIMIT_FILE_SIZE") {
-            next(new httpError(`Uploading file size must be lower than 512kb. Please try again`, 422));
+            next(new httpError(`Uploading file size must be lower than 1mb. Please try again`, 422));
         }
       next()
     });
@@ -45,30 +47,30 @@ const resizeFile = async (req, res, next) => {
 
     const userId = req.body.id || uuid();
     const images = [];
+    const imgDirectory = `uploads/images/users/${userId}`;
+
+    if (!fs.existsSync(imgDirectory)){
+        await fsPromise.mkdir(imgDirectory)
+            .catch(() => next(new httpError(`File upload crushed, please try again later`, 500)))
+    }
 
     await Promise.all( 
         req.files.map( async file => {
             const extension = ALLOWED_MIME_TYPE[file.mimetype];
             const newFilename = uuid() + '.' + extension;
-            const imgDirectory = `uploads/images/users/${userId}`;
-
-            await fsPromise.mkdir(imgDirectory, { recursive: true })
-                .catch(() => console.log('error'))
 
             sharp(file.buffer)
                 .resize(50, 50)
-                .toFile(path.join( imgDirectory, `${newFilename}`), (err, info) => {
-                    if(err) {
-                        fsPromise.rmdir(imgDirectory, { recursive: true})
-                        return next(new httpError(`File upload crushed, please try again later`, 500))
-                    }
-                })
+                .toFile(path.join( imgDirectory, `${newFilename}`))
+                    .catch(() => next(
+                        new httpError(`File upload crushed, please try again later`, 500)
+                    ))
 
             images.push(`uploads/images/users/${userId}/${newFilename}`)
         }) 
-    );
-    req.files = images;
-
+    )
+    
+    req.files = images
     next();
 };
 

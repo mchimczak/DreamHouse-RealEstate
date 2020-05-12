@@ -6,6 +6,7 @@ const addEstateValidationRules = require('../validators/addEstate/addEstateValid
 const editEstateValidationRules = require('../validators/editEstate/editEstateValidationRules');
 const likeEstateValidationRules = require('../validators/likeEstate/likeEstateValidationRules');
 const fileUploadHandler = require('../middlewares/multer/estateImageUploadHandler');
+const imageUpload = require('../middlewares/multer/imageUploadHandler');
 const authValidator = require('../../../middlewares/jwt/auth');
 
 const estates = express.Router();
@@ -14,8 +15,21 @@ estates.get('/:estateId', estatesServices.getEstateByIdHandler);
 
 estates.use(authValidator);
 
-estates.post('/new', fileUploadHandler, addEstateValidationRules(), validate, estatesServices.addNewEstateHandler);
-estates.post('/:estateId', fileUploadHandler, editEstateValidationRules(), validate, estatesServices.editEstateHandler);
+estates.post('/new', 
+    imageUpload.imgUpload,
+    imageUpload.resizeFile, 
+    addEstateValidationRules(), 
+    validate, 
+    estatesServices.addNewEstateHandler
+);
+
+estates.post('/:estateId', 
+    imageUpload.imgUpload,
+    imageUpload.resizeFile, 
+    editEstateValidationRules(), 
+    validate, 
+    estatesServices.editEstateHandler
+);
 estates.delete('/:estateId', estatesServices.deleteEstateHandler);
 estates.post('/:estateId/like', likeEstateValidationRules(), validate, estatesServices.likeEstateHandler);
 
