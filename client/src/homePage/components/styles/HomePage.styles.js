@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-
 import Hero from '../../../img/hero.jpg';
 
 export const HeroWrapper = styled.div`
@@ -135,12 +134,32 @@ text-align: center;
 gap: 2rem;
 `
 
-export const JoinUsWrapperStyles = css`
+export const JoinSectionHeader = styled.h3`
+text-align: center;
+font-weight: lighter;
+`
+
+export const JoinUsWrapper = styled.div`
+color: ${({theme}) => theme.colors.lightgrey};
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+font-weight: lighter;
+background-color: ${({theme}) => theme.colors.black};
 margin: ${({theme}) => theme.size.medium} auto;
+padding: ${({theme}) => `5rem ${theme.size.large}`};
+text-align: center;
+border-radius: 3px;
+
+${({theme}) => theme.media.tablet} {
+    max-width: 40%;
+}
+`
+
+export const BoxHeader = styled.h3`
+font-style: italic;
+letter-spacing: .5rem;
 `
 
 export const BtnBox = styled.div`

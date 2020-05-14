@@ -2,10 +2,12 @@ import styled from 'styled-components';
 
 export const FooterWrapper = styled.footer`
 position: absolute;
+display: flex;
+align-items: center;
 bottom: 0;
 left: 0;
 right: 0;
-height: 75px;
+height: 50px;
 width: 100vw;
 background-color: ${({theme}) => theme.colors.black};
 color: ${({theme}) => theme.colors.white};

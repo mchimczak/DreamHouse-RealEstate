@@ -10,9 +10,9 @@ const HomePage = React.memo(() => (
     <>
         <HeroSection />
         <Info />
-        <JoinSection />
         <BestEstates />
         <EndInfo/>
+        <JoinSection />
     </>
 ),[]);
  
