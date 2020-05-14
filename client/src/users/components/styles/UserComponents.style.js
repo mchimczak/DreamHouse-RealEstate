@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Card, CardMedia, CardActions } from '@material-ui/core';
+import PhoneIcon from '@material-ui/icons/Phone';
+import MailIcon from '@material-ui/icons/Mail';
 
 export const UserListWrapper = styled.div`
 display: grid;
@@ -45,6 +47,38 @@ flex-wrap: wrap;
 export const EstatesContainer = styled.div`
 ${({theme}) => theme.media.tablet} {
     margin: ${({isUser}) => isUser ? '0' : '3rem 0'} ;
+}
+`
+
+export const UserInfoSection = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: start;
+margin: 2rem 0 0 1rem;
+
+${({theme}) => theme.media.tablet} {
+    margin: 1rem 0 1rem 1rem;
+}
+`
+
+export const UserInfoHeader = styled.p`
+margin: 0 1rem;
+`
+
+export const StyledPhoneIcon = styled(PhoneIcon)`
+cursor: pointer;
+margin-right: 1rem;
+&:hover {
+    fill: orange;
+}
+`
+
+export const StyledMailIcon = styled(MailIcon)`
+cursor: pointer;
+margin-right: 1rem;
+&:hover {
+    fill: orange;
 }
 `
 

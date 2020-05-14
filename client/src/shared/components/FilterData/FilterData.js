@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { FiltersWrapper, StyledParamsWrapper, StyledWrapper, StyledSelect, OpenIconWrapper, CloseIconWrapper, materialUIElements } from './FilterData.styles';
+import { FiltersWrapper, StyledParamsWrapper, StyledWrapper, StyledSelect, StyledLabel, OpenIconWrapper, CloseIconWrapper, materialUIElements } from './FilterData.styles';
 const { FilterListIcon, CloseIcon } = materialUIElements;
 
-const FilterData = React.memo(({setSortByValue, setLimitValue}) => {
+const FilterData = React.memo(({currentSortValue, setSortByValue, currentLimitValue, setLimitValue}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleSortByChange = useCallback((e) => {
@@ -20,8 +20,8 @@ const FilterData = React.memo(({setSortByValue, setLimitValue}) => {
         <FiltersWrapper isOpen={isOpen}>
             <StyledParamsWrapper isOpen={isOpen} >
             <StyledWrapper>
-                <label htmlFor="sortBy" >Sort by:</label>
-                <StyledSelect name="sortBy" id="sortBy" onChange={handleSortByChange}>
+                <StyledLabel htmlFor="sortBy" >Sort by:</StyledLabel>
+                <StyledSelect name="sortBy" value={currentSortValue} id="sortBy" onChange={handleSortByChange}>
                     <option value="-createdAt">Date (newest)</option>
                     <option value="createdAt">Date (oldest)</option>
                     <option value="price">Price (cheapest)</option>
@@ -31,8 +31,8 @@ const FilterData = React.memo(({setSortByValue, setLimitValue}) => {
                 </StyledSelect>
             </StyledWrapper>
             <StyledWrapper>
-                <label htmlFor="limit" >Show:</label>
-                <StyledSelect name="limit" id="limit" onChange={handleLimitChange}>
+                <StyledLabel htmlFor="limit" >Show:</StyledLabel>
+                <StyledSelect name="limit" value={currentLimitValue} id="limit" onChange={handleLimitChange}>
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="30">30</option>

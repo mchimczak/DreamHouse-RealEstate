@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createMuiTheme, ThemeProvider as MaterialTheme } from '@material-ui/core/styles';
 
 import { theme } from '../../../utils/theme';
 
@@ -30,13 +31,27 @@ a {
 
 `
 
+const materialTheme = createMuiTheme({
+    overrides: {
+        MuiTooltip: {
+            tooltip: {
+              fontSize: '1.2rem',
+              color: `${theme.colors.white}`,
+              backgroundColor: `${theme.colors.dark}`
+            },
+            arrow: {
+                color: `${theme.colors.dark}`
+            }
+        },
+    },
+  });
 
 const Layout = (props) => (
     <ThemeProvider theme={theme}>
-        <>
+        <MaterialTheme theme={materialTheme}>
             <GlobalStyle/>
             {props.children}
-        </>
+        </MaterialTheme>
     </ThemeProvider>
 );
  

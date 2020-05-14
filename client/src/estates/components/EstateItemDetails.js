@@ -15,7 +15,7 @@ import Image from '../../shared/components/ImageContainer/Image';
 import ImageGallery from '../../shared/components/ImageGallery/ImageGallery';
 
 import { CardWrapper, StyledContentWrapper, ViewGalleryButtonWrapper, StyledMediaWrapper, StyledMediaAsideWrapper, CardContentInfoWrapper, StyledCardActions, materialUIElements } from './styles/EstatesComponents.styles';
-const { CardContent, Divider } = materialUIElements;
+const { CardContent, Divider, MailIcon, PhoneIcon, Tooltip } = materialUIElements;
 
 
 const EstateItemDetails = (props) => {
@@ -91,15 +91,27 @@ const EstateItemDetails = (props) => {
                     <StyledCardActions>
                         { ( !isLoggedIn || (isLoggedIn && userData.id !== owner) )
                             ?   <>
-                                    <Button primary="yes" small="true" upc="true" title="E-mail User">
-                                        <a href={`mailto:${email}`}>E-mail</a>
+                                    <Button primary="yes" small="true" upc="true">
+                                        <Tooltip title={`E-mail owner`} arrow>
+                                            <MailIcon 
+                                                style={{ fontSize: 20 }}
+                                                onClick={() => window.open(`mailto:${email}, "_self`)} 
+                                            />
+                                        </Tooltip>
                                     </Button>
                                     { phone 
-                                        ?   <Button primary="yes" small="true" upc="true" title="Call User">
-                                                <a href={`tel:${phone}`}>Tel</a>
+                                        ?   <Button primary="yes" small="true" upc="true">
+                                                <Tooltip title={`Call to owner`} arrow>
+                                                    <PhoneIcon 
+                                                        style={{ fontSize: 20 }}
+                                                        onClick={() => window.open(`tel:${phone}`, "_self")}
+                                                    />
+                                                </Tooltip> 
                                             </Button>
                                         :   <Button primary="yes" small="true" upc="true" disabled={true}>
-                                                <span>Tel</span>
+                                                <PhoneIcon 
+                                                    style={{ fontSize: 20 }}
+                                                />
                                             </Button>}
                                 </>
                             :   <>

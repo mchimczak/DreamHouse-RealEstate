@@ -78,9 +78,13 @@ padding: .5rem 1rem;
 outline: none;
 
 ${({theme}) => theme.media.desktop} {
-    box-shadow: 1px 3px 4px #d4d4d4;
+    // box-shadow: 1px 3px 4px #d4d4d4;
     font-size: 14px;
 }
+`
+
+export const StyledLabel = styled.label`
+font-size: 14px;
 `
 
 const StyledIconWrapper = css`

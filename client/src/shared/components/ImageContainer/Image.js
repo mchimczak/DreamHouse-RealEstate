@@ -16,6 +16,7 @@ const Image = ({url, onClick}) => {
     return (
         <CardMedia 
             component='img' 
+            alt="image"
             image={imageUrl}
             style={style}
             onClick={onClick}

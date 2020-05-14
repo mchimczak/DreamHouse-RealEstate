@@ -2,11 +2,11 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../Button/Button';
-import { SearchBarWrapper, TextInput, Results, OpenIconWrapper, CloseIconWrapper, materialUIElements } from './SearchBar.styles';
+import { SearchBarWrapper, TextInput, Results, StyleButton, OpenIconWrapper, CloseIconWrapper, materialUIElements } from './SearchBar.styles';
 const { SearchRoundedIcon, CloseIcon } = materialUIElements;
 
-const SearchBar = React.memo(({ inputChangeHandler, results }) => {
-    const [value, setValue] = useState('');
+const SearchBar = React.memo(({ inputChangeHandler, currentSearch, results }) => {
+    const [value, setValue] = useState(currentSearch);
     const [isOpen, setIsOpen] = useState(false);
 
     const debounce = useCallback((fn, delay) => {
@@ -42,7 +42,7 @@ const SearchBar = React.memo(({ inputChangeHandler, results }) => {
                     onChange={onInputChangeHanlder}
                     disabled={results === 0}
                 />
-                <Button 
+                <StyleButton 
                     small="true"
                     shadow="true"
                     square="true"
@@ -50,7 +50,7 @@ const SearchBar = React.memo(({ inputChangeHandler, results }) => {
                     onClick={handlerClear}
                 >
                     clear
-                </Button>
+                </StyleButton>
                 { value && value.length !== 0 && <Results>{results} matches found</Results> }
                 <CloseIconWrapper isOpen={isOpen}>
                     <CloseIcon 

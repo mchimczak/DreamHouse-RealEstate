@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import CloseIcon from '@material-ui/icons/Close';
+import {StyledButton} from '../Button/Button.styles';
 
 export const SearchBarWrapper = styled.div`
 position: fixed;
@@ -68,7 +69,7 @@ ${({theme}) => theme.media.tablet} {
     width: 100%;
     text-align: left;
     margin-right: .5rem;
-    box-shadow: ${({disabled}) => disabled ? 'none' : '1px 3px 4px #d4d4d4'};
+    // box-shadow: ${({disabled}) => disabled ? 'none' : '1px 3px 4px #d4d4d4'};
 }
 `
 
@@ -85,6 +86,10 @@ ${({theme}) => theme.media.tablet} {
     top: -18px;
     left: 0;
 }
+`
+
+export const StyleButton = styled(StyledButton)`
+display: ${({disabled}) => disabled ? 'none' : null};
 `
 
 const StyledIconWrapper = css`

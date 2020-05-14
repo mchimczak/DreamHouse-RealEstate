@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
-import { CardContent, Divider, CardMedia, CardActions} from '@material-ui/core';
+import { CardContent, Divider, CardMedia, CardActions, Tooltip } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import PhoneIcon from '@material-ui/icons/Phone';
+import MailIcon from '@material-ui/icons/Mail';
 
 
 //ESTATE LIST COMPONENT
@@ -66,6 +68,7 @@ justify-content: center;
 
 export const Number = styled.span`
 margin-right: 1rem;
+font-size: 11px;
 `
 
 //ESTATE ITEM DETAILS COMPONENT
@@ -139,7 +142,14 @@ export const StyledCardActions = styled(CardActions)`
 flex-wrap: wrap;
 `
 
+const FavIcon = styled(FavoriteIcon)`
+transition: .3s ease-in-out;
+&:hover {
+    transform: scale(1.1);
+}
+`
+
 // MATERIAL UI ELEMENTS
 export const materialUIElements = {
-    Divider, CardContent, FavoriteIcon, CardActions, CardMedia
+    Divider, CardContent, FavoriteIcon, FavIcon, CardActions, CardMedia, Tooltip, MailIcon, PhoneIcon
 };

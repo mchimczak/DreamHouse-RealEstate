@@ -42,7 +42,7 @@ class ErrorBoundary extends Component {
       
 
     render() {
-        if (this.state.hasError) {
+        if (this.state.hasError || this.state.error) {
             return (
                 <SvgWrapper>
                     <img src={Wrong} alt=""/>

@@ -42,6 +42,18 @@ color: ${({isValid}) => isValid ? 'white' : 'black'};
 padding: 15px;
 margin-top: 4rem;
 border: none;
+cursor: pointer;
+transition: .1s ease-in-out;
+box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
+
+:hover:enabled {
+    box-shadow: inset 0px 1px 9px #7d7d7d94;
+}
+
+:disabled {
+    cursor: initial;
+    box-shadow: none;
+}
 `
 const StyledImgPrevWrapper = styled.div`
 display: grid;
@@ -60,7 +72,7 @@ object-fit: fill;
 `
 
 const MyForm = props => {
-    const { initState: {file,...initState }, fileUpload, setFieldValue, dirty, touched, errors, handleChange, handleSubmit, isSubmitting } = props;
+    const { initState: {file,...initState }, fileUpload, setFieldValue, dirty, isValid, touched, errors, handleChange, handleSubmit, isSubmitting } = props;
     const [ pickedFiles, setPickedFiles ] = useState([]);
     const [ imgPrev, setImgPrev ] = useState([]);
 
@@ -142,7 +154,7 @@ const MyForm = props => {
             </StyledImgPrevWrapper>
             <StyledButton 
                 type="submit" 
-                disabled={isSubmitting} 
+                disabled={isSubmitting || !dirty || !isValid} 
                 isValid={dirty && Object.keys(errors).length === 0}
             >
                 Submit

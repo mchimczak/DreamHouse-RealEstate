@@ -4,14 +4,13 @@ import { Link } from 'react-router-dom';
 
 import { UserContext } from '../../auth/context/UserContext';
 import  { EstatesContext } from '../../estates/context/EstatesContext';
-
 import MyCard from '../../shared/components/Card/Card';
 import CardFields from '../../shared/components/Card/CardFields';
 import Btn from '../../shared/components/Button/Button';
 import Image from '../../shared/components/ImageContainer/Image';
-
 import { EstateCardMediaWrapper as StyledMediaWrapper, CardActionsWrapper, CardActionsBlock, Number, materialUIElements } from './styles/EstatesComponents.styles';
-const { Divider, CardContent, FavoriteIcon } = materialUIElements;
+const { Divider, CardContent, FavIcon, Tooltip, MailIcon, PhoneIcon } = materialUIElements;
+
 
 const EstateCard = React.memo((props) => {
     const {isLoggedIn, userData, status: [, setStatus]} = useContext(UserContext);
@@ -67,23 +66,39 @@ const EstateCard = React.memo((props) => {
                     { 
                         isUsers(isLoggedIn, userData) && 
                             <>
-                                <Btn small="true" title="Like this post" onClick={likeEstate}>
+                                <Btn small="true" onClick={likeEstate}>
                                     <Number>{likesNumber}</Number>
-                                    <FavoriteIcon style={didUserLike} />
+                                    <Tooltip title={`Like this post`} arrow>
+                                        <FavIcon style={didUserLike} />
+                                    </Tooltip>
                                 </Btn>
                                 {   props.email 
-                                        ?   <Btn small="true" upc="true" title="E-mail user">
-                                                <a href={'mailto:' + props.email}>e-mail</a>
+                                        ?   <Btn small="true" upc="true">
+                                                <Tooltip title={`E-mail owner`} arrow>
+                                                    <MailIcon 
+                                                        style={{ fontSize: 20 }}
+                                                        onClick={() => window.open(`mailto:${props.email}, "_self`)} 
+                                                    />
+                                                </Tooltip>
                                             </Btn>
                                         :   <Btn small="true" upc="true" disabled={true}>
-                                                email
+                                                <MailIcon 
+                                                    style={{ fontSize: 20 }}
+                                                />
                                             </Btn> }
                                 {   props.phone 
-                                        ?   <Btn small="true" upc="true" title="Call user">
-                                                <a href={'tel:' + props.phone}>tel</a>
+                                        ?   <Btn small="true" upc="true">
+                                                <Tooltip title={`Call to owner`} arrow>
+                                                    <PhoneIcon 
+                                                        style={{ fontSize: 20 }}
+                                                        onClick={() => window.open(`tel:${props.phone}`, "_self")}
+                                                    />
+                                                </Tooltip> 
                                             </Btn>
                                         :   <Btn small="true" upc="true" disabled>
-                                                tel
+                                                <PhoneIcon 
+                                                    style={{ fontSize: 20 }}
+                                                />
                                             </Btn> }
                             </> 
                     }
