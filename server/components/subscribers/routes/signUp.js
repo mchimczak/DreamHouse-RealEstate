@@ -1,5 +1,5 @@
+'use strict'
 const express = require('express');
-
 const validate = require('../../shared/validators/validate');
 const signUpValidationRules = require('../validators/signUpValidationRules');
 const { addNewUserHandler } = require('../../users/services/users');

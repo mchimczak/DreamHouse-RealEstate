@@ -1,3 +1,4 @@
+'use strict'
 const fs = require('fs');
 const fsPromise = fs.promises;
 const path = require('path');
@@ -16,7 +17,7 @@ const getUsersHandler = async (req, res, next) => {
     try {
         estatesData = await Estate.find({}, 'owner');
         userList = await User.find({}, '-password -email -phone');
-    } catch (err) { return next(new httpError('getUserByIdHandler went wrong', 500)) }
+    } catch (err) { return next(new httpError('Something went wrong, please try again', 500)) }
 
     res.json({
         userList: userList.map( user => user.toObject({ getters: true})),
@@ -30,10 +31,11 @@ const getUserByIdHandler = async (req, res, next) => {
     let isUser, userEstates, userLikes;
 
     try {
-        isUser = await User.findById(userId)
+        isUser = await User.findById(userId, 'name phone email file')
     } catch (err) { return next(new httpError('User not found', 500)) }
 
     if(!isUser) return next(new httpError('User not found', 404));
+
 
     try {
         userEstates = await Estate.find({ owner: userId});
@@ -43,6 +45,7 @@ const getUserByIdHandler = async (req, res, next) => {
     } catch (err) { return next(new httpError('Something went wrong', 500)) }
 
     res.json({
+        user: isUser,
         userEstates: userEstates.map(estate => estate.toObject({ getters: true })),
         userLikes: userLikes.map(userLike => userLike.toObject({ getters: true }))
     });

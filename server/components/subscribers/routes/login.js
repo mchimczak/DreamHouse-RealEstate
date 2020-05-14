@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const {loginHandler, loginTokenHandler} = require('../services/login');
 const loginValidationRules = require('../validators/loginValidationRules');

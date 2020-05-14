@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -12,9 +13,9 @@ const usersRoutes = require('./components/users/routes/users')
 const loginRoute = require('./components/subscribers/routes/login');
 const signUpRoute = require('./components/subscribers/routes/signUp');
 //SERVICES
-const findMostLikedEstates = require('./components/homePage/services/homePage');
+const mostLikedPosts = require('./components/homePage/services/homePage');
 //HTTPERROR
-const HttpError = require('./models/http-error');
+const httpError = require('./models/http-error');
 //POST REQUEST TRIMMER
 const postReqTrimmer = require('./components/shared/postReqTrimmer/postReqTrimmer');
 
@@ -32,7 +33,7 @@ app.use(cors());
 
 app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
-app.get('/', findMostLikedEstates);
+app.get('/', mostLikedPosts);
 app.use('/estates',estatesRoutes);
 app.use('/users' , usersRoutes);
 app.use('/login', loginRoute);
@@ -40,7 +41,7 @@ app.use('/signup', signUpRoute);
 
 
 app.use((req,res, next) => {
-    next(new HttpError('Could not found this page', 404));
+    next(new httpError('Could not found this page', 404));
 });
 
 app.use((error, req, res, next) => {
