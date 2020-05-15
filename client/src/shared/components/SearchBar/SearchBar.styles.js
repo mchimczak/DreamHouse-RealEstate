@@ -66,7 +66,7 @@ background-color: ${({disabled}) => disabled ? '#d6d6d6' : null};
 
 ${({theme}) => theme.media.tablet} { 
     margin-top: 0;
-    width: 100%;
+    width: 250px;
     text-align: left;
     margin-right: .5rem;
     // box-shadow: ${({disabled}) => disabled ? 'none' : '1px 3px 4px #d4d4d4'};

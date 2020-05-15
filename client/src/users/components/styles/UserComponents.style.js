@@ -7,7 +7,10 @@ export const UserListWrapper = styled.div`
 display: grid;
 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 gap: 2rem;
-margin: 3rem 0;
+margin: 3rem 2rem;
+${({theme}) => theme.media.tablet} {
+    margin: 3rem 0;
+}
 `
 
 export const CardActionsWrapper = styled.div`

@@ -19,13 +19,21 @@ export const useFetch = url => {
                     setState({ data, loading: false })
                 }
             }).catch( err => {
-                setState({ 
+                return err.response
+                ? setState({ 
+                        data: {
+                            errorStatus: err.response.status,
+                            errorMsg: err.response.data.message
+                        },
+                        loading: false
+                    })
+                : setState({ 
                     data: {
-                        errorStatus: err.response.status,
-                        errorMsg: err.response.data.message
+                        errorStatus: 503,
+                        errorMsg: 'An error occured, please try again later'
                     },
                     loading: false
-                });
+                })
             });
     }, [url, setState]);
 

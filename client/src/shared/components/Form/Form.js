@@ -8,6 +8,10 @@ const StyledForm = styled.form`
 display: flex;
 flex-direction: column;
 
+&::-webkit-scrollbar {
+    display: none;
+}
+
 ${({theme}) => theme.media.tablet} {
     padding: 2rem 0;
 }

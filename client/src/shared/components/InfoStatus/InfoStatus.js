@@ -3,7 +3,7 @@ import { StatusInfo, StatusWrapper } from './InfoStatus.style';
 
 import {UserContext} from '../../../auth/context/UserContext';
 
-const InfoStatus = () => {
+const InfoStatus = React.memo(() => {
     const {status: [status, setStatus]} = useContext(UserContext);
     const [showState, setShowState] = useState(false);
     const init = useRef(false);
@@ -24,6 +24,6 @@ const InfoStatus = () => {
             { showState && status ? <StatusInfo>{status}</StatusInfo> : null }
         </StatusWrapper>
      );
-};
+});
  
 export default InfoStatus;

@@ -17,7 +17,7 @@ const SignUpPage = () => {
         <Center>
             { isLoading
                 ?   <Loader />
-                :   <Card title='Sign Up'>
+                :   <Card title='Sign Up' margin="4rem auto">
                         {isLoggedIn && userData && <Redirect to={`/users/me/${userData.id}`} />}
                         <Form 
                             submitAction={createNewUser}

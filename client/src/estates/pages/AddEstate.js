@@ -45,7 +45,7 @@ const AddEstate = () => {
             { isLoading
                 ?   <Center cover="true"> <Loader /> </Center>
                 :   <Wrapper>
-                        <Card title="Add new estate">
+                        <Card title="Add new estate" margin="4rem auto">
                             <Form 
                                 submitAction={createEstate}
                                 validationSchema={estateValidationSchema}

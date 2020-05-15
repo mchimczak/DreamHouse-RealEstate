@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Box = styled.div`
-width: auto;
+width: 90%;
+max-width: 300px;
+text-align: center;
 max-width: ${({size}) => size === 'small' ? '300px' : '600px'};
-padding: ${({theme}) => theme.size.xlarge} ${({theme}) => theme.size.large};
+padding: 3.2rem 5.2rem;
 margin: ${({theme}) => theme.size.xlarge} auto;
 border-radius: 3px;
 background-color: ${({theme}) => theme.colors.lightgrey};

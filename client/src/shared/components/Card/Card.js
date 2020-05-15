@@ -6,7 +6,13 @@ const { Divider, CloseIcon } = materialUIElements;
 
 const CardTemplate = (props) => {
     return ( 
-        <StyledCard modal={props.modal} small={props.small} fixed={props.fixed} scroll={props.scroll}>
+        <StyledCard 
+            modal={props.modal} 
+            margin={props.margin} 
+            small={props.small} 
+            fixed={props.fixed} 
+            scroll={props.scroll}
+        >
             {
                 props.close && 
                 <CloseBtn onClick={props.close}>

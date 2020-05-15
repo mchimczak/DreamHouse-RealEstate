@@ -16,7 +16,7 @@ justify-content: center;
 align-items: center;
 
 ${({theme}) => theme.media.tablet} {
-    display: flex;
+    // display: flex;
     flex-direction: column;
 }
 `

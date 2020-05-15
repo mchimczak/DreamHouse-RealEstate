@@ -13,10 +13,10 @@ const LoginPage = () => {
     const { login, token: [token,], userData, loading: [isLoading, ] } = useContext(UserContext);
 
     return (
-        <Center cover="true">
+        <Center>
             { isLoading
                 ?   <Loader />
-                :   <Card title={'Login'}>
+                :   <Card title={'Login'} margin="4rem auto">
 
                         { token && userData.id && <Redirect to='/' /> }
 

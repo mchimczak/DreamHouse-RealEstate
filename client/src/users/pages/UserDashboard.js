@@ -19,7 +19,7 @@ const UserDashboard = ({isUser}) => {
     const [isRedirect, setIsRedirect] = useState(false);
 
     const userId = useParams().userId;
-    const { user, userEstates, userLikes, errorMsg }  = useFetch(`${process.env.REACT_APP_BACKEND_URL}users/${userId}`);
+    const { user, userEstates, userLikes, errorMsg } = useFetch(`${process.env.REACT_APP_BACKEND_URL}users/${userId}`);
 
     const initials = user && user.name.charAt(0).toUpperCase();
     const avatar = user && user.file[0]
@@ -49,9 +49,9 @@ const UserDashboard = ({isUser}) => {
         <>
         {   errorMsg && isRedirect
                 ? <Redirect to="/" />
-                : fetchedUserEstates && user
+                : fetchedUserEstates
                     ?  <EstatesContainer isUser={isUser} >
-                        {!isUser &&
+                        {!isUser && user &&
                             <UserInfoSection>
                                 {avatar}
                                 <UserInfoHeader>{user.name}'s profile</UserInfoHeader>
@@ -66,7 +66,7 @@ const UserDashboard = ({isUser}) => {
                                 <Tooltip title={`E-mail ${user.name}`} arrow>
                                     <StyledMailIcon 
                                         style={{ fontSize: 25 }}
-                                        onClick={() => window.open(`mailto:${user.email}, "_self`)} 
+                                        onClick={() => window.open(`mailto:${user.email}`, "_self")} 
                                     />
                                 </Tooltip>
                             </UserInfoSection>}

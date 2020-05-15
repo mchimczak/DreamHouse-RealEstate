@@ -153,7 +153,7 @@ text-align: center;
 border-radius: 3px;
 
 ${({theme}) => theme.media.tablet} {
-    max-width: 40%;
+    width: 550px;
 }
 `
 

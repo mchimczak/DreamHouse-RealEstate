@@ -21,7 +21,7 @@ const EndInfo = React.memo(() => (
                 view our offers
             </Button>
         </BtnBox>
-        <p>...and find your DREAM HOUSE today.</p>
+        <p>Find your DREAM HOUSE today.</p>
         </JoinUsWrapper>
     </Section>
 ),[]);

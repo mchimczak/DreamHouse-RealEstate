@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
 
 import {EstatesContext} from '../context/EstatesContext';
 import {UserContext} from '../../auth/context/UserContext';
@@ -27,15 +27,49 @@ const Estates = ({defaultQueries}) => {
     const [currentPage, setCurrentPage] = useState(defaultQueries.currentPage);
     const [searchText, setSearchText] = useState(defaultQueries.searchText);
     const [isLoading, setIsLoading] = useState(true);
+    const [isRedirect, setIsRedirect] = useState(false);
     const didReturn = useRef(true);
 
     const { 
         estatesData,
         estatesLikes: userLikes,
         allPosts,
-        errorMsg 
+        errorMsg,
+        errorStatus 
     } = useFetch(`${process.env.REACT_APP_BACKEND_URL}estates?sortBy=${sortByValue}&limit=${limitValue}&page=${currentPage}&text=${searchText}`);
     
+
+    useEffect(() => {
+        const params = [];
+        const searchParams = new URLSearchParams(location.search);
+        for (const pair of searchParams.entries()) {
+            params.push(pair)
+         }
+        const instance = Object.fromEntries(params);
+    
+           return location.search
+            ?  ( setSortByValue(instance.sortBy),
+                setLimitValue(instance.limit),
+                setCurrentPage(instance.page),
+                setSearchText(instance.search))
+            : history.replace({
+                pathname: '/estates',
+                search: `?sortBy=${sortByValue}&limit=${limitValue}&search=${searchText}&page=${currentPage}`,
+                state: {
+                    sortBy: sortByValue,
+                    limit: limitValue,
+                    search: searchText,
+                    page: currentPage
+                    }
+                });
+    },[]);
+
+    useEffect(() => {
+        errorStatus === 503 && setIsRedirect(true)
+
+        return () => setIsRedirect(false)
+    },[errorStatus]);
+
     useEffect(() => {
         if(errorMsg || estatesData && estatesData.length === 0) { 
             if(errorMsg) { 
@@ -48,41 +82,16 @@ const Estates = ({defaultQueries}) => {
 
             history.replace({
                 pathname: '/estates',
-                search: `?sortBy=${sortByValue}&limit=${limitValue}&search=${searchText}&page=${currentPage}`,
+                search: `?sortBy=${defaultQueries.sortBy}&limit=${defaultQueries.limitValue}&search=${defaultQueries.searchText}&page=${defaultQueries.currentPage}`,
                 state: {
-                    sortBy: sortByValue,
-                    limit: limitValue,
-                    search: searchText,
-                    page: currentPage
+                    sortBy: defaultQueries.sortBy,
+                    limit: defaultQueries.limitValue,
+                    search: defaultQueries.searchText,
+                    page: defaultQueries.currentPage
                     }
             });
         }
-    },[errorMsg, estatesData])
-
-    useEffect(() => {
-    const params = [];
-    const searchParams = new URLSearchParams(location.search);
-    for (const pair of searchParams.entries()) {
-        params.push(pair)
-     }
-    const instance = Object.fromEntries(params);
-
-       return location.search
-        ?  ( setSortByValue(instance.sortBy),
-            setLimitValue(instance.limit),
-            setCurrentPage(instance.page),
-            setSearchText(instance.search))
-        : history.replace({
-            pathname: '/estates',
-            search: `?sortBy=${sortByValue}&limit=${limitValue}&search=${searchText}&page=${currentPage}`,
-            state: {
-                sortBy: sortByValue,
-                limit: limitValue,
-                search: searchText,
-                page: currentPage
-                }
-            });
-    },[]);
+    },[errorMsg, estatesData]);
 
     useEffect(() => {
         if(!didReturn.current && state) {
@@ -146,7 +155,8 @@ const Estates = ({defaultQueries}) => {
     }, [estatesData]);
     
     return ( <>
-        { estatesData && estatesLikes
+        {   isRedirect && <Redirect to="/"/>    }
+        {   estatesData && estatesLikes
             ?   <>
                     <Wrapper flex>
                         <SearchBar 

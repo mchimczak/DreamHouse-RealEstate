@@ -27,7 +27,7 @@ const EstateDashboard = () => {
             .then(res => {
                 if (res) setCurrentEstate(res);
                 setIsLoading(false);
-            })
+            }).catch(() => setIsLoading(false))
     },[]);
     
     const removeCurrentEstate = useCallback((estateId) => {

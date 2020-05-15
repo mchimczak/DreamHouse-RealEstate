@@ -8,7 +8,7 @@ import Button from '../../shared/components/Button/Button';
 import Center from '../../shared/ui/position/Center';
 import NotFound from '../../shared/components/NotFound/NotFound';
 
-import  { EstateItemsWrapper, StyledHeader } from './styles/EstatesComponents.styles';
+import  { EstateItemsWrapper, StyledHeader, EmptyList } from './styles/EstatesComponents.styles';
 
 const EstatesList = React.memo(({items}) => {
 
@@ -20,12 +20,12 @@ const EstatesList = React.memo(({items}) => {
             { items.length !== 0 
                 ? items.map(item => <EstateCard key={item.id} {...item} /> )
                 : isLoggedIn && userData.id === userId
-                    ?   <Center>
+                    ?   <EmptyList>
                             <StyledHeader>It's so empty here...</StyledHeader>
                             <Button primary="yes" upc="true" shadow='true' title="Add your first offer">
                                 <Link to='/estates/new'>Create your first post</Link>
                             </Button>
-                        </Center>
+                        </EmptyList>
                     :   <Center cover="true"> <NotFound /> </Center>}
         </EstateItemsWrapper>
      );

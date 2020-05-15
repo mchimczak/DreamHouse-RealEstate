@@ -77,7 +77,7 @@ const EstateCard = React.memo((props) => {
                                                 <Tooltip title={`E-mail owner`} arrow>
                                                     <MailIcon 
                                                         style={{ fontSize: 20 }}
-                                                        onClick={() => window.open(`mailto:${props.email}, "_self`)} 
+                                                        onClick={() => window.open(`mailto:${props.email}`, "_self")} 
                                                     />
                                                 </Tooltip>
                                             </Btn>

@@ -8,15 +8,19 @@ export const StyledCard = styled(Card)`
 position: ${({fixed}) => fixed ? 'fixed' : 'initial'};
 width: ${({small}) => small ? '300px' : '100%'};
 max-width: 600px;
-max-height: ${({scroll}) => scroll ? '80vh' : null};
+max-height: ${({scroll}) => scroll ? '90vh' : null};
 padding: ${({theme}) => theme.size.large};
-margin: ${({theme}) => theme.size.medium} auto;
+margin: ${({theme, margin}) => margin ? `${margin}` : `${theme.size.medium} auto`};
 z-index: ${({modal}) => modal ? '999' : null};
 overflow-y: ${({scroll}) => scroll ? 'scroll !important' : null};
 cursor: default;
 
+&::-webkit-scrollbar {
+    display: none;
+}
+
 ${({theme}) => theme.media.tablet} {
-    margin: 0 auto;
+    margin: ${({margin}) => margin ? `${margin}` : `0 auto`};
     overflow-y: ${({scroll}) => scroll ? 'auto !important' : null};
 }
 `

@@ -55,7 +55,6 @@ const EstateItemDetails = (props) => {
 
     const editEstateItem = useCallback(async (updates) => {
         await editCurrentEstate(id, updates);
-        toggleModal();
     },[id, editCurrentEstate]);
 
     return ( 
@@ -95,7 +94,7 @@ const EstateItemDetails = (props) => {
                                         <Tooltip title={`E-mail owner`} arrow>
                                             <MailIcon 
                                                 style={{ fontSize: 20 }}
-                                                onClick={() => window.open(`mailto:${email}, "_self`)} 
+                                                onClick={() => window.open(`mailto:${email}`, "_self")} 
                                             />
                                         </Tooltip>
                                     </Button>
@@ -128,7 +127,7 @@ const EstateItemDetails = (props) => {
                 <ScrollTop>
                     <Modal isOpen={isOpen} toggleModal={negateDeleteItem} >
                         { isDeleting 
-                            ?   <ModalBox size='small' title='Delete post?'>
+                            ?   <ModalBox size='small' title='Delete current post?'>
                                     <Button primary="yest" onClick={confirmDeleteItem}>Yes</Button>
                                     <Button onClick={negateDeleteItem}>No</Button>
                                 </ModalBox>
