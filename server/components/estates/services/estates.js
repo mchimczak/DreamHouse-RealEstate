@@ -69,6 +69,7 @@ const getEstateByIdHandler = async(req, res, next) => {
 
 const addNewEstateHandler = async(req, res, next) => {
     const userIdToken = req.authUser.userId;
+    if(!userIdToken) return next(new httpError('Permission denied, you are not authorized', 401));
 
     const files = req.files || [];
     let user;
@@ -106,6 +107,7 @@ const addNewEstateHandler = async(req, res, next) => {
 
 const editEstateHandler = async(req, res, next) => {
     const userIdToken = req.authUser.userId;
+    if(!userIdToken) return next(new httpError('Permission denied, you are not authorized', 401));
     let { id, ...updates } = req.body;
     const files = req.files;
 

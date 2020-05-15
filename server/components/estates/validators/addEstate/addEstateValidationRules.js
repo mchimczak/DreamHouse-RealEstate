@@ -1,6 +1,7 @@
+'use strict'
 const { body, check } = require('express-validator');
 
-module.exports = addEstaterValidationRules = () => {
+const addEstaterValidationRules = () => {
     return [
         body('owner').exists(),
         body('email').isEmail(),
@@ -15,3 +16,5 @@ module.exports = addEstaterValidationRules = () => {
         check('files.file').isArray().optional({checkFalsy: true})
     ]
 };
+
+module.exports = addEstaterValidationRules;

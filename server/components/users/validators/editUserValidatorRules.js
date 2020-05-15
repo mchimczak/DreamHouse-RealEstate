@@ -1,6 +1,7 @@
+'use strict'
 const { body, check } = require('express-validator');
 
-module.exports = editUserValidationRules = () => {
+const editUserValidationRules = () => {
     return [
         body('id').exists(),
         body('password').trim().isString().isLength({ min: 6 }).optional({ checkFalsy: true}),
@@ -9,3 +10,5 @@ module.exports = editUserValidationRules = () => {
         check('files').isArray().optional({checkFalsy: true})
     ]
 };
+
+module.exports = editUserValidationRules;

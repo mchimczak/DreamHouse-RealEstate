@@ -123,7 +123,7 @@ const updateUserDataHandler = async (req, res, next) => {
         } catch (err) { return new httpError('Something went wrong', 500) }
     };
 
-    if(prevUserData.file && prevUserData.file[0] !== isUser.file[0]) {
+    if(prevUserData.file[0] && prevUserData.file[0] !== isUser.file[0]) {
         try {
             prevUserData.file.forEach( file => {
                 if (file.path && fs.existsSync(file.path)) {
@@ -132,12 +132,12 @@ const updateUserDataHandler = async (req, res, next) => {
                     fs.unlink(file, err => err && console.log(err))
                 } else return 
             })
-            const rootFolder = 'uploads/images'
+            const rootFolder = 'uploads/images/users'
             const fileLink = prevUserData.file[0]
             const fileDir = fileLink.substring(0, fileLink.lastIndexOf('/'))
             const splitDir = fileDir.split('/');
             
-            if(!splitDir.includes(id) && fileDir !== rootFolder && fs.existsSync(fileDir)) {
+            if(!splitDir.includes(id) && fileDir.includes(rootFolder) && fileDir !== rootFolder && fs.existsSync(fileDir)) {
                 fsPromise.rmdir(fileDir, { recursive: true})
             }
 

@@ -1,6 +1,7 @@
+'use strict'
 const { body, check } = require('express-validator');
 
-module.exports = signUpValidationRules = () => {
+const  signUpValidationRules = () => {
     return [
         body('email').normalizeEmail().isEmail(),
         body('password').isString().isLength({ min: 6 }),
@@ -9,3 +10,5 @@ module.exports = signUpValidationRules = () => {
         check('files').isArray().optional({checkFalsy: true})
     ]
 };
+
+module.exports = signUpValidationRules;

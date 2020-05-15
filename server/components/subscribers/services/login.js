@@ -1,3 +1,4 @@
+'use strict'
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -31,7 +32,7 @@ const loginHandler = async (req, res, next) => {
 };
 
 const loginTokenHandler = async (req, res, next) => {
-    let user;
+    let user, token;
 
     try {
         user = await User.findById(req.authUser.userId);
@@ -48,7 +49,7 @@ const loginTokenHandler = async (req, res, next) => {
     } catch (err) { return new httpError('Something went wrong, please try again later', 500) }
 
     res.json({ user: user.toObject({ getters: true}), token: token });
-}
+};
 
 module.exports = {
     loginHandler,

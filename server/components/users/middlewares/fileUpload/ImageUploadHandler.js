@@ -43,7 +43,7 @@ const imgUpload = (req, res, next) => {
 };
 
 const resizeFile = async (req, res, next) => {
-    if(!req.files) return next();
+    if(!req.files || req.files.length === 0) return next();
 
     const userId = req.body.id || uuid();
     const images = [];

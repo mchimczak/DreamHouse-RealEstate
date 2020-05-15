@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express');
 
 const estatesServices = require('../services/estates');
@@ -5,7 +6,6 @@ const validate = require('../../shared/validators/validate');
 const addEstateValidationRules = require('../validators/addEstate/addEstateValidationRules');
 const editEstateValidationRules = require('../validators/editEstate/editEstateValidationRules');
 const likeEstateValidationRules = require('../validators/likeEstate/likeEstateValidationRules');
-const fileUploadHandler = require('../middlewares/multer/estateImageUploadHandler');
 const imageUpload = require('../middlewares/multer/imageUploadHandler');
 const authValidator = require('../../../middlewares/jwt/auth');
 

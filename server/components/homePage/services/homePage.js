@@ -1,8 +1,10 @@
+'use strict'
+
 const httpError = require('../../../models/http-error');
 const EstateLikes = require('../../estates/models/estateLikes');
 const Estate = require('../../estates/models/estate');
 
-module.exports = mostLikedPosts = async(req, res, next) => {
+const mostLikedPosts = async(req, res, next) => {
     const bestThreeEstate = [];
     let mostLikedEstates, estateList, sortedEstates = [];
 
@@ -35,3 +37,5 @@ module.exports = mostLikedPosts = async(req, res, next) => {
         mostLikedEstates: mostLikedEstates
     });
 };
+
+module.exports = mostLikedPosts;

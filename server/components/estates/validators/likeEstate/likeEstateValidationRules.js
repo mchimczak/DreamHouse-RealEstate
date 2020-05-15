@@ -1,7 +1,10 @@
+'use strict'
 const { body } = require('express-validator');
 
-module.exports = likeEstateValidationRules = () => {
+const likeEstateValidationRules = () => {
     return [
         body('estateId').exists()
     ]
 };
+
+module.exports = likeEstateValidationRules
