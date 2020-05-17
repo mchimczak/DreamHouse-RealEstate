@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { EstatesContext } from '../../estates/context/EstatesContext';
 import { UserContext } from '../../auth/context/UserContext';
 import Button from '../../shared/components/Button/Button';
+import DefaultAvatar from '../../img/avatar.png'
 
 import {Card, Avatar, CardHeader} from '@material-ui/core';
 import { CardActionsWrapper } from './styles/UserComponents.style';
@@ -19,8 +20,12 @@ const UserCard = React.memo(({ id, name, createdAt, file }) => {
 
     const initials = name.charAt(0).toUpperCase();
     const avatar = file && file[0] 
-        ? <Avatar alt="user profile picture" src={`${process.env.REACT_APP_BACKEND_URL}${file[0]}`} />
-        : <Avatar aria-label="user">{initials}</Avatar>
+        ?   <Avatar 
+                src={`${process.env.REACT_APP_BACKEND_URL}${file[0]}`}
+                alt={`${name.toUpperCase()}'s profile picture`} 
+                imgProps={{ onError: (e) => { e.target.src = <DefaultAvatar /> } }} 
+            />
+        :   <Avatar aria-label="user">{initials}</Avatar>
 
     return (
         <Card>

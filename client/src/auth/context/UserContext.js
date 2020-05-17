@@ -25,7 +25,7 @@ export const UserContextProvider = (props) => {
             setStatus('Internet connection established');
             isOffline.current = false;
         }
-    },[]);
+    },[navigator, isOffline.current]);
 
     const convertToFormData = useCallback((data) => {
         if(data.length = 0) return;

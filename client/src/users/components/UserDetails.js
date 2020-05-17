@@ -8,6 +8,7 @@ import updateUserValidationSchema from '../../auth/components/userProfile/onUpda
 import Button from '../../shared/components/Button/Button';
 import CardFields from '../../shared/components/Card/CardFields';
 import FormCard from '../../shared/components/Card/Card';
+import DefaultAvatar from '../../img/avatar.png';
 
 import {CardContent, CardHeader, Avatar, Divider} from '@material-ui/core';
 import { CardWrapper, StyledCard, StyledContentWrapper, StyledCardActions } from './styles/UserComponents.style';
@@ -21,9 +22,13 @@ const UserDetails = ({user, updateUser}) => {
     const editableUserInfo = { name, password: '', phone };
     
     const initials = name.charAt(0).toUpperCase();
-    const avatar = file && file.length !== 0 
-    ? <Avatar alt="User profile picture" src={`${process.env.REACT_APP_BACKEND_URL}${file[0]}`} />
-    : <Avatar aria-label="user">{initials}</Avatar>
+    const avatar = file && file[0]
+        ? <Avatar 
+            alt={`${name.toUpperCase()}'s profile picture`} 
+            src={`${process.env.REACT_APP_BACKEND_URL}${file[0]}`}
+            imgProps={{ onError: (e) => { e.target.src = <DefaultAvatar /> } }}  
+        />
+        : <Avatar aria-label="user">{initials}</Avatar>
     
     const toggleModal = () => setIsOpen(prevState => !prevState);
 
